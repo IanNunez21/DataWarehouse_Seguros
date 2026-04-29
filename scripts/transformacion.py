@@ -3,6 +3,9 @@ import pandas as pd
 from sqlalchemy import create_engine
 import logging
 
+#ESTO NO MODIFICA NADA AUN, UNICAMENTE GUARDA EN MEMORIA LA INFO YA CURADA (ADEMAS FALTA 
+# CURARLA AUN MAS), NO LA MANDA A WORKBENCH
+
 # Configuración de conexiones
 
 USER = "root"
