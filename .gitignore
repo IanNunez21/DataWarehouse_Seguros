@@ -1,0 +1,11 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Archivos de Python temporales
+__pycache__/
+*.pyc
+
+# Logs de ejecución
+etl_log.txt
