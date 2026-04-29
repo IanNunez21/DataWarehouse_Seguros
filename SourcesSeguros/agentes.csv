@@ -1,0 +1,81 @@
+id_agente,nombre,apellido,canal,sucursal,zona,fecha_ingreso,activo,email
+AGE-0001,Benjamin Ezequiel,Carrizo,Sucursal,Sucursal Misiones,Tucumán,2010-06-27,True,cgodoy@villalba.com.ar
+AGE-0002,Abril,Gomez,Call Center,Sucursal Tucumán,Mendoza,2018-02-07,True,fgutierrez@pereyra-mendez.com.ar
+AGE-0003,Olivia,Torres,Sucursal,Sucursal Salta,Tucumán,2019-08-14,True,valdezjazmin@gonzalez.com.ar
+AGE-0004,Mia Valentina,Lopez,Sucursal,Sucursal Misiones,Tucumán,2013-08-23,True,ignaciomunoz@correa-bustos.ar
+AGE-0005,Santiago,Perez,Agente,Sucursal Tucumán,Buenos Aires,2012-07-26,True,gomezsofia@barrios.net
+AGE-0006,Clara,Lopez,Sucursal,Sucursal Entre Ríos,Córdoba,2019-08-14,True,bravobautista@pereyra.com
+AGE-0007,Lautaro,Castro,Call Center,Sucursal Santa Fe,Mendoza,2014-04-17,False,isabella20@diaz.ar
+AGE-0008,Milena,Figueroa,Sucursal,Sucursal Buenos Aires,Córdoba,2013-03-31,True,vfernandez@martinez.com.ar
+AGE-0009,Juan,Diaz,Sucursal,Sucursal Tucumán,Mendoza,2009-04-30,True,thiago-benjamin51@lopez-gonzalez.com.ar
+AGE-0010,Luciano,Rodriguez,Web,Sucursal Buenos Aires,Mendoza,2006-05-19,True,olivia19@romero-suarez.com.ar
+AGE-0011,Tiziano Valentin,Vera,Sucursal,Sucursal Entre Ríos,CABA,2010-08-11,True,tiziano86@godoy.net
+AGE-0012,Francisca,Duarte,Call Center,Sucursal Córdoba,CABA,2006-02-20,True,igodoy@maldonado-fernandez.net
+AGE-0013,Guillermina,Paz,Agente,Sucursal Chaco,CABA,2016-11-01,True,lopezbenjamin@fernandez.com.ar
+AGE-0014,Federico,Benitez,Call Center,Sucursal Salta,Buenos Aires,2013-05-23,True,helena95@duarte-gomez.com.ar
+AGE-0015,Luciano,Hernandez,Web,Sucursal Tucumán,Santa Fe,2017-04-11,True,lunafranco@godoy-bustos.org
+AGE-0016,Malena,Castro,Agente,Sucursal Mendoza,Misiones,2009-03-17,False,floresmatilda@acuna.ar
+AGE-0017,Bianca,Alvarez,Sucursal,Sucursal Salta,Córdoba,2014-03-19,True,camila71@diaz-sanchez.net
+AGE-0018,Bautista,Valdez,Web,Sucursal Entre Ríos,Santa Fe,2020-01-24,True,isabellaherrera@martinez.com.ar
+AGE-0019,Alma,Cardozo,Call Center,Sucursal Córdoba,Buenos Aires,2009-08-25,True,bsoto@blanco-coronel.ar
+AGE-0020,Mateo Ezequiel,Pereyra,Agente,Sucursal Salta,CABA,2005-11-29,False,ezequiel09@ruiz.org
+AGE-0021,Emilia,Diaz,Agente,Sucursal Entre Ríos,Misiones,2005-12-21,True,yojeda@alvarez.ar
+AGE-0022,Jeremias,Silva,Web,Sucursal Chaco,Córdoba,2006-10-30,True,kgonzalez@acuna.com.ar
+AGE-0023,Malena,Paz,Sucursal,Sucursal Mendoza,Tucumán,2018-01-07,True,valentina-jazmin90@dominguez.ar
+AGE-0024,Renata,Martinez,Call Center,Sucursal Chaco,Salta,2018-06-05,True,cordobafausto@molina.ar
+AGE-0025,Candelaria,Alvarez,Sucursal,Sucursal Buenos Aires,Córdoba,2020-10-10,True,ramireztobias@gomez-herrera.org
+AGE-0026,Maria Victoria,Garcia,Sucursal,Sucursal CABA,Chaco,2007-07-16,True,guadalupemendez@ferreyra.com.ar
+AGE-0027,Maria Luz,Ramirez,Call Center,Sucursal Misiones,Santa Fe,2009-05-07,True,gdiaz@gonzalez.net
+AGE-0028,Victoria,Morales,Sucursal,Sucursal Entre Ríos,Buenos Aires,2021-05-30,True,candela81@dominguez-rodriguez.ar
+AGE-0029,Benjamin,Caceres,Agente,Sucursal Santa Fe,Tucumán,2005-11-25,True,lolacastro@coronel.net.ar
+AGE-0030,Thiago,Rodriguez,Web,Sucursal Córdoba,Buenos Aires,2007-06-10,True,salvadorlopez@guzman.org
+AGE-0031,Matias,Ruiz,Sucursal,Sucursal Mendoza,Chaco,2012-08-10,True,qramirez@figueroa-romero.net
+AGE-0032,Mateo Benjamin,Avila,Sucursal,Sucursal CABA,Santa Fe,2011-05-04,False,fernandezvalentino@munoz-bustos.org
+AGE-0033,Thiago Ezequiel,Godoy,Web,Sucursal Buenos Aires,Santa Fe,2011-05-11,True,mmorales@aguero-lopez.net
+AGE-0034,Bautista,Flores,Web,Sucursal Entre Ríos,Chaco,2011-04-30,True,santiago-nicolasvillalba@cruz.com.ar
+AGE-0035,Benicio,Martin,Web,Sucursal Salta,CABA,2014-07-14,True,isabellafigueroa@moyano.com
+AGE-0036,Ana Paula,Rios,Agente,Sucursal Córdoba,Salta,2009-12-21,True,guzmanrenata@sanchez.ar
+AGE-0037,Enzo,Romero,Sucursal,Sucursal Tucumán,CABA,2012-08-15,True,isabellagimenez@juarez-ortiz.ar
+AGE-0038,Santiago,Ledesma,Web,Sucursal Mendoza,Salta,2015-03-06,True,benjamin49@romero.ar
+AGE-0039,Alma Valentina,Coronel,Web,Sucursal Salta,Tucumán,2015-04-01,False,hgomez@rios.com.ar
+AGE-0040,Juan Cruz,Fernandez,Web,Sucursal Salta,Buenos Aires,2019-02-10,True,ojedamateo@diaz-peralta.ar
+AGE-0041,Giovanni,Nuñez,Web,Sucursal Entre Ríos,Buenos Aires,2021-03-29,True,molinaisabella@fernandez.ar
+AGE-0042,Lautaro,Suarez,Agente,Sucursal Tucumán,Buenos Aires,2021-10-14,True,tizianacastillo@moreno.net
+AGE-0043,Enzo,Flores,Sucursal,Sucursal Buenos Aires,Salta,2014-07-24,True,clara93@vega.com
+AGE-0044,Mateo Valentin,Pereyra,Sucursal,Sucursal CABA,Tucumán,2006-08-05,False,pazbenjamin@lopez.net
+AGE-0045,Paloma,Rojas,Agente,Sucursal Salta,CABA,2015-03-06,True,zoe-jazminmendoza@guzman-avila.ar
+AGE-0046,Luciano,Gomez,Web,Sucursal Córdoba,Chaco,2010-05-28,True,tomas06@miranda-rojas.com.ar
+AGE-0047,Thiago Benjamin,Sosa,Web,Sucursal Santa Fe,Santa Fe,2005-05-17,True,thiago-lionelrios@cardozo.com.ar
+AGE-0048,Benjamin,Gonzalez,Call Center,Sucursal Misiones,Tucumán,2011-04-29,True,pilarperez@mendez.org
+AGE-0049,Delfina,Benitez,Agente,Sucursal Salta,Tucumán,2012-06-03,True,juan-cruzflores@gomez-perez.net.ar
+AGE-0050,Joaquin,Perez,Sucursal,Sucursal Chaco,Buenos Aires,2011-08-29,True,omolina@silva-diaz.com
+AGE-0051,Valentina,Sosa,Web,Sucursal Buenos Aires,CABA,2008-04-26,True,maximobenitez@castro.ar
+AGE-0052,Emilia,Villalba,Call Center,Sucursal Salta,Salta,2021-10-26,True,juan66@martinez-torres.net.ar
+AGE-0053,Martina,Juarez,Call Center,Sucursal CABA,Tucumán,2017-11-12,True,lunatoledo@coronel.org
+AGE-0054,Alma Mia,Ramirez,Call Center,Sucursal CABA,Buenos Aires,2019-08-20,False,sofia61@lopez-pereyra.com.ar
+AGE-0055,Tobias,Mendez,Call Center,Sucursal Misiones,Tucumán,2016-04-25,True,tiziano44@romero.com.ar
+AGE-0056,Francesco,Escobar,Agente,Sucursal Buenos Aires,Tucumán,2018-08-11,True,thiago-nicolas05@gonzalez-peralta.com.ar
+AGE-0057,Abril,Flores,Sucursal,Sucursal Tucumán,Mendoza,2021-03-24,True,dante29@arias-godoy.ar
+AGE-0058,Emilia,Guzman,Web,Sucursal Santa Fe,Salta,2005-02-23,True,lucia15@rojas.net.ar
+AGE-0059,Catalina,Peralta,Call Center,Sucursal Santa Fe,Tucumán,2015-06-11,True,matias37@ruiz.com.ar
+AGE-0060,Mateo Benjamin,Roldan,Agente,Sucursal Chaco,Buenos Aires,2017-02-12,True,gonzalezthiago@herrera.ar
+AGE-0061,León,Aguero,Sucursal,Sucursal Mendoza,CABA,2010-03-27,True,santiagososa@acosta.ar
+AGE-0062,Faustino,Gomez,Agente,Sucursal Córdoba,Entre Ríos,2007-02-25,True,tiziano15@castillo.com.ar
+AGE-0063,Thiago Lionel,Cardozo,Call Center,Sucursal Entre Ríos,Buenos Aires,2006-05-19,True,aguirresantino@rodriguez.com.ar
+AGE-0064,Carmela,Gonzalez,Call Center,Sucursal Chaco,Córdoba,2008-10-21,True,beniciolopez@cabrera.org
+AGE-0065,Emilia,Soria,Web,Sucursal Chaco,Santa Fe,2021-09-15,True,nunezsimon@dominguez-romero.net.ar
+AGE-0066,Lautaro,Torres,Call Center,Sucursal Salta,Entre Ríos,2016-11-14,True,catalina67@gonzalez-carrizo.com.ar
+AGE-0067,Valentino,Cabrera,Sucursal,Sucursal Tucumán,Salta,2005-10-29,True,adiaz@herrera.ar
+AGE-0068,Thiago Benjamin,Suarez,Sucursal,Sucursal Santa Fe,CABA,2020-06-18,True,xroldan@godoy.org
+AGE-0069,Julieta,Castro,Agente,Sucursal CABA,Santa Fe,2006-04-14,True,sotovalentin@suarez.ar
+AGE-0070,Santino,Martinez,Agente,Sucursal Salta,Tucumán,2018-08-10,True,gonzalezambar@correa-diaz.com
+AGE-0071,Delfina,Vega,Web,Sucursal CABA,Santa Fe,2015-12-13,True,crodriguez@lopez.org
+AGE-0072,Lucía,Silva,Call Center,Sucursal Entre Ríos,Salta,2005-08-17,True,juliafernandez@morales-caceres.net.ar
+AGE-0073,Thiago,Fernandez,Call Center,Sucursal Buenos Aires,Mendoza,2013-08-26,True,hrojas@diaz-flores.org
+AGE-0074,Alma,Castillo,Call Center,Sucursal Córdoba,Mendoza,2021-08-07,True,ivanramos@sosa-medina.ar
+AGE-0075,Simon,Lopez,Call Center,Sucursal Entre Ríos,Santa Fe,2005-06-25,True,martina69@rodriguez-soria.com.ar
+AGE-0076,Joaquin,Benitez,Call Center,Sucursal Buenos Aires,Salta,2017-12-07,True,juan-ignacioacosta@ayala.net.ar
+AGE-0077,Thiago Benjamin,Diaz,Agente,Sucursal Entre Ríos,Córdoba,2017-01-25,True,felipemaldonado@castro-rodriguez.net.ar
+AGE-0078,Luciano,Ortiz,Sucursal,Sucursal Córdoba,Tucumán,2019-08-21,False,sotoolivia@castillo.net.ar
+AGE-0079,Tiziano,Sosa,Sucursal,Sucursal CABA,Córdoba,2018-01-12,True,maria-belenmendez@sosa.com.ar
+AGE-0080,Paulina,Perez,Sucursal,Sucursal Buenos Aires,Córdoba,2007-11-21,False,ufranco@mendez.org

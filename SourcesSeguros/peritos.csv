@@ -1,0 +1,61 @@
+id_perito,nombre,apellido,especialidad,zona_cobertura,matricula,activo,fecha_ingreso,email
+PER-0001,Santiago,Diaz,Incendio,Misiones,MP-13945,True,2004-10-01,maximoacosta@mendoza.ar
+PER-0002,Thiago Valentin,Martinez,Inmuebles,Córdoba,MP-55805,True,2016-07-14,mia-jazminmartinez@peralta.com.ar
+PER-0003,Gael,Avila,Vida y Salud,Santa Fe,MP-99961,True,2003-08-04,zbustos@alvarez.org
+PER-0004,Santino Ezequiel,Castillo,Daños Patrimoniales,Entre Ríos,MP-44964,True,2017-08-23,gutierrezsantino@fernandez-sosa.ar
+PER-0005,Valentino,Gutierrez,Inmuebles,Chaco,MP-53444,True,2007-11-17,munozemilia@caceres.org
+PER-0006,Valentina,Rojas,Inmuebles,Santa Fe,MP-34660,True,2002-04-06,cordobamalena@guzman-ramirez.ar
+PER-0007,Agostina,Lucero,Vida y Salud,Tucumán,MP-18265,True,2005-12-06,martina53@fernandez.com.ar
+PER-0008,Juliana,Castillo,Incendio,Tucumán,MP-56439,True,2003-10-25,bravobenicio@caceres.ar
+PER-0009,Emilia,Torres,Inmuebles,Buenos Aires,MP-74319,True,2012-01-12,catalina00@figueroa.com
+PER-0010,Santiago Benjamin,Ojeda,Daños Patrimoniales,CABA,MP-33624,True,2006-02-23,paloma75@paez-fernandez.com.ar
+PER-0011,Clara,Villalba,Inmuebles,Misiones,MP-12940,True,2014-01-11,golivera@hernandez.net.ar
+PER-0012,Lautaro,Aguirre,Inmuebles,Tucumán,MP-21137,True,2000-10-10,peraltamateo@paez.com.ar
+PER-0013,Lourdes,Aguirre,Incendio,CABA,MP-43064,True,2002-12-12,pazian-ezequiel@alvarez.com
+PER-0014,Manuel,Vargas,Automotores,Mendoza,MP-88708,True,2001-10-23,isabel94@ortiz-munoz.org
+PER-0015,Maria Victoria,Acosta,Incendio,Mendoza,MP-13107,True,2013-06-07,xramos@olivera.com.ar
+PER-0016,Isabella,Hernandez,Automotores,Misiones,MP-15048,True,2009-10-03,jeremiasdiaz@romero.net
+PER-0017,Lautaro,Velazquez,Vida y Salud,Córdoba,MP-38731,False,2013-02-02,florestiziano-benjamin@ramirez.com
+PER-0018,Juliana,Aguero,Daños Patrimoniales,Buenos Aires,MP-33806,False,2008-07-17,juan-ignacio74@alvarez.com.ar
+PER-0019,Catalina,Ramos,Incendio,Córdoba,MP-39752,True,2004-12-06,qruiz@miranda.net.ar
+PER-0020,Gael,Ayala,Daños Patrimoniales,CABA,MP-22220,True,2016-12-08,benjamin24@lopez-arias.ar
+PER-0021,Maria Victoria,Rojas,Vida y Salud,CABA,MP-50741,True,2017-05-08,almadiaz@carrizo.ar
+PER-0022,Olivia,Castro,Vida y Salud,CABA,MP-71127,True,2003-03-27,martinadiaz@moreno-rivero.ar
+PER-0023,Benicio,Ramirez,Incendio,Misiones,MP-34411,True,2003-10-26,juan-bautista15@ramirez.net.ar
+PER-0024,Helena,Lopez,Inmuebles,Misiones,MP-79952,True,2005-10-19,lucia09@maidana.net.ar
+PER-0025,Nahuel,Garcia,Automotores,Mendoza,MP-38371,True,2008-08-08,rodriguezjoaquin@romero.org
+PER-0026,Mateo Valentin,Ojeda,Vida y Salud,Chaco,MP-45027,True,2000-08-30,tomascoronel@lucero-lopez.net
+PER-0027,Bautista,Morales,Incendio,Misiones,MP-99671,True,2007-11-16,gomezmanuel@blanco-gonzalez.com
+PER-0028,Angel Gabriel,Mansilla,Daños Patrimoniales,Entre Ríos,MP-84647,True,2011-07-07,verafrancesca@alvarez-coronel.com
+PER-0029,Carmela,Juarez,Inmuebles,Tucumán,MP-87534,True,2015-08-30,lola75@fernandez.org
+PER-0030,Thiago Agustin,Paz,Automotores,Chaco,MP-68671,True,2011-01-13,bautistarodriguez@fernandez-ferreyra.net.ar
+PER-0031,Lorenzo,Moyano,Daños Patrimoniales,Salta,MP-33922,True,2013-04-05,aalvarez@ledesma-gimenez.com.ar
+PER-0032,Pedro,Dominguez,Vida y Salud,Chaco,MP-56245,True,2018-03-10,claraaguirre@ferreyra.com
+PER-0033,Ambar,Sosa,Inmuebles,Córdoba,MP-32709,True,2005-08-20,ludmilafernandez@quiroga-ojeda.ar
+PER-0034,Angel Gabriel,Vega,Daños Patrimoniales,Entre Ríos,MP-82932,True,2005-11-08,emiliajuarez@romero.net
+PER-0035,Pedro,Aguirre,Automotores,Santa Fe,MP-54399,True,2001-11-11,lara75@gimenez-perez.net
+PER-0036,Lorenzo,Roldan,Inmuebles,Córdoba,MP-49022,True,2008-04-20,herreralisandro@peralta.net
+PER-0037,Valentino,Pereyra,Vida y Salud,Salta,MP-72176,True,2016-05-05,xcardozo@garcia.com
+PER-0038,Thiago,Morales,Inmuebles,Chaco,MP-50351,False,2017-06-05,cordobafacundo@rios.com.ar
+PER-0039,Emiliano,Diaz,Vida y Salud,Mendoza,MP-48655,True,2012-09-24,lopezciro@paez.com.ar
+PER-0040,León,Sanchez,Inmuebles,Mendoza,MP-95210,True,2010-07-19,tlopez@hernandez.ar
+PER-0041,Emilia,Juarez,Daños Patrimoniales,CABA,MP-65148,True,2000-07-13,oflores@molina.ar
+PER-0042,Thiago,Luna,Inmuebles,Buenos Aires,MP-73718,True,2004-07-17,thiago-gabriel39@moyano.ar
+PER-0043,Ezequiel,Diaz,Daños Patrimoniales,Mendoza,MP-18936,True,2018-10-06,santiago72@diaz.ar
+PER-0044,Thiago Nicolas,Gomez,Automotores,Entre Ríos,MP-76456,True,2006-04-04,agueromartina@castillo.com.ar
+PER-0045,Thiago Benjamin,Fernandez,Daños Patrimoniales,Chaco,MP-76037,True,2005-01-20,rodriguezjuan-cruz@quiroga-ledesma.ar
+PER-0046,Jeremias,Sosa,Daños Patrimoniales,Mendoza,MP-22039,True,2018-06-30,urodriguez@vazquez.net.ar
+PER-0047,Luciano Benjamin,Fernandez,Daños Patrimoniales,Misiones,MP-92611,True,2001-07-11,faustinoblanco@fernandez.com
+PER-0048,Juana,Soria,Daños Patrimoniales,Buenos Aires,MP-20101,True,2007-03-15,ablanco@ojeda.com
+PER-0049,Lucas,Acosta,Vida y Salud,Mendoza,MP-45303,True,2018-07-05,vgarcia@rodriguez.com
+PER-0050,Lucio,Rodriguez,Daños Patrimoniales,CABA,MP-27001,True,2002-01-24,suarezdelfina@rivero.net.ar
+PER-0051,Delfina,Campos,Automotores,Tucumán,MP-99080,False,2014-05-02,bustosjosefina@coronel-martinez.org
+PER-0052,Valentino,Pereyra,Daños Patrimoniales,CABA,MP-50565,True,2008-09-27,florencia64@dominguez.net
+PER-0053,Sofia,Roldan,Automotores,Entre Ríos,MP-99813,True,2007-08-11,ujuarez@ayala-fernandez.ar
+PER-0054,Jazmin,Martinez,Automotores,Buenos Aires,MP-83734,True,2017-05-10,beniciomartinez@garcia.ar
+PER-0055,Ivan,Barrios,Incendio,Entre Ríos,MP-35693,True,2018-08-23,rioslucas@farias-gonzalez.com.ar
+PER-0056,Genaro,Mendez,Vida y Salud,Salta,MP-61178,False,2003-05-24,ulopez@rojas.org
+PER-0057,Oriana,Lopez,Vida y Salud,Mendoza,MP-68147,True,2010-09-16,umalucero@ramirez-sosa.com.ar
+PER-0058,Zoe Jazmin,Lopez,Automotores,Mendoza,MP-56077,True,2007-02-03,lucas26@aguirre.net.ar
+PER-0059,Pedro,Arias,Automotores,CABA,MP-68288,True,2000-05-21,josefina45@aguero-flores.ar
+PER-0060,Alma,Bustos,Vida y Salud,Santa Fe,MP-80051,True,2016-10-11,ana-paulamoreno@perez.net
