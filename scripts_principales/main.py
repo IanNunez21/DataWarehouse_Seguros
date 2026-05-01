@@ -16,7 +16,8 @@ def ejecutar_etl_inicial():
     df_clientes_limpios = transformacion.limpiar_y_transformar_clientes()
     
     # Tarea 3: Aquí iría la carga de tabla de hechos
-    log.info("\n--- Próximo paso: Carga de Dimensiones con Surrogate Keys ---")
+    #log.info("\n--- Próximo paso: Carga de Dimensiones con Surrogate Keys ---")
 
 if __name__ == "__main__":
-    ejecutar_etl_inicial()
+    #ejecutar_etl_inicial()
+    transformacion.limpiar_y_transformar_clientes()
