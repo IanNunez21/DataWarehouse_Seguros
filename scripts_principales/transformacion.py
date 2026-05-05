@@ -20,17 +20,17 @@ def limpiar_y_transformar_clientes():
     log.info("═══ Transformando Clientes ═══")
     
     # 1. Rutas para el Maestro Geográfico
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     ruta_maestro = os.path.join(BASE_DIR, "scripts_adicionales", "SourcesAdicionales", "provincias_localidades.csv")
 
     # 2. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM clientes", engine_staging)
     total_inicial = len(df)
 
-    # 3. Integridad de ID y Duplicados[cite: 5]
-    df['id_cliente'] = pd.to_numeric(df['id_cliente'], errors='coerce')
+# 3. Integridad de ID y Duplicados (Corregido)
+    # Eliminamos el to_numeric porque los IDs son alfanuméricos (ej: CLI-00001)
     df = df.dropna(subset=['id_cliente'])
-    df['id_cliente'] = df['id_cliente'].astype(int)
+    df['id_cliente'] = df['id_cliente'].astype(str).str.strip()
     df = df.drop_duplicates(subset=['id_cliente'], keep='last')
     
     # 4. Limpieza de Texto Agresiva (Normalización)
@@ -57,15 +57,17 @@ def limpiar_y_transformar_clientes():
         log.warning("  ⚠ Maestro no encontrado en la ruta. Se omite validación geo profunda.")
         # Como fallback, al menos filtramos por Argentina[cite: 5]
         df = df[df['pais'].str.upper().str.strip() == 'ARGENTINA']
-
-    # 6. Conversión de Fechas y Cálculo de Edad[cite: 5]
+# 6. Conversión de Fechas y Cálculo de Edad
+    # Nos aseguramos de que sea datetime ANTES de calcular
     df['fecha_nacimiento'] = pd.to_datetime(df['fecha_nacimiento'], errors='coerce')
     df = df.dropna(subset=['fecha_nacimiento'])
-    
-    hoy = pd.Timestamp.now()
-    df['edad'] = df['fecha_nacimiento'].apply(lambda x: hoy.year - x.year)
 
-    # 7. Reglas de Negocio (Rango etario y Sexo)[cite: 5]
+    hoy = pd.Timestamp.now()
+    # Usamos .dt.year que es la forma más rápida y limpia en Pandas
+    df['edad'] = hoy.year - df['fecha_nacimiento'].dt.year
+
+    # 7. Reglas de Negocio (Rango etario y Sexo)
+    # Ahora 'edad' es un número entero y esta comparación no fallará
     df = df[(df['edad'] >= 18) & (df['edad'] <= 100)]
     
     mapeo_sexo = {
