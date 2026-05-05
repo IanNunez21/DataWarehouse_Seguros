@@ -29,4 +29,7 @@ if __name__ == "__main__":
     # transformacion.limpiar_y_transformar_clientes()
     # transformacion.limpiar_y_transformar_polizas()
     # # transformacion.limpiar_y_transformar_autoinsurance()
-    transformacion.limpiar_y_transformar_evaluaciones()
+    #transformacion.limpiar_y_transformar_evaluaciones()
+    #transformacion.limpiar_y_transformar_peritos()
+    #transformacion.limpiar_y_transformar_pagos()
+    transformacion.limpiar_y_transformar_objetos()

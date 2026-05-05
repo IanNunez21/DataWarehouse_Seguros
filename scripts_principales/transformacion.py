@@ -244,3 +244,105 @@ def limpiar_y_transformar_evaluaciones():
     df.to_sql(name="val_evaluaciones_validadas", con=engine_staging, if_exists="replace", index=False)
     
     return df
+
+def limpiar_y_transformar_peritos():
+    log.info("═══ Transformando Peritos ═══")
+    
+    # 1. Extracción desde Staging
+    df = pd.read_sql("SELECT * FROM peritos", engine_staging)
+    total_inicial = len(df)
+
+    # 2. Integridad de ID
+    df = df.dropna(subset=['id_perito'])
+    df['id_perito'] = df['id_perito'].astype(str).str.strip()
+
+    # 3. Filtro: Solo peritos activos
+    df = df[df['activo'].astype(str).str.strip().isin(['1', 'True', 'true', 'TRUE'])]
+
+    log.info(f"  ✔ Peritos activos: {len(df)} de {total_inicial}")
+
+    # 4. Combinar nombre y apellido y quedarse solo con eso
+    df['nombre'] = df['nombre'].apply(normalizar_texto)
+    df['apellido'] = df['apellido'].apply(normalizar_texto)
+    df = pd.DataFrame({
+    'id_perito': df['id_perito'],
+    'nombre_completo': df['apellido'] + ', ' + df['nombre']
+    })
+
+    log.info(f"  ✔ Peritos procesados correctamente: {len(df)}")
+
+    # 4. Volcado a Staging
+    log.info("📥 Guardando val_peritos_validados en Staging...")
+    df.to_sql(name="val_peritos_validados", con=engine_staging, if_exists="replace", index=False)
+
+    return df
+
+def limpiar_y_transformar_pagos():
+    log.info("═══ Transformando Pagos ═══")
+    
+    # 1. Extracción desde Staging
+    df = pd.read_sql("SELECT * FROM pagos", engine_staging)
+    total_inicial = len(df)
+
+    # 2. Integridad de IDs y Duplicados
+    df = df.dropna(subset=['id_pago', 'id_parte', 'id_receptor'])
+    df['id_pago'] = df['id_pago'].astype(str).str.strip()
+    df['id_parte'] = df['id_parte'].astype(str).str.strip()
+    df['id_receptor'] = df['id_receptor'].astype(str).str.strip()
+    df = df.drop_duplicates(subset=['id_pago'], keep='last')
+
+    # 3. Limpieza de monto
+    df['monto_pagado'] = pd.to_numeric(df['monto_pagado'], errors='coerce').fillna(0.0)
+    df['fecha_pago'] = pd.to_datetime(df['fecha_pago'], errors='coerce')
+
+    # 4. Quedarse solo con las columnas necesarias
+    df = pd.DataFrame({
+        'id_pago': df['id_pago'],
+        'id_parte': df['id_parte'],
+        'id_receptor': df['id_receptor'],
+        'monto_pagado': df['monto_pagado'],
+        'fecha_pago': df['fecha_pago']
+    })
+
+    log.info(f"  ✔ Pagos procesados correctamente: {len(df)} de {total_inicial}")
+
+    # 5. Volcado a Staging
+    log.info("📥 Guardando val_pagos_validados en Staging...")
+    df.to_sql(name="val_pagos_validados", con=engine_staging, if_exists="replace", index=False)
+
+    return df
+
+def limpiar_y_transformar_objetos():
+    log.info("═══ Transformando Objetos Asegurados ═══")
+    
+    # 1. Extracción desde Staging
+    df = pd.read_sql("SELECT * FROM objetos", engine_staging)
+    total_inicial = len(df)
+
+    # 2. Integridad de ID y Duplicados
+    df = df.dropna(subset=['id_objeto'])
+    df['id_objeto'] = df['id_objeto'].astype(str).str.strip()
+    df = df.drop_duplicates(subset=['id_objeto'], keep='last')
+
+    # 3. Normalización de Texto
+    df['tipo_objeto'] = df['tipo_objeto'].apply(normalizar_texto)
+    df['descripcion'] = df['descripcion'].apply(normalizar_texto)
+    df['localidad'] = df['localidad'].apply(normalizar_texto)
+    df['provincia'] = df['provincia'].apply(normalizar_texto)
+    df['marca'] = df['marca'].apply(normalizar_texto)
+    df['modelo'] = df['modelo'].apply(normalizar_texto)
+
+    # 4. Limpieza de Numéricos
+    df['valor_asegurado'] = pd.to_numeric(df['valor_asegurado'], errors='coerce').fillna(0.0)
+    df['valor_inmueble'] = pd.to_numeric(df['valor_inmueble'], errors='coerce').fillna(0.0)
+    df['superficie_m2'] = pd.to_numeric(df['superficie_m2'], errors='coerce').fillna(0.0)
+    df['año_fabricacion'] = pd.to_numeric(df['año_fabricacion'], errors='coerce').fillna(0)
+    df['año_construccion'] = pd.to_numeric(df['año_construccion'], errors='coerce').fillna(0)
+
+    log.info(f"  ✔ Objetos procesados correctamente: {len(df)} de {total_inicial}")
+
+    # 5. Volcado a Staging
+    log.info("📥 Guardando val_objetos_validados en Staging...")
+    df.to_sql(name="val_objetos_validados", con=engine_staging, if_exists="replace", index=False)
+
+    return df
