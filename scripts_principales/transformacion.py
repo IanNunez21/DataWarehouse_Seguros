@@ -160,7 +160,7 @@ def limpiar_y_transformar_autoinsurance():
         df_auto[col] = df_auto[col].apply(normalizar_texto)
         
     # 3. Limpieza de Fechas
-    df_auto['effective_to_date'] = pd.to_datetime(df_auto['effective_to_date'], errors='coerce')
+    df_auto['effective_to_date'] = pd.to_datetime(df_auto['effective_to_date'], format='%m/%d/%y', errors='coerce')
     
     # 4. CRUCE Y VALIDACIÓN REFERENCIAL (El "truco" matemático)
     log.info("  🔍 Mapeando IDs externos contra el Data Warehouse interno...")
