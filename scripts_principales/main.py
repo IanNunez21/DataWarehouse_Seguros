@@ -19,6 +19,7 @@ def ejecutar_etl_inicial():
     df_perito = transformacion.limpiar_y_transformar_peritos()
     df_pagos = transformacion.limpiar_y_transformar_pagos()
     df_objetos = transformacion.limpiar_y_transformar_objetos()
+    df_agentes = transformacion.limpiar_y_transformar_agentes()
     
     # Tarea 3: Aquí iría la carga de tabla de hechos
     #log.info("\n--- Próximo paso: Carga de Dimensiones con Surrogate Keys ---")

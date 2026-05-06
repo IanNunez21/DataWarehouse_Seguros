@@ -345,4 +345,62 @@ def limpiar_y_transformar_objetos():
     log.info("📥 Guardando val_objetos_validados en Staging...")
     df.to_sql(name="val_objetos_validados", con=engine_staging, if_exists="replace", index=False)
 
+def limpiar_y_transformar_agentes():
+    log.info("═══ Transformando Agentes ═══")
+
+    # 1. Extracción desde Staging
+    df = pd.read_sql("SELECT * FROM agentes", engine_staging)
+    total_inicial = len(df)
+
+    # 2. Integridad de ID y duplicados
+    df = df.dropna(subset=["id_agente"])
+    df["id_agente"] = df["id_agente"].astype(str).str.strip()
+    df = df.drop_duplicates(subset=["id_agente"], keep="last")
+
+    # 3. Normalización de textos
+    columnas_texto = ["nombre", "apellido", "canal", "sucursal", "zona", "email"]
+
+    for col in columnas_texto:
+        if col in df.columns:
+            df[col] = df[col].apply(normalizar_texto)
+
+    # 4. Filtrar solo agentes activos
+    df["activo"] = df["activo"].astype(str).str.strip().str.upper()
+    df = df[df["activo"].isin(["TRUE", "1", "SI", "SÍ"])]
+
+    # 5. Conversión de fecha de ingreso
+    df["fecha_ingreso"] = pd.to_datetime(df["fecha_ingreso"], errors="coerce")
+    df = df.dropna(subset=["fecha_ingreso"])
+
+    # 6. Validación de canal
+    canales_validos = ["SUCURSAL", "CALL CENTER", "AGENTE", "WEB"]
+    df = df[df["canal"].isin(canales_validos)]
+
+    # 7. Crear nombre completo para la dimensión
+    df["nombre_agente"] = df["apellido"] + ", " + df["nombre"]
+
+    # 8. Selección de columnas finales
+    df = df[
+        [
+            "id_agente",
+            "nombre_agente",
+            "canal",
+            "sucursal",
+            "zona",
+            "fecha_ingreso",
+            "email"
+        ]
+    ]
+
+    log.info(f"  ✔ Agentes procesados correctamente: {len(df)} de {total_inicial}")
+
+    # 9. Guardar tabla validada en staging
+    log.info("📥 Guardando val_agentes_validados en Staging...")
+    df.to_sql(
+        name="val_agentes_validados",
+        con=engine_staging,
+        if_exists="replace",
+        index=False
+    )
+
     return df
