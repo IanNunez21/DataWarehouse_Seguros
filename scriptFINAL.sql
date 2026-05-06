@@ -16,6 +16,7 @@ CREATE TABLE Dim_Personas (
     id_ubicacion_fk INT,
     ocupacion VARCHAR (40),
     segmento_persona ENUM('Joven', 'Adulto', 'Mayor') NOT NULL,
+    sexo CHAR (1) NOT NULL, 
     fecha_desde DATE NOT NULL, -- Cuándo empieza a ser válida esta versión
     fecha_hasta DATE DEFAULT NULL, -- Cuándo deja de ser válida (NULL = actual)
     es_actual BOOLEAN DEFAULT 1, -- Indicador rápido (1 para la versión vigente, 0 para histórico)
