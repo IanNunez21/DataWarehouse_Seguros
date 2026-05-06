@@ -403,4 +403,87 @@ def limpiar_y_transformar_agentes():
         index=False
     )
 
+def limpiar_y_transformar_partes():
+    log.info("═══ Transformando Partes de Accidente ═══")
+
+    # 1. Extracción desde Staging
+    df = pd.read_sql("SELECT * FROM partes", engine_staging)
+    total_inicial = len(df)
+
+    # 2. Integridad de IDs y duplicados
+    columnas_id = [
+        "id_parte",
+        "id_poliza",
+        "id_objeto_asegurado",
+        "id_perito",
+        "id_denunciante",
+        "id_receptor_pago"
+    ]
+
+    df = df.dropna(subset=["id_parte", "id_poliza"])
+
+    for col in columnas_id:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.strip()
+
+    df = df.drop_duplicates(subset=["id_parte"], keep="last")
+
+    # 3. Conversión de fechas
+    df["fecha_apertura"] = pd.to_datetime(df["fecha_apertura"], errors="coerce")
+    df["fecha_cierre"] = pd.to_datetime(df["fecha_cierre"], errors="coerce")
+
+    df = df.dropna(subset=["fecha_apertura"])
+
+    # 4. Regla de consistencia temporal
+    # Si hay fecha de cierre, no puede ser anterior a la fecha de apertura.
+    df = df[
+        df["fecha_cierre"].isna()
+        | (df["fecha_cierre"] >= df["fecha_apertura"])
+    ]
+
+    # 5. Limpieza de monto reclamado
+    df["monto_reclamado"] = pd.to_numeric(df["monto_reclamado"], errors="coerce").fillna(0.0)
+    df = df[df["monto_reclamado"] >= 0]
+
+    # 6. Limpieza de días de resolución
+    df["dias_resolucion"] = pd.to_numeric(df["dias_resolucion"], errors="coerce").fillna(0)
+    df = df[df["dias_resolucion"] >= 0]
+
+    # 7. Normalización de textos
+    columnas_texto = ["tipo_siniestro", "estado", "tipo_seguro"]
+
+    for col in columnas_texto:
+        if col in df.columns:
+            df[col] = df[col].apply(normalizar_texto)
+
+    # 8. Selección final de columnas
+    df = df[
+        [
+            "id_parte",
+            "id_poliza",
+            "id_objeto_asegurado",
+            "id_perito",
+            "id_denunciante",
+            "id_receptor_pago",
+            "fecha_apertura",
+            "fecha_cierre",
+            "tipo_siniestro",
+            "estado",
+            "monto_reclamado",
+            "tipo_seguro",
+            "dias_resolucion"
+        ]
+    ]
+
+    log.info(f"  ✔ Partes procesados correctamente: {len(df)} de {total_inicial}")
+
+    # 9. Guardar tabla validada en staging
+    log.info("📥 Guardando val_partes_validados en Staging...")
+    df.to_sql(
+        name="val_partes_validados",
+        con=engine_staging,
+        if_exists="replace",
+        index=False
+    )
+
     return df
