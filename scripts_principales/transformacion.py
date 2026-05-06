@@ -16,6 +16,14 @@ def normalizar_texto(texto):
     texto_limpio = "".join(c for c in texto_nfd if unicodedata.category(c) != 'Mn')
     return texto_limpio.upper().strip()
 
+def guardar_datos_curados(df, nombre_tabla):
+    """
+    Guarda el DataFrame transformado en la base de datos Staging.
+    """
+    log.info(f"📥 Guardando tabla curada ({nombre_tabla}) en Staging...")
+    df.to_sql(name=nombre_tabla, con=engine_staging, if_exists="replace", index=False)
+    return df
+
 def limpiar_y_transformar_clientes():
     log.info("═══ Transformando Clientes ═══")
     
@@ -83,11 +91,8 @@ def limpiar_y_transformar_clientes():
 
     log.info(f"  ✔ Registros finales tras validación cruzada: {len(df)}")
 
-    # 9. Volcado a Staging (Zona de Validación)
-    log.info("📥 Volcando datos curados a Staging (val_clientes_validados)...")
-    df.to_sql(name="val_clientes_validados", con=engine_staging, if_exists="replace", index=False)   
-
-    return df
+    # 9. Volcado a Staging y Exportación CSV
+    return guardar_datos_curados(df, "val_clientes_validados")
 
 def limpiar_y_transformar_polizas():
     log.info("═══ Transformando Pólizas ═══")
@@ -139,11 +144,8 @@ def limpiar_y_transformar_polizas():
     
     log.info(f"  ✔ Pólizas finales tras validación cruzada: {len(df)}")
 
-    # 8. Volcado a Staging (Zona de Validación)
-    log.info("📥 Volcando datos curados a Staging (val_polizas_validadas)...")
-    df.to_sql(name="val_polizas_validadas", con=engine_staging, if_exists="replace", index=False)
-    
-    return df
+    # 8. Volcado a Staging y Exportación CSV
+    return guardar_datos_curados(df, "val_polizas_validadas")
 
 def limpiar_y_transformar_autoinsurance():
     log.info("═══ Transformando AutoInsurance ═══")
@@ -197,9 +199,9 @@ def limpiar_y_transformar_autoinsurance():
 
     log.info(f"  ✔ Registros finales tras validación cruzada: {len(df)}")
 
-    # 6. Volcado a Staging
-    log.info("📥 Guardando val_autoinsurance_validadas...")
-    df.to_sql(name="val_autoinsurance_validadas", con=engine_staging, if_exists="replace", index=False)
+    # 6. Volcado a Staging y Exportación CSV
+    df = guardar_datos_curados(df, "val_autoinsurance_validadas")
+    
     # LAS VALIDADAS NO SE DAN POR ID, SINO POR PRIMA Y Customer Lifetime Value, SE AGREGA id_cliente A LA TABLA DE VALIDADOS
     #Ejemplo 1: El Cliente QZ44356
     # En tu tabla final, este cliente quedó asociado a CLI-00002 y a la póliza POL-000002. Si miramos los archivos crudos, vemos por qué:
@@ -239,11 +241,8 @@ def limpiar_y_transformar_evaluaciones():
     
     log.info(f"  ✔ Evaluaciones procesadas correctamente: {len(df)}")
 
-    # 7. Volcado a Staging (Zona de Validación)
-    log.info("📥 Guardando val_evaluaciones_validadas en Staging...")
-    df.to_sql(name="val_evaluaciones_validadas", con=engine_staging, if_exists="replace", index=False)
-    
-    return df
+    # 7. Volcado a Staging y Exportación CSV
+    return guardar_datos_curados(df, "val_evaluaciones_validadas")
 
 def limpiar_y_transformar_peritos():
     log.info("═══ Transformando Peritos ═══")
@@ -271,11 +270,8 @@ def limpiar_y_transformar_peritos():
 
     log.info(f"  ✔ Peritos procesados correctamente: {len(df)}")
 
-    # 4. Volcado a Staging
-    log.info("📥 Guardando val_peritos_validados en Staging...")
-    df.to_sql(name="val_peritos_validados", con=engine_staging, if_exists="replace", index=False)
-
-    return df
+    # 4. Volcado a Staging y Exportación CSV
+    return guardar_datos_curados(df, "val_peritos_validados")
 
 def limpiar_y_transformar_pagos():
     log.info("═══ Transformando Pagos ═══")
@@ -306,11 +302,8 @@ def limpiar_y_transformar_pagos():
 
     log.info(f"  ✔ Pagos procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 5. Volcado a Staging
-    log.info("📥 Guardando val_pagos_validados en Staging...")
-    df.to_sql(name="val_pagos_validados", con=engine_staging, if_exists="replace", index=False)
-
-    return df
+    # 5. Volcado a Staging y Exportación CSV
+    return guardar_datos_curados(df, "val_pagos_validados")
 
 def limpiar_y_transformar_objetos():
     log.info("═══ Transformando Objetos Asegurados ═══")
@@ -341,9 +334,8 @@ def limpiar_y_transformar_objetos():
 
     log.info(f"  ✔ Objetos procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 5. Volcado a Staging
-    log.info("📥 Guardando val_objetos_validados en Staging...")
-    df.to_sql(name="val_objetos_validados", con=engine_staging, if_exists="replace", index=False)
+    # 5. Volcado a Staging y Exportación CSV
+    return guardar_datos_curados(df, "val_objetos_validados")
 
 def limpiar_y_transformar_agentes():
     log.info("═══ Transformando Agentes ═══")
@@ -394,14 +386,8 @@ def limpiar_y_transformar_agentes():
 
     log.info(f"  ✔ Agentes procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 9. Guardar tabla validada en staging
-    log.info("📥 Guardando val_agentes_validados en Staging...")
-    df.to_sql(
-        name="val_agentes_validados",
-        con=engine_staging,
-        if_exists="replace",
-        index=False
-    )
+    # 9. Guardar tabla validada en staging y Exportación CSV
+    return guardar_datos_curados(df, "val_agentes_validados")
 
 def limpiar_y_transformar_partes():
     log.info("═══ Transformando Partes de Accidente ═══")
@@ -477,13 +463,5 @@ def limpiar_y_transformar_partes():
 
     log.info(f"  ✔ Partes procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 9. Guardar tabla validada en staging
-    log.info("📥 Guardando val_partes_validados en Staging...")
-    df.to_sql(
-        name="val_partes_validados",
-        con=engine_staging,
-        if_exists="replace",
-        index=False
-    )
-
-    return df
+    # 9. Guardar tabla validada en staging y Exportación CSV
+    return guardar_datos_curados(df, "val_partes_validados")
