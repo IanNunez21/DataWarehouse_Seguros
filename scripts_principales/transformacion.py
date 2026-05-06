@@ -27,7 +27,7 @@ def limpiar_y_transformar_clientes():
     df = pd.read_sql("SELECT * FROM clientes", engine_staging)
     total_inicial = len(df)
 
-    # 3. Integridad de ID y Duplicados[cite: 5]
+    # 3. Integridad de ID y Duplicados
     df['id_cliente'] = pd.to_numeric(df['id_cliente'], errors='coerce')
     df = df.dropna(subset=['id_cliente'])
     df['id_cliente'] = df['id_cliente'].astype(int)
@@ -50,22 +50,22 @@ def limpiar_y_transformar_clientes():
         df['provincia'] = df['provincia'].apply(normalizar_texto)
         df['localidad'] = df['localidad'].apply(normalizar_texto)
 
-        # Realizamos el Inner Join: solo sobreviven las combinaciones reales[cite: 5]
+        # Realizamos el Inner Join: solo sobreviven las combinaciones reales
         df = df.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
         
     except FileNotFoundError:
         log.warning("  ⚠ Maestro no encontrado en la ruta. Se omite validación geo profunda.")
-        # Como fallback, al menos filtramos por Argentina[cite: 5]
+        # Como fallback, al menos filtramos por Argentina
         df = df[df['pais'].str.upper().str.strip() == 'ARGENTINA']
 
-    # 6. Conversión de Fechas y Cálculo de Edad[cite: 5]
+    # 6. Conversión de Fechas y Cálculo de Edad
     df['fecha_nacimiento'] = pd.to_datetime(df['fecha_nacimiento'], errors='coerce')
     df = df.dropna(subset=['fecha_nacimiento'])
     
     hoy = pd.Timestamp.now()
     df['edad'] = df['fecha_nacimiento'].apply(lambda x: hoy.year - x.year)
 
-    # 7. Reglas de Negocio (Rango etario y Sexo)[cite: 5]
+    # 7. Reglas de Negocio (Rango etario y Sexo)
     df = df[(df['edad'] >= 18) & (df['edad'] <= 100)]
     
     mapeo_sexo = {
@@ -74,14 +74,14 @@ def limpiar_y_transformar_clientes():
     }
     df['sexo'] = df['sexo'].astype(str).apply(normalizar_texto).map(mapeo_sexo).fillna('O')
 
-    # 8. Segmentación[cite: 5]
+    # 8. Segmentación
     df['segmento_persona'] = df['edad'].apply(
         lambda e: 'Joven' if e < 35 else ('Mayor' if e >= 60 else 'Adulto')
     )
 
     log.info(f"  ✔ Registros finales tras validación cruzada: {len(df)}")
 
-    # 9. Volcado a Staging (Zona de Validación)[cite: 3, 5]
+    # 9. Volcado a Staging (Zona de Validación)
     log.info("📥 Volcando datos curados a Staging (val_clientes_validados)...")
     df.to_sql(name="val_clientes_validados", con=engine_staging, if_exists="replace", index=False)   
 
