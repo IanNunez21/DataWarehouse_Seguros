@@ -1,73 +1,33 @@
 import pandas as pd
 import logging
 import os
-import unicodedata
 from config import engine_staging
+from utils import normalizar_texto, guardar_datos_curados, convertir_fechas, normalizar_columnas_texto, validar_geografia, limpiar_numericos, crear_nombre_completo, limpiar_ids
 
 # Configuración de Logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
-def normalizar_texto(texto):
-    """Limpia tildes, acentos y normaliza a mayúsculas para evitar errores de matching."""
-    if not isinstance(texto, str):
-        return str(texto)
-    texto_nfd = unicodedata.normalize('NFD', texto)
-    texto_limpio = "".join(c for c in texto_nfd if unicodedata.category(c) != 'Mn')
-    return texto_limpio.upper().strip()
-
-def guardar_datos_curados(df, nombre_tabla):
-    """
-    Guarda el DataFrame transformado en la base de datos Staging.
-    """
-    log.info(f"📥 Guardando tabla curada ({nombre_tabla}) en Staging...")
-    df.to_sql(name=nombre_tabla, con=engine_staging, if_exists="replace", index=False)
-    return df
-
 def limpiar_y_transformar_clientes():
     log.info("═══ Transformando Clientes ═══")
     
-    # 1. Rutas para el Maestro Geográfico
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    ruta_maestro = os.path.join(BASE_DIR, "scripts_adicionales", "SourcesAdicionales", "provincias_localidades.csv")
-
-    # 2. Extracción desde Staging
+    # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM clientes", engine_staging)
     total_inicial = len(df)
 
-# 3. Integridad de ID y Duplicados (Corregido)
-    # Eliminamos el to_numeric porque los IDs son alfanuméricos (ej: CLI-00001)
-    df = df.dropna(subset=['id_cliente'])
-    df['id_cliente'] = df['id_cliente'].astype(str).str.strip()
-    df = df.drop_duplicates(subset=['id_cliente'], keep='last')
+    # 2. Integridad de ID y Duplicados
+    df = limpiar_ids(df, columnas_id='id_cliente', id_principal='id_cliente')
     
-    # 4. Limpieza de Texto Agresiva (Normalización)
+    # 3. Limpieza de Texto Agresiva (Normalización)
     # Aplicamos normalizar_texto para quitar tildes y caracteres raros en nombres y apellidos
-    df['nombre'] = df['nombre'].apply(normalizar_texto)
-    df['apellido'] = df['apellido'].apply(normalizar_texto)
+    df = normalizar_columnas_texto(df, ['nombre', 'apellido'])
+    df = crear_nombre_completo(df)
 
-    # 5. VALIDACIÓN GEOGRÁFICA: Cruce contra el Maestro CSV[
-    log.info("  🔍 Validando consistencia Localidad/Provincia...")
-    try:
-        df_maestro = pd.read_csv(ruta_maestro)
-        # Aseguramos que el maestro esté en el mismo formato de comparación
-        df_maestro['provincia'] = df_maestro['provincia'].apply(normalizar_texto)
-        df_maestro['localidad'] = df_maestro['localidad'].apply(normalizar_texto)
-        
-        # Normalizamos los datos de entrada antes del cruce
-        df['provincia'] = df['provincia'].apply(normalizar_texto)
-        df['localidad'] = df['localidad'].apply(normalizar_texto)
-
-        # Realizamos el Inner Join: solo sobreviven las combinaciones reales
-        df = df.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
-        
-    except FileNotFoundError:
-        log.warning("  ⚠ Maestro no encontrado en la ruta. Se omite validación geo profunda.")
-        # Como fallback, al menos filtramos por Argentina
-        df = df[df['pais'].str.upper().str.strip() == 'ARGENTINA']
+    # 4. VALIDACIÓN GEOGRÁFICA: Cruce contra el Maestro CSV
+    df = validar_geografia(df)
 # 6. Conversión de Fechas y Cálculo de Edad
     # Nos aseguramos de que sea datetime ANTES de calcular
-    df['fecha_nacimiento'] = pd.to_datetime(df['fecha_nacimiento'], errors='coerce')
+    df = convertir_fechas(df, 'fecha_nacimiento')
     df = df.dropna(subset=['fecha_nacimiento'])
 
     hoy = pd.Timestamp.now()
@@ -89,7 +49,7 @@ def limpiar_y_transformar_clientes():
         lambda e: 'Joven' if e < 35 else ('Mayor' if e >= 60 else 'Adulto')
     )
 
-    log.info(f"  ✔ Registros finales tras validación cruzada: {len(df)}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 9. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_clientes_validados")
@@ -102,21 +62,15 @@ def limpiar_y_transformar_polizas():
     total_inicial = len(df)
     
     # 2. Integridad de ID y Duplicados
-    # Al igual que con clientes, limpiamos los IDs y quitamos duplicados
-    df = df.dropna(subset=['id_poliza', 'id_cliente'])
-    df['id_poliza'] = df['id_poliza'].astype(str).str.strip()
-    df['id_cliente'] = df['id_cliente'].astype(str).str.strip()
-    df = df.drop_duplicates(subset=['id_poliza'], keep='last')
+    df = limpiar_ids(df, columnas_id=['id_poliza', 'id_cliente'], id_principal='id_poliza')
     
     # 3. Limpieza de Texto Agresiva (Normalización)
     # Reciclamos tu función normalizar_texto para los campos categóricos
     columnas_texto = ['tipo_seguro', 'cobertura', 'tipo_poliza', 'canal_venta', 'estado']
-    for col in columnas_texto:
-        df[col] = df[col].apply(normalizar_texto)
+    df = normalizar_columnas_texto(df, columnas_texto)
         
     # 4. VALIDACIÓN DE INTEGRIDAD REFERENCIAL (El equivalente al Maestro Geo)
     # Solo nos quedamos con las pólizas cuyos clientes hayan sobrevivido al filtro geográfico
-    log.info("  🔍 Validando integridad contra clientes válidos...")
     try:
         # Extraemos solo los IDs de la tabla de clientes limpios
         df_clientes_validos = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
@@ -128,21 +82,18 @@ def limpiar_y_transformar_polizas():
         log.warning("  ⚠ Tabla val_clientes_validados no encontrada. Se omite cruce relacional.")
 
     # 5. Conversión de Fechas
-    columnas_fecha = ['fecha_alta', 'vigencia_desde', 'vigencia_hasta']
-    for col in columnas_fecha:
-        df[col] = pd.to_datetime(df[col], errors='coerce')
+    df = convertir_fechas(df, ['fecha_alta', 'vigencia_desde', 'vigencia_hasta'])
         
     # 6. Reglas de Negocio Numéricas (Limpieza de montos)
     columnas_numericas = ['prima_mensual', 'prima_total', 'customer_lifetime_value', 'numero_polizas_cliente', 'meses_desde_inicio']
-    for col in columnas_numericas:
-        df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0.0)
+    df = limpiar_numericos(df, columnas_numericas)
         
     # 7. Reglas de Negocio Específicas (Actualización de Estado)
     # Si la fecha de vigencia_hasta ya pasó al día de hoy, forzamos el estado a 'VENCIDA'
     hoy = pd.Timestamp.now()
     df.loc[df['vigencia_hasta'] < hoy, 'estado'] = 'VENCIDA'
     
-    log.info(f"  ✔ Pólizas finales tras validación cruzada: {len(df)}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 8. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_polizas_validadas")
@@ -152,20 +103,19 @@ def limpiar_y_transformar_autoinsurance():
     
     # 1. Extracción desde Staging
     df_auto = pd.read_sql("SELECT * FROM autoinsurance", engine_staging)
+    total_inicial = len(df_auto)
     
     # 2. Limpieza de Texto (Demográficos y del Vehículo)
     cols_texto = [
         'response', 'coverage', 'education', 'employmentstatus', 
         'gender', 'location_code', 'marital_status', 'vehicle_class', 'vehicle_size'
     ]
-    for col in cols_texto:
-        df_auto[col] = df_auto[col].apply(normalizar_texto)
+    df_auto = normalizar_columnas_texto(df_auto, cols_texto)
         
     # 3. Limpieza de Fechas
-    df_auto['effective_to_date'] = pd.to_datetime(df_auto['effective_to_date'], format='%m/%d/%y', errors='coerce')
+    df_auto = convertir_fechas(df_auto, 'effective_to_date', formato='%m/%d/%y')
     
     # 4. CRUCE Y VALIDACIÓN REFERENCIAL (El "truco" matemático)
-    log.info("  🔍 Mapeando IDs externos contra el Data Warehouse interno...")
     try:
         # Traemos nuestras pólizas validadas para usarlas de puente
         df_polizas = pd.read_sql("SELECT id_poliza, id_cliente, customer_lifetime_value, prima_mensual FROM val_polizas_validadas", engine_staging)
@@ -197,7 +147,7 @@ def limpiar_y_transformar_autoinsurance():
         log.warning(f"  ⚠ Error en el cruce relacional: {e}. Se guardará sin mapeo de IDs.")
         df = df_auto
 
-    log.info(f"  ✔ Registros finales tras validación cruzada: {len(df)}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 6. Volcado a Staging y Exportación CSV
     df = guardar_datos_curados(df, "val_autoinsurance_validadas")
@@ -215,31 +165,27 @@ def limpiar_y_transformar_evaluaciones():
     
     # 1. Extracción desde Staging (Datos Crudos)
     df = pd.read_sql("SELECT * FROM evaluaciones", engine_staging)
+    total_inicial = len(df)
     
     # 2. Integridad de IDs y Duplicados
-    # Limpiamos espacios y eliminamos nulos en las llaves primarias y foráneas
     columnas_id = ['id_evaluacion', 'id_parte', 'id_perito']
-    df = df.dropna(subset=columnas_id)
-    for col in columnas_id:
-        df[col] = df[col].astype(str).str.strip()
-        
-    df = df.drop_duplicates(subset=['id_evaluacion'], keep='last')
+    df = limpiar_ids(df, columnas_id=columnas_id, id_principal='id_evaluacion')
     
     # 3. Conversión de Fechas
-    df['fecha_visita'] = pd.to_datetime(df['fecha_visita'], errors='coerce')
+    df = convertir_fechas(df, 'fecha_visita')
     
     # 4. Limpieza de Montos
-    df['monto_estimado_dano'] = pd.to_numeric(df['monto_estimado_dano'], errors='coerce').fillna(0.0)
+    df = limpiar_numericos(df, 'monto_estimado_dano')
     
     # 5. Normalización de Texto Libre
     # El dictamen suele venir con tildes y caracteres especiales, lo normalizamos
-    df['dictamen'] = df['dictamen'].apply(normalizar_texto)
+    df = normalizar_columnas_texto(df, 'dictamen')
     
     # 6. Estandarización de Booleanos
     # Nos aseguramos de que 'requiere_reinspeccion' sea interpretado correctamente por MySQL
     df['requiere_reinspeccion'] = df['requiere_reinspeccion'].astype(bool)
     
-    log.info(f"  ✔ Evaluaciones procesadas correctamente: {len(df)}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 7. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_evaluaciones_validadas")
@@ -252,23 +198,19 @@ def limpiar_y_transformar_peritos():
     total_inicial = len(df)
 
     # 2. Integridad de ID
-    df = df.dropna(subset=['id_perito'])
-    df['id_perito'] = df['id_perito'].astype(str).str.strip()
+    df = limpiar_ids(df, columnas_id='id_perito', id_principal='id_perito')
 
     # 3. Filtro: Solo peritos activos
     df = df[df['activo'].astype(str).str.strip().isin(['1', 'True', 'true', 'TRUE'])]
 
-    log.info(f"  ✔ Peritos activos: {len(df)} de {total_inicial}")
+    # 4. Normalizar y crear nombre_completo (conservando nombre y apellido)
+    df = normalizar_columnas_texto(df, ['nombre', 'apellido'])
+    df = crear_nombre_completo(df)
+    
+    # Seleccionar columnas de interés
+    df = df[['id_perito', 'nombre', 'apellido', 'nombre_completo']]
 
-    # 4. Combinar nombre y apellido y quedarse solo con eso
-    df['nombre'] = df['nombre'].apply(normalizar_texto)
-    df['apellido'] = df['apellido'].apply(normalizar_texto)
-    df = pd.DataFrame({
-    'id_perito': df['id_perito'],
-    'nombre_completo': df['apellido'] + ', ' + df['nombre']
-    })
-
-    log.info(f"  ✔ Peritos procesados correctamente: {len(df)}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 4. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_peritos_validados")
@@ -281,26 +223,25 @@ def limpiar_y_transformar_pagos():
     total_inicial = len(df)
 
     # 2. Integridad de IDs y Duplicados
-    df = df.dropna(subset=['id_pago', 'id_parte', 'id_receptor'])
-    df['id_pago'] = df['id_pago'].astype(str).str.strip()
-    df['id_parte'] = df['id_parte'].astype(str).str.strip()
-    df['id_receptor'] = df['id_receptor'].astype(str).str.strip()
-    df = df.drop_duplicates(subset=['id_pago'], keep='last')
+    columnas_id = ['id_pago', 'id_parte', 'id_receptor']
+    df = limpiar_ids(df, columnas_id=columnas_id, id_principal='id_pago')
 
     # 3. Limpieza de monto
-    df['monto_pagado'] = pd.to_numeric(df['monto_pagado'], errors='coerce').fillna(0.0)
-    df['fecha_pago'] = pd.to_datetime(df['fecha_pago'], errors='coerce')
+    df = limpiar_numericos(df, 'monto_pagado')
+    df = convertir_fechas(df, 'fecha_pago')
 
     # 4. Quedarse solo con las columnas necesarias
-    df = pd.DataFrame({
-        'id_pago': df['id_pago'],
-        'id_parte': df['id_parte'],
-        'id_receptor': df['id_receptor'],
-        'monto_pagado': df['monto_pagado'],
-        'fecha_pago': df['fecha_pago']
-    })
+    df = df[
+        [
+            'id_pago',
+            'id_parte',
+            'id_receptor',
+            'monto_pagado',
+            'fecha_pago'
+        ]
+    ]
 
-    log.info(f"  ✔ Pagos procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 5. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_pagos_validados")
@@ -313,26 +254,16 @@ def limpiar_y_transformar_objetos():
     total_inicial = len(df)
 
     # 2. Integridad de ID y Duplicados
-    df = df.dropna(subset=['id_objeto'])
-    df['id_objeto'] = df['id_objeto'].astype(str).str.strip()
-    df = df.drop_duplicates(subset=['id_objeto'], keep='last')
+    df = limpiar_ids(df, columnas_id='id_objeto', id_principal='id_objeto')
 
     # 3. Normalización de Texto
-    df['tipo_objeto'] = df['tipo_objeto'].apply(normalizar_texto)
-    df['descripcion'] = df['descripcion'].apply(normalizar_texto)
-    df['localidad'] = df['localidad'].apply(normalizar_texto)
-    df['provincia'] = df['provincia'].apply(normalizar_texto)
-    df['marca'] = df['marca'].apply(normalizar_texto)
-    df['modelo'] = df['modelo'].apply(normalizar_texto)
+    df = normalizar_columnas_texto(df, ['tipo_objeto', 'descripcion', 'localidad', 'provincia', 'marca', 'modelo'])
 
     # 4. Limpieza de Numéricos
-    df['valor_asegurado'] = pd.to_numeric(df['valor_asegurado'], errors='coerce').fillna(0.0)
-    df['valor_inmueble'] = pd.to_numeric(df['valor_inmueble'], errors='coerce').fillna(0.0)
-    df['superficie_m2'] = pd.to_numeric(df['superficie_m2'], errors='coerce').fillna(0.0)
-    df['año_fabricacion'] = pd.to_numeric(df['año_fabricacion'], errors='coerce').fillna(0)
-    df['año_construccion'] = pd.to_numeric(df['año_construccion'], errors='coerce').fillna(0)
+    df = limpiar_numericos(df, ['valor_asegurado', 'valor_inmueble', 'superficie_m2'])
+    df = limpiar_numericos(df, ['año_fabricacion', 'año_construccion'], valor_defecto=0)
 
-    log.info(f"  ✔ Objetos procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 5. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_objetos_validados")
@@ -344,24 +275,19 @@ def limpiar_y_transformar_agentes():
     df = pd.read_sql("SELECT * FROM agentes", engine_staging)
     total_inicial = len(df)
 
-    # 2. Integridad de ID y duplicados
-    df = df.dropna(subset=["id_agente"])
-    df["id_agente"] = df["id_agente"].astype(str).str.strip()
-    df = df.drop_duplicates(subset=["id_agente"], keep="last")
+    # 2. Integridad de ID y Duplicados
+    df = limpiar_ids(df, columnas_id='id_agente', id_principal='id_agente')
 
     # 3. Normalización de textos
     columnas_texto = ["nombre", "apellido", "canal", "sucursal", "zona", "email"]
-
-    for col in columnas_texto:
-        if col in df.columns:
-            df[col] = df[col].apply(normalizar_texto)
+    df = normalizar_columnas_texto(df, columnas_texto)
 
     # 4. Filtrar solo agentes activos
     df["activo"] = df["activo"].astype(str).str.strip().str.upper()
     df = df[df["activo"].isin(["TRUE", "1", "SI", "SÍ"])]
 
     # 5. Conversión de fecha de ingreso
-    df["fecha_ingreso"] = pd.to_datetime(df["fecha_ingreso"], errors="coerce")
+    df = convertir_fechas(df, "fecha_ingreso")
     df = df.dropna(subset=["fecha_ingreso"])
 
     # 6. Validación de canal
@@ -369,22 +295,9 @@ def limpiar_y_transformar_agentes():
     df = df[df["canal"].isin(canales_validos)]
 
     # 7. Crear nombre completo para la dimensión
-    df["nombre_agente"] = df["apellido"] + ", " + df["nombre"]
+    df = crear_nombre_completo(df)
 
-    # 8. Selección de columnas finales
-    df = df[
-        [
-            "id_agente",
-            "nombre_agente",
-            "canal",
-            "sucursal",
-            "zona",
-            "fecha_ingreso",
-            "email"
-        ]
-    ]
-
-    log.info(f"  ✔ Agentes procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 9. Guardar tabla validada en staging y Exportación CSV
     return guardar_datos_curados(df, "val_agentes_validados")
@@ -396,7 +309,7 @@ def limpiar_y_transformar_partes():
     df = pd.read_sql("SELECT * FROM partes", engine_staging)
     total_inicial = len(df)
 
-    # 2. Integridad de IDs y duplicados
+    # 2. Integridad de IDs y Duplicados
     columnas_id = [
         "id_parte",
         "id_poliza",
@@ -405,18 +318,10 @@ def limpiar_y_transformar_partes():
         "id_denunciante",
         "id_receptor_pago"
     ]
-
-    df = df.dropna(subset=["id_parte", "id_poliza"])
-
-    for col in columnas_id:
-        if col in df.columns:
-            df[col] = df[col].astype(str).str.strip()
-
-    df = df.drop_duplicates(subset=["id_parte"], keep="last")
+    df = limpiar_ids(df, columnas_id=columnas_id, columnas_dropna=["id_parte", "id_poliza"], id_principal="id_parte")
 
     # 3. Conversión de fechas
-    df["fecha_apertura"] = pd.to_datetime(df["fecha_apertura"], errors="coerce")
-    df["fecha_cierre"] = pd.to_datetime(df["fecha_cierre"], errors="coerce")
+    df = convertir_fechas(df, ["fecha_apertura", "fecha_cierre"])
 
     df = df.dropna(subset=["fecha_apertura"])
 
@@ -428,40 +333,18 @@ def limpiar_y_transformar_partes():
     ]
 
     # 5. Limpieza de monto reclamado
-    df["monto_reclamado"] = pd.to_numeric(df["monto_reclamado"], errors="coerce").fillna(0.0)
+    df = limpiar_numericos(df, "monto_reclamado")
     df = df[df["monto_reclamado"] >= 0]
 
     # 6. Limpieza de días de resolución
-    df["dias_resolucion"] = pd.to_numeric(df["dias_resolucion"], errors="coerce").fillna(0)
+    df = limpiar_numericos(df, "dias_resolucion", valor_defecto=0)
     df = df[df["dias_resolucion"] >= 0]
 
     # 7. Normalización de textos
     columnas_texto = ["tipo_siniestro", "estado", "tipo_seguro"]
+    df = normalizar_columnas_texto(df, columnas_texto)
 
-    for col in columnas_texto:
-        if col in df.columns:
-            df[col] = df[col].apply(normalizar_texto)
-
-    # 8. Selección final de columnas
-    df = df[
-        [
-            "id_parte",
-            "id_poliza",
-            "id_objeto_asegurado",
-            "id_perito",
-            "id_denunciante",
-            "id_receptor_pago",
-            "fecha_apertura",
-            "fecha_cierre",
-            "tipo_siniestro",
-            "estado",
-            "monto_reclamado",
-            "tipo_seguro",
-            "dias_resolucion"
-        ]
-    ]
-
-    log.info(f"  ✔ Partes procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 9. Guardar tabla validada en staging y Exportación CSV
     return guardar_datos_curados(df, "val_partes_validados")
