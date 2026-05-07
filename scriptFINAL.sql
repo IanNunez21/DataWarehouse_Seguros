@@ -7,7 +7,6 @@ CREATE TABLE Dim_Ubicacion (
     pais VARCHAR(100),
     provincia VARCHAR(100),
     ciudad VARCHAR(100),
-    barrio VARCHAR(100)
 );
 
 

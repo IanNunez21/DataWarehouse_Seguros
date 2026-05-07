@@ -348,3 +348,32 @@ def limpiar_y_transformar_partes():
 
     # 9. Guardar tabla validada en staging y Exportación CSV
     return guardar_datos_curados(df, "val_partes_validados")
+
+def limpiar_y_transformar_garantias():
+    log.info("═══ Transformando Garantías ═══")
+    
+    # 1. Extracción desde Staging
+    df = pd.read_sql("SELECT * FROM garantias", engine_staging)
+    total_inicial = len(df)
+
+    # 2. Limpieza de datos (Filtros y Nulos)
+    df = df[df['activa'].astype(str).str.strip().str.lower().isin(['true', '1'])].copy()
+    df.drop(columns=['activa'], inplace=True)
+    
+    df = limpiar_ids(df, columnas_id='id_poliza', columnas_dropna=['id_poliza', 'tipo_garantia', 'suma_garantizada'])
+    df = df.drop_duplicates(keep='last')
+
+    # 3. Conversión de tipos y normalización
+    df = limpiar_numericos(df, 'suma_garantizada')
+    df['tipo_garantia'] = df['tipo_garantia'].str.strip().str.capitalize()
+
+    # 4. Verificación de constraints (suma_garantizada > 0)
+    invalidos = df[df['suma_garantizada'] <= 0]
+    if len(invalidos) > 0:
+        log.warning(f"  ⚠ Atención: Hay {len(invalidos)} garantías con suma <= 0. Serán omitidas.")
+        df = df[df['suma_garantizada'] > 0]
+
+    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    
+    # 5. Guardar tabla validada en Staging
+    return guardar_datos_curados(df, "val_garantias_validadas")
