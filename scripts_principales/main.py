@@ -13,7 +13,6 @@ def ejecutar_etl_inicial():
         ("Clientes", transformacion.limpiar_y_transformar_clientes),
         ("Agentes", transformacion.limpiar_y_transformar_agentes),
         ("Pólizas", transformacion.limpiar_y_transformar_polizas),
-        ("Auto Insurance", transformacion.limpiar_y_transformar_autoinsurance),
         ("Peritos", transformacion.limpiar_y_transformar_peritos),
         ("Objetos", transformacion.limpiar_y_transformar_objetos),
         ("Partes", transformacion.limpiar_y_transformar_partes),

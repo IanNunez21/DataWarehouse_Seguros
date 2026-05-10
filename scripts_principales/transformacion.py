@@ -28,7 +28,6 @@ def limpiar_y_transformar_clientes():
     # 5. Conversión de Fechas y Cálculo de Edad
     # Nos aseguramos de que sea datetime ANTES de calcular
     df = convertir_fechas(df, 'fecha_nacimiento')
-    df = df.dropna(subset=['fecha_nacimiento'])
 
     hoy = pd.Timestamp.now()
     # Usamos .dt.year que es la forma más rápida y limpia en Pandas
@@ -43,6 +42,28 @@ def limpiar_y_transformar_clientes():
         'F': 'F', 'FEMENINO': 'F', 'MUJER': 'F'
     }
     df['sexo'] = df['sexo'].astype(str).apply(normalizar_texto).map(mapeo_sexo).fillna('O')
+
+    def estandarizar_laboral(texto):
+        if pd.isna(texto) or str(texto).strip() == '':
+            return 'Other'
+        t = normalizar_texto(texto)
+        
+        # 1. Desempleado (incluye Disabled y sin trabajo)
+        if any(palabra in t for palabra in ['UNEMPLOY', 'DESEMPL', 'SIN TRAB', 'DISABL', 'INACTIV']):
+            return 'Desempleado'
+        # 2. Jubilado
+        elif any(palabra in t for palabra in ['RETIRE', 'JUB']):
+            return 'Jubilado'
+        # 3. Licencia Médica
+        elif any(palabra in t for palabra in ['MEDIC', 'LICENCIA', 'LEAVE']):
+            return 'Licencia medica'
+        # 4. Empleado (atrapa Employed, Self-Employed, empleado, emp., activo)
+        elif any(palabra in t for palabra in ['EMP', 'ACTIV']):
+            return 'Empleado'
+        else:
+            return 'Other'
+
+    df['situacion_laboral'] = df['situacion_laboral'].apply(estandarizar_laboral)
 
     # 7. Segmentación
     df['segmento_persona'] = df['edad'].apply(
@@ -97,72 +118,9 @@ def limpiar_y_transformar_polizas():
     # 8. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_polizas_validadas")
 
-def limpiar_y_transformar_autoinsurance():
-    log.info("═══ Transformando AutoInsurance ═══")
-    
-    # 1. Extracción desde Staging
-    df_auto = pd.read_sql("SELECT * FROM autoinsurance", engine_staging)
-    total_inicial = len(df_auto)
-    
-    # 2. Limpieza de Texto (Demográficos y del Vehículo)
-    cols_texto = [
-        'response', 'coverage', 'education', 'employmentstatus', 
-        'gender', 'location_code', 'marital_status', 'vehicle_class', 'vehicle_size'
-    ]
-    df_auto = normalizar_columnas_texto(df_auto, cols_texto)
-        
-    # 3. Limpieza de Fechas
-    df_auto = convertir_fechas(df_auto, 'effective_to_date', formato='%m/%d/%y')
-    
-    # 4. CRUCE Y VALIDACIÓN REFERENCIAL (El "truco" matemático)
-    try:
-        # Traemos nuestras pólizas validadas para usarlas de puente
-        df_polizas = pd.read_sql("SELECT id_poliza, id_cliente, customer_lifetime_value, prima_mensual FROM val_polizas_validadas", engine_staging)
-        
-        # Preparamos las llaves de cruce: redondeamos CLV para evitar errores de coma flotante
-        df_auto['join_clv'] = df_auto['customer_lifetime_value'].round(2)
-        df_polizas['join_clv'] = df_polizas['customer_lifetime_value'].round(2)
-        
-        # Ajustamos la escala de la prima (Claude la multiplicó por 100 en el CSV de pólizas)
-        df_auto['join_premium'] = (df_auto['monthly_premium_auto'] * 100).astype(float)
-        df_polizas['join_premium'] = df_polizas['prima_mensual'].astype(float)
-        
-        # Hacemos el Inner Join para heredar el id_cliente y el id_poliza reales
-        df_cruce = df_auto.merge(df_polizas, on=['join_clv', 'join_premium'], how='inner')
-        
-        # Eliminamos duplicados por si acaso dos clientes tienen el mismo CLV y prima exacta
-        df_cruce = df_cruce.drop_duplicates(subset=['customer'], keep='first')
-        
-        # Limpiamos la basura del cruce
-        df_cruce = df_cruce.drop(columns=['join_clv', 'join_premium', 'customer_lifetime_value_y', 'prima_mensual'])
-        df_cruce = df_cruce.rename(columns={'customer_lifetime_value_x': 'customer_lifetime_value'})
-        
-        # 5. Validación final de Integridad Referencial
-        # Aseguramos que tanto el id_cliente como el id_poliza existan en las tablas validadas
-        val_clientes = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
-        val_polizas = pd.read_sql("SELECT id_poliza FROM val_polizas_validadas", engine_staging)
-        
-        df = df_cruce[df_cruce['id_cliente'].isin(val_clientes['id_cliente']) & df_cruce['id_poliza'].isin(val_polizas['id_poliza'])]
-        
-    except Exception as e:
-        log.warning(f"  ⚠ Error en el cruce relacional: {e}. Se guardará sin mapeo de IDs.")
-        df = df_auto
-
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
-
-    # 6. Volcado a Staging y Exportación CSV
-    df = guardar_datos_curados(df, "val_autoinsurance_validadas")
-    
-    # LAS VALIDADAS NO SE DAN POR ID, SINO POR PRIMA Y Customer Lifetime Value, SE AGREGA id_cliente A LA TABLA DE VALIDADOS
-    #Ejemplo 1: El Cliente QZ44356
-    # En tu tabla final, este cliente quedó asociado a CLI-00002 y a la póliza POL-000002. Si miramos los archivos crudos, vemos por qué:
-    # En AutoInsurance: El Customer QZ44356 tenía un CLV de 6979.535 y una prima de 94.
-    # En Pólizas: La póliza POL-000002 tenía un CLV de 6979.54 (redondeado) y una prima de 9400.0.
-    # Resultado: El script detectó la coincidencia numérica, "absorbió" el ID de tu Data Warehouse y unió toda la información en una sola fila.
-    return df
 
 def limpiar_y_transformar_evaluaciones():
-    log.info("═══ Transformando Evaluaciones de Peritos ═══")
+    log.info("═══ Transformando Evaluaciones ═══")
     
     # 1. Extracción desde Staging (Datos Crudos)
     df = pd.read_sql("SELECT * FROM evaluaciones", engine_staging)
@@ -210,10 +168,7 @@ def limpiar_y_transformar_peritos():
     # 2. Integridad de ID
     df = limpiar_ids(df, columnas_id='id_perito', id_principal='id_perito')
 
-    # 3. Filtro: Solo peritos activos
-    df = df[df['activo'].astype(str).str.strip().isin(['1', 'True', 'true', 'TRUE'])]
-
-    # 4. Normalizar y crear nombre_completo (conservando nombre y apellido)
+    # 3. Normalizar y crear nombre_completo (conservando nombre y apellido)
     df = normalizar_columnas_texto(df, ['nombre', 'apellido'])
     df = crear_nombre_completo(df)
     

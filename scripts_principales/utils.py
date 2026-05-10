@@ -28,9 +28,20 @@ def validar_geografia(df, ruta_maestro=None):
         df_maestro = pd.read_csv(ruta_maestro)
         df_maestro = normalizar_columnas_texto(df_maestro, ['provincia', 'localidad'])
         
-        df = normalizar_columnas_texto(df, ['provincia', 'localidad'])
-
-        df = df.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
+        # Identificamos si hay nulos (o cadenas vacías) antes de normalizar
+        es_nulo = df['provincia'].isna() | df['localidad'].isna() | (df['provincia'] == '') | (df['localidad'] == '')
+        
+        # Separamos los nulos para no perderlos en el inner join
+        df_nulos = df[es_nulo].copy()
+        df_no_nulos = df[~es_nulo].copy()
+        
+        # Solo normalizamos y cruzamos los que sí tienen datos geográficos
+        if not df_no_nulos.empty:
+            df_no_nulos = normalizar_columnas_texto(df_no_nulos, ['provincia', 'localidad'])
+            df_no_nulos = df_no_nulos.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
+            
+        # Unimos los que hicieron match con los que originalmente eran nulos
+        df = pd.concat([df_no_nulos, df_nulos], ignore_index=True)
         
     except FileNotFoundError:
         log.warning("  ⚠ Maestro no encontrado en la ruta. Se omite validación geo profunda.")
