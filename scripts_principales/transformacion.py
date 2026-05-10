@@ -25,7 +25,7 @@ def limpiar_y_transformar_clientes():
 
     # 4. VALIDACIÓN GEOGRÁFICA: Cruce contra el Maestro CSV
     df = validar_geografia(df)
-# 6. Conversión de Fechas y Cálculo de Edad
+    # 5. Conversión de Fechas y Cálculo de Edad
     # Nos aseguramos de que sea datetime ANTES de calcular
     df = convertir_fechas(df, 'fecha_nacimiento')
     df = df.dropna(subset=['fecha_nacimiento'])
@@ -34,7 +34,7 @@ def limpiar_y_transformar_clientes():
     # Usamos .dt.year que es la forma más rápida y limpia en Pandas
     df['edad'] = hoy.year - df['fecha_nacimiento'].dt.year
 
-    # 7. Reglas de Negocio (Rango etario y Sexo)
+    # 6. Reglas de Negocio (Rango etario y Sexo)
     # Ahora 'edad' es un número entero y esta comparación no fallará
     df = df[(df['edad'] >= 18) & (df['edad'] <= 100)]
     
@@ -44,14 +44,14 @@ def limpiar_y_transformar_clientes():
     }
     df['sexo'] = df['sexo'].astype(str).apply(normalizar_texto).map(mapeo_sexo).fillna('O')
 
-    # 8. Segmentación
+    # 7. Segmentación
     df['segmento_persona'] = df['edad'].apply(
         lambda e: 'Joven' if e < 35 else ('Mayor' if e >= 60 else 'Adulto')
     )
 
     log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 9. Volcado a Staging y Exportación CSV
+    # 8. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_clientes_validados")
 
 def limpiar_y_transformar_polizas():
@@ -137,10 +137,12 @@ def limpiar_y_transformar_autoinsurance():
         df_cruce = df_cruce.drop(columns=['join_clv', 'join_premium', 'customer_lifetime_value_y', 'prima_mensual'])
         df_cruce = df_cruce.rename(columns={'customer_lifetime_value_x': 'customer_lifetime_value'})
         
-        # 5. Validación final contra Clientes (Supervivencia Geográfica)
-        # Si el cliente fue borrado por localidad falsa, borramos su info de auto también
-        df_clientes = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
-        df = df_cruce.merge(df_clientes, on='id_cliente', how='inner')
+        # 5. Validación final de Integridad Referencial
+        # Aseguramos que tanto el id_cliente como el id_poliza existan en las tablas validadas
+        val_clientes = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
+        val_polizas = pd.read_sql("SELECT id_poliza FROM val_polizas_validadas", engine_staging)
+        
+        df = df_cruce[df_cruce['id_cliente'].isin(val_clientes['id_cliente']) & df_cruce['id_poliza'].isin(val_polizas['id_poliza'])]
         
     except Exception as e:
         log.warning(f"  ⚠ Error en el cruce relacional: {e}. Se guardará sin mapeo de IDs.")
@@ -448,8 +450,15 @@ def limpiar_y_transformar_indicadores_fraude():
           .agg(fraude_flag=('confirmado_fraude', 'any'))
     )
 
-    # 4. Log solicitado
+    # 4. Integridad Referencial: Solo partes de accidentes válidos
+    try:
+        val_partes = pd.read_sql("SELECT id_parte FROM val_partes_validados", engine_staging)
+        df_consolidado = df_consolidado[df_consolidado['id_parte'].isin(val_partes['id_parte'])]
+    except Exception as e:
+        log.warning(f"  ⚠ No se pudo cruzar con val_partes_validados para integridad referencial: {e}")
+
+    # 5. Log solicitado
     log.info(f"  ✔ Registros procesados correctamente: {len(df_consolidado)} de {total_inicial}")
 
-    # 5. Volcado a MySQL
+    # 6. Volcado a MySQL
     return guardar_datos_curados(df_consolidado, "val_indicadores_fraude_validados")
