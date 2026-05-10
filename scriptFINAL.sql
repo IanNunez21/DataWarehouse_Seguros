@@ -12,7 +12,7 @@ CREATE TABLE Dim_Ubicacion (
 
 CREATE TABLE Dim_Personas (
     id_persona_sk INT AUTO_INCREMENT PRIMARY KEY,
-    id_persona INT,
+    id_persona VARCHAR(20),
     id_ubicacion_fk INT,
     ocupacion VARCHAR (40),
     segmento_persona ENUM('Joven', 'Adulto', 'Mayor') NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE Dim_Personas (
 
 CREATE TABLE Dim_Objeto (
     id_objeto_sk INT AUTO_INCREMENT PRIMARY KEY,
-    id_objeto INT,
+    id_objeto VARCHAR(20),
     tipo_objeto VARCHAR(50),
     valor_objeto DECIMAL(12,2)
 );
@@ -36,7 +36,7 @@ CREATE TABLE Dim_Objeto (
 
 CREATE TABLE Dim_Agente (
     id_agente_sk INT AUTO_INCREMENT PRIMARY KEY,
-    id_agente INT,
+    id_agente VARCHAR(20),
     nombre_agente VARCHAR(100)
 );
 
@@ -48,7 +48,7 @@ CREATE TABLE Dim_Tipo_Seguro (
 
 
 CREATE TABLE Dim_Tiempo (
-    id_tiempo_sk INT PRIMARY KEY,
+    id_tiempo_sk INT AUTO_INCREMENT PRIMARY KEY,
     Dia INT,
     Mes INT,
     Anio INT,
@@ -58,7 +58,7 @@ CREATE TABLE Dim_Tiempo (
 
 CREATE TABLE Dim_Perito (
     id_perito_sk INT AUTO_INCREMENT PRIMARY KEY, -- Clave subrogada
-    id_perito INT,
+    id_perito VARCHAR(20),
     Nombre_Perito VARCHAR(100)
 );
 
@@ -71,7 +71,7 @@ CREATE TABLE Dim_TipoSiniestro (
 
 CREATE TABLE Fact_Poliza (
     id_poliza_sk INT AUTO_INCREMENT PRIMARY KEY,
-    id_poliza INT,
+    id_poliza VARCHAR(20),
     id_persona_tomador_sk INT NOT NULL,
     id_persona_receptor_sk INT NOT NULL,
     id_fecha_venta_sk INT NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE Fact_Poliza (
 CREATE TABLE Fact_Siniestro (
     -- Clave Subrogada (PK)
     SiniestroKey INT AUTO_INCREMENT PRIMARY KEY,
-    id_siniestro INT,
+    id_siniestro VARCHAR(20),
     id_poliza_sk INT NOT NULL,
     FechaAperturaKey INT NOT NULL,
     FechaCierreKey INT NOT NULL,
