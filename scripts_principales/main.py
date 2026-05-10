@@ -7,21 +7,31 @@ log = logging.getLogger(__name__)
 
 def ejecutar_etl_inicial():
     log.info("INICIANDO PIPELINE ETL SEGUROS")
-    # Tarea 1: Carga cruda
-    #staging.cargar_staging_area() ESTO ESTA COMENTADO PARA NO CARGAR STAGING DE NUEVO 
-    # CADA RATO NOMAS, DESPUES SACARLO COMO COMENTARIO
-    
-    # Tarea 2: Limpieza y Transformación
-    df_clientes_limpios = transformacion.limpiar_y_transformar_clientes()
-    df_polizas_limpias = transformacion.limpiar_y_transformar_polizas()
-    df_auto = transformacion.limpiar_y_transformar_autoinsurance()
-    df_evaluaciones = transformacion.limpiar_y_transformar_evaluaciones()
-    df_perito = transformacion.limpiar_y_transformar_peritos()
-    df_pagos = transformacion.limpiar_y_transformar_pagos()
-    df_objetos = transformacion.limpiar_y_transformar_objetos()
-    df_agentes = transformacion.limpiar_y_transformar_agentes()
-    df_partes = transformacion.limpiar_y_transformar_partes()
-    df_garantias = transformacion.limpiar_y_transformar_garantias()
+
+    # Lista de tareas para poder iterar o controlar errores individualmente
+    tareas = [
+        ("Clientes", transformacion.limpiar_y_transformar_clientes),
+        ("Pólizas", transformacion.limpiar_y_transformar_polizas),
+        ("Auto Insurance", transformacion.limpiar_y_transformar_autoinsurance),
+        ("Evaluaciones", transformacion.limpiar_y_transformar_evaluaciones),
+        ("Peritos", transformacion.limpiar_y_transformar_peritos),
+        ("Pagos", transformacion.limpiar_y_transformar_pagos),
+        ("Objetos", transformacion.limpiar_y_transformar_objetos),
+        ("Agentes", transformacion.limpiar_y_transformar_agentes),
+        ("Partes", transformacion.limpiar_y_transformar_partes),
+        ("Garantías", transformacion.limpiar_y_transformar_garantias),
+        ("Indicadores Fraude", transformacion.limpiar_y_transformar_indicadores_fraude),
+    ]
+
+    for nombre, funcion in tareas:
+        try:
+            log.info(f"--- Procesando: {nombre} ---")
+            funcion() # Ejecuta la transformación
+        except Exception as e:
+            log.error(f"❌ Error en la transformación de {nombre}: {e}")
+            # Opcional: raise e (si quieres que el proceso se detenga ante cualquier error)
+
+    log.info("✅ PIPELINE FINALIZADO")
     
     # Tarea 3: Aquí iría la carga de tabla de hechos
     #log.info("\n--- Próximo paso: Carga de Dimensiones con Surrogate Keys ---")

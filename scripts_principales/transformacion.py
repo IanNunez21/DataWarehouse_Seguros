@@ -377,3 +377,27 @@ def limpiar_y_transformar_garantias():
     
     # 5. Guardar tabla validada en Staging
     return guardar_datos_curados(df, "val_garantias_validadas")
+
+def limpiar_y_transformar_indicadores_fraude():
+    log.info("═══ Transformando Indicadores de Fraude ═══")
+
+    # 1. Extracción
+    df = pd.read_sql("SELECT id_parte, confirmado_fraude FROM indicadores", engine_staging)
+    total_inicial = len(df)
+
+    # 2. Conversión necesaria para que 'any' funcione
+    # Convertimos a booleano real: True si es '1' o 'true'
+    df['confirmado_fraude'] = df['confirmado_fraude'].astype(str).str.strip().str.lower().isin(['true', '1'])
+
+    # 3. Consolidación: Solo id_parte y el flag
+    # Si al menos un registro de ese id_parte es True, fraude_flag será True
+    df_consolidado = (
+        df.groupby('id_parte', as_index=False)
+          .agg(fraude_flag=('confirmado_fraude', 'any'))
+    )
+
+    # 4. Log solicitado
+    log.info(f"  ✔ Registros procesados correctamente: {len(df_consolidado)} de {total_inicial}")
+
+    # 5. Volcado a MySQL
+    return guardar_datos_curados(df_consolidado, "val_indicadores_fraude_validados")
