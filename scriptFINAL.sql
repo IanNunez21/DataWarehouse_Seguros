@@ -6,7 +6,7 @@ CREATE TABLE Dim_Ubicacion (
     id_ubicacion_sk INT AUTO_INCREMENT PRIMARY KEY,
     pais VARCHAR(100),
     provincia VARCHAR(100),
-    ciudad VARCHAR(100),
+    ciudad VARCHAR(100)
 );
 
 
@@ -102,6 +102,7 @@ CREATE TABLE Fact_Siniestro (
     PeritoKey INT NOT NULL,   -- Apunta a Dim_Personas o Dim_Perito
     TipoSiniestroKey INT,   -- Apunta a Dim_TipoSiniestro (descripción del hecho)
     UbicacionKey INT NOT NULL, -- Apunta a Dim_Ubicacion
+    Fraude_flag BOOLEAN DEFAULT 0, -- 0 significa que no es fraude
    
     monto_declarado DECIMAL(12,2) NOT NULL,
     monto_evaluado DECIMAL(12,2) NOT NULL,
