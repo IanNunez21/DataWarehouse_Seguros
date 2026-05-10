@@ -13,12 +13,12 @@ def ejecutar_etl_inicial():
         ("Clientes", transformacion.limpiar_y_transformar_clientes),
         ("Pólizas", transformacion.limpiar_y_transformar_polizas),
         ("Auto Insurance", transformacion.limpiar_y_transformar_autoinsurance),
-        ("Evaluaciones", transformacion.limpiar_y_transformar_evaluaciones),
         ("Peritos", transformacion.limpiar_y_transformar_peritos),
         ("Pagos", transformacion.limpiar_y_transformar_pagos),
         ("Objetos", transformacion.limpiar_y_transformar_objetos),
         ("Agentes", transformacion.limpiar_y_transformar_agentes),
         ("Partes", transformacion.limpiar_y_transformar_partes),
+        ("Evaluaciones", transformacion.limpiar_y_transformar_evaluaciones),
         ("Garantías", transformacion.limpiar_y_transformar_garantias),
         ("Indicadores Fraude", transformacion.limpiar_y_transformar_indicadores_fraude),
     ]

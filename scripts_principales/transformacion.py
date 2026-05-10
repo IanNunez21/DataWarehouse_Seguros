@@ -185,9 +185,18 @@ def limpiar_y_transformar_evaluaciones():
     # Nos aseguramos de que 'requiere_reinspeccion' sea interpretado correctamente por MySQL
     df['requiere_reinspeccion'] = df['requiere_reinspeccion'].astype(bool)
     
+    # 7. Integridad Referencial: Solo partes de accidente y peritos válidos
+    try:
+        val_partes = pd.read_sql("SELECT id_parte FROM val_partes_validados", engine_staging)
+        val_peritos = pd.read_sql("SELECT id_perito FROM val_peritos_validados", engine_staging)
+        
+        df = df[df['id_parte'].isin(val_partes['id_parte']) & df['id_perito'].isin(val_peritos['id_perito'])]
+    except Exception as e:
+        log.warning(f"  ⚠ No se pudo validar la integridad referencial con Partes o Peritos: {e}")
+
     log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 7. Volcado a Staging y Exportación CSV
+    # 8. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_evaluaciones_validadas")
 
 def limpiar_y_transformar_peritos():
@@ -263,9 +272,16 @@ def limpiar_y_transformar_objetos():
     df = limpiar_numericos(df, ['valor_asegurado', 'valor_inmueble', 'superficie_m2'])
     df = limpiar_numericos(df, ['año_fabricacion', 'año_construccion'], valor_defecto=0)
 
+    # 5. Integridad Referencial: Solo objetos asociados a pólizas validadas
+    try:
+        val_polizas = pd.read_sql("SELECT id_objeto_asegurado FROM val_polizas_validadas", engine_staging)
+        df = df[df['id_objeto'].isin(val_polizas['id_objeto_asegurado'])]
+    except Exception as e:
+        log.warning(f"  ⚠ No se pudo cruzar con val_polizas_validadas para integridad referencial: {e}")
+
     log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 5. Volcado a Staging y Exportación CSV
+    # 6. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_objetos_validados")
 
 def limpiar_y_transformar_agentes():
@@ -344,6 +360,25 @@ def limpiar_y_transformar_partes():
     columnas_texto = ["tipo_siniestro", "estado", "tipo_seguro"]
     df = normalizar_columnas_texto(df, columnas_texto)
 
+    # 8. Integridad Referencial (Cruce con tablas curadas)
+    try:
+        df_polizas = pd.read_sql("SELECT id_poliza FROM val_polizas_validadas", engine_staging)
+        df_clientes = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
+        df_peritos = pd.read_sql("SELECT id_perito FROM val_peritos_validados", engine_staging)
+        df_objetos = pd.read_sql("SELECT id_objeto FROM val_objetos_validados", engine_staging)
+
+        # Manejo de nulos que fueron pasados a string en la limpieza de IDs
+        nulos_str = ['nan', 'None', '', '<NA>', 'NaN']
+
+        df = df[df['id_poliza'].isin(df_polizas['id_poliza']) | df['id_poliza'].isin(nulos_str)]
+        df = df[df['id_denunciante'].isin(df_clientes['id_cliente']) | df['id_denunciante'].isin(nulos_str)]
+        df = df[df['id_receptor_pago'].isin(df_clientes['id_cliente']) | df['id_receptor_pago'].isin(nulos_str)]
+        df = df[df['id_perito'].isin(df_peritos['id_perito']) | df['id_perito'].isin(nulos_str)]
+        df = df[df['id_objeto_asegurado'].isin(df_objetos['id_objeto']) | df['id_objeto_asegurado'].isin(nulos_str)]
+
+    except Exception as e:
+        log.warning(f"  ⚠ Advertencia en validación referencial de Partes: {e}")
+
     log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
     # 9. Guardar tabla validada en staging y Exportación CSV
@@ -366,6 +401,14 @@ def limpiar_y_transformar_garantias():
     # 3. Conversión de tipos y normalización
     df = limpiar_numericos(df, 'suma_garantizada')
     df['tipo_garantia'] = df['tipo_garantia'].str.strip().str.capitalize()
+
+    # 4. Integridad Referencial
+    try:
+        df_polizas = pd.read_sql("SELECT id_poliza FROM val_polizas_validadas", engine_staging)
+        nulos_str = ['nan', 'None', '', '<NA>', 'NaN']
+        df = df[df['id_poliza'].isin(df_polizas['id_poliza']) | df['id_poliza'].isin(nulos_str)]
+    except Exception as e:
+        log.warning(f"  ⚠ Advertencia en validación referencial de Garantías: {e}")
 
     # 4. Verificación de constraints (suma_garantizada > 0)
     invalidos = df[df['suma_garantizada'] <= 0]
