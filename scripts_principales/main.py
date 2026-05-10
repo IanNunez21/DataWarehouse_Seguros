@@ -10,7 +10,7 @@ def ejecutar_etl_inicial():
     log.info("INICIANDO PIPELINE ETL SEGUROS")
 
     # ── PASO 1: Staging (carga cruda) ────────────────────────────────────────
-    staging.cargar_staging_area()
+    # staging.cargar_staging_area()
 
     # ── PASO 2: Transformación y validación ───────────────────────────────────
     tareas_transformacion = [
