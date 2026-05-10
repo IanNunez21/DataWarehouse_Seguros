@@ -160,11 +160,11 @@ def cargar_dim_tiposiniestro():
  
     log.info(f"  ✔ dim_tiposiniestro cargada: {len(df_dim)} tipos únicos")
 
-    BASURA = {"-", ".", "..", "000", "999", "?", "n/d", "s/d", "test", "xxx", "pendiente"}
 
 
 def _limpiar(serie: pd.Series) -> pd.Series:
     """Quita espacios, tabs, caracteres invisibles, puntos finales y valores basura."""
+    BASURA = {"-", ".", "..", "000", "999", "?", "n/d", "s/d", "test", "xxx", "pendiente"}
     limpio = (
         serie
         .astype(str)
