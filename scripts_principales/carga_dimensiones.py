@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
  
 def cargar_dim_agente():
     log.info("═══ Cargando dim_agente ═══")
- 
+    
     # 1. Leer la tabla validada desde staging
     df = pd.read_sql("SELECT * FROM val_agentes_validados", engine_staging)
     total = len(df)
