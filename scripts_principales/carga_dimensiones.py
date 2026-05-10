@@ -64,3 +64,30 @@ def cargar_dim_tiempo():
     )
  
     log.info(f"  ✔ dim_tiempo cargada: {len(df_dim)} días ({fecha_inicio.date()} → {fecha_fin.date()})")
+
+def cargar_dim_tiposiniestro():
+    log.info("═══ Cargando dim_tiposiniestro ═══")
+ 
+    # 1. Leer tipo_siniestro desde val_partes_validados
+    #    Es la única fuente que tiene los tipos de siniestro ya normalizados
+    df = pd.read_sql("SELECT tipo_siniestro FROM val_partes_validados", engine_staging)
+ 
+    # 2. Extraer valores únicos y descartar nulos
+    df_dim = (
+        df["tipo_siniestro"]
+        .dropna()
+        .str.strip()
+        .unique()
+    )
+    df_dim = pd.DataFrame({"Nombre_Siniestro": sorted(df_dim)})
+ 
+    # 3. Insertar en dim_tiposiniestro
+    #    id_tipo_siniestro_sk lo genera MySQL con AUTO_INCREMENT
+    df_dim.to_sql(
+        name="dim_tiposiniestro",
+        con=engine_dw,
+        if_exists="append",
+        index=False,
+    )
+ 
+    log.info(f"  ✔ dim_tiposiniestro cargada: {len(df_dim)} tipos únicos")

@@ -37,6 +37,7 @@ def ejecutar_etl_inicial():
     tareas_dimensiones = [
         ("dim_agente", carga_dimensiones.cargar_dim_agente),
         ("dim_tiempo",  carga_dimensiones.cargar_dim_tiempo),
+        ("dim_tiposiniestro", carga_dimensiones.cargar_dim_tiposiniestro),
     ]
 
     for nombre, funcion in tareas_dimensiones:
