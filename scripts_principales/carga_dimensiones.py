@@ -159,3 +159,93 @@ def cargar_dim_tiposiniestro():
     )
  
     log.info(f"  ✔ dim_tiposiniestro cargada: {len(df_dim)} tipos únicos")
+
+    BASURA = {"-", ".", "..", "000", "999", "?", "n/d", "s/d", "test", "xxx", "pendiente"}
+
+
+def _limpiar(serie: pd.Series) -> pd.Series:
+    """Quita espacios, tabs, caracteres invisibles, puntos finales y valores basura."""
+    limpio = (
+        serie
+        .astype(str)
+        .str.replace("\u200b", "", regex=False)  # zero-width space invisible
+        .str.replace(r"\t", "", regex=True)       # tabs incrustados
+        .str.strip()
+        .str.rstrip(".")                          # "Buenos Aires." → "Buenos Aires"
+        .str.strip()
+        .str.title()
+    )
+    return limpio.where(
+        ~limpio.str.lower().isin(BASURA | {"", "none", "nan"}),
+        other=None,
+    )
+
+
+def cargar_dim_ubicacion():
+    log.info("═══ Cargando dim_ubicacion ═══")
+
+    # 1. Leer las tablas validadas desde staging
+    clientes = pd.read_sql("SELECT pais, provincia, localidad FROM val_clientes_validados", engine_staging)
+    objetos  = pd.read_sql("SELECT provincia, localidad FROM val_objetos_asegurados_validados", engine_staging)
+    peritos  = pd.read_sql("SELECT zona_cobertura FROM val_peritos_validados", engine_staging)
+
+    total_filas = len(clientes) + len(objetos) + len(peritos)
+
+    # 2. Renombrar columnas al esquema de dim_ubicacion
+    ub_clientes = clientes.rename(columns={
+        "pais":      "Nombre_Pais",
+        "provincia": "Nombre_Provincia",
+        "localidad": "Nombre_Ciudad",
+    })
+
+    ub_objetos = objetos.rename(columns={
+        "provincia": "Nombre_Provincia",
+        "localidad": "Nombre_Ciudad",
+    })
+    ub_objetos["Nombre_Pais"] = None
+
+    ub_peritos = peritos.rename(columns={"zona_cobertura": "Nombre_Provincia"})
+    ub_peritos["Nombre_Pais"]   = None
+    ub_peritos["Nombre_Ciudad"] = None
+
+    # 3. Unir las tres fuentes
+    df_dim = pd.concat(
+        [ub_clientes, ub_objetos, ub_peritos],
+        ignore_index=True,
+    )[["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"]]
+
+    # 4. Limpiar cada columna
+    for col in ["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"]:
+        df_dim[col] = _limpiar(df_dim[col])
+
+    # 5. Deduplicar por la combinación de las tres columnas
+    df_dim = (
+        df_dim
+        .drop_duplicates(
+            subset=["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"],
+            keep="first",
+        )
+        .reset_index(drop=True)
+    )
+
+    # 6. Eliminar filas donde los tres campos sean nulos a la vez
+    df_dim = df_dim.dropna(
+        subset=["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"],
+        how="all",
+    )
+
+    # 7. Insertar en dim_ubicacion
+    #    id_ubicacion y UbicacionKey → generados por AUTO_INCREMENT en MySQL
+    #    if_exists="append" para no destruir registros existentes
+    #    index=False porque las SKs las genera MySQL
+    df_dim.to_sql(
+        name="dim_ubicacion",
+        con=engine_dw,
+        if_exists="append",
+        index=False,
+    )
+
+    log.info(
+        f"  ✔ dim_ubicacion cargada: {len(df_dim)} combinaciones únicas "
+        f"de {total_filas} filas fuente"
+    )
