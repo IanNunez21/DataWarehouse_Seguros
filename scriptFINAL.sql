@@ -49,6 +49,7 @@ CREATE TABLE Dim_Tipo_Seguro (
 
 CREATE TABLE Dim_Tiempo (
     id_tiempo_sk INT PRIMARY KEY,
+    id_tiempo INT,
     Dia INT,
     Mes INT,
     Anio INT,

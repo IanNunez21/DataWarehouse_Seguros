@@ -10,7 +10,7 @@ def ejecutar_etl_inicial():
     log.info("INICIANDO PIPELINE ETL SEGUROS")
 
     # ── PASO 1: Staging (carga cruda) ────────────────────────────────────────
-    # staging.cargar_staging_area()
+    #staging.cargar_staging_area()
 
     # ── PASO 2: Transformación y validación ───────────────────────────────────
     tareas_transformacion = [
@@ -36,6 +36,9 @@ def ejecutar_etl_inicial():
     # ── PASO 3: Carga al DW (dimensiones) ────────────────────────────────────
     tareas_dimensiones = [
         ("dim_agente", carga_dimensiones.cargar_dim_agente),
+        ("dim_perito", carga_dimensiones.cargar_dim_perito),
+        ("dim_objeto", carga_dimensiones.cargar_dim_objeto),
+        ("dim_tipo_seguro", carga_dimensiones.cargar_dim_tipo_seguro),
     ]
 
     for nombre, funcion in tareas_dimensiones:
