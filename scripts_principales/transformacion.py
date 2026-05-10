@@ -69,17 +69,16 @@ def limpiar_y_transformar_polizas():
     columnas_texto = ['tipo_seguro', 'cobertura', 'tipo_poliza', 'canal_venta', 'estado']
     df = normalizar_columnas_texto(df, columnas_texto)
         
-    # 4. VALIDACIÓN DE INTEGRIDAD REFERENCIAL (El equivalente al Maestro Geo)
-    # Solo nos quedamos con las pólizas cuyos clientes hayan sobrevivido al filtro geográfico
+    # 4. VALIDACIÓN DE INTEGRIDAD REFERENCIAL
+    # Solo nos quedamos con las pólizas cuyos clientes y agentes sean válidos
     try:
-        # Extraemos solo los IDs de la tabla de clientes limpios
-        df_clientes_validos = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
-        df_clientes_validos['id_cliente'] = df_clientes_validos['id_cliente'].astype(str).str.strip()
+        val_clientes = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
+        val_agentes = pd.read_sql("SELECT id_agente FROM val_agentes_validados", engine_staging)
         
-        # Inner join: mueren las pólizas de clientes filtrados previamente
-        df = df.merge(df_clientes_validos, on='id_cliente', how='inner')
+        # Filtrado todo en uno
+        df = df[df['id_cliente'].isin(val_clientes['id_cliente']) & df['id_agente'].isin(val_agentes['id_agente'])]
     except Exception as e:
-        log.warning("  ⚠ Tabla val_clientes_validados no encontrada. Se omite cruce relacional.")
+        log.warning(f"  ⚠ No se pudo validar la integridad referencial con Clientes o Agentes: {e}")
 
     # 5. Conversión de Fechas
     df = convertir_fechas(df, ['fecha_alta', 'vigencia_desde', 'vigencia_hasta'])
@@ -250,9 +249,19 @@ def limpiar_y_transformar_pagos():
         ]
     ]
 
+    # 5. Integridad Referencial: Pagos asociados a partes y clientes válidos
+    try:
+        val_partes = pd.read_sql("SELECT id_parte FROM val_partes_validados", engine_staging)
+        val_clientes = pd.read_sql("SELECT id_cliente FROM val_clientes_validados", engine_staging)
+        val_receptor = pd.read_sql("SELECT id_asegurado FROM val_polizas_validadas", engine_staging)
+        
+        df = df[df['id_parte'].isin(val_partes['id_parte']) & df['id_receptor'].isin(val_clientes['id_cliente']) & df['id_receptor'].isin(val_receptor['id_asegurado'])]
+    except Exception as e:
+        log.warning(f"  ⚠ No se pudo validar la integridad referencial con Partes o Clientes: {e}")
+
     log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 5. Volcado a Staging y Exportación CSV
+    # 6. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_pagos_validados")
 
 def limpiar_y_transformar_objetos():

@@ -11,14 +11,14 @@ def ejecutar_etl_inicial():
     # Lista de tareas para poder iterar o controlar errores individualmente
     tareas = [
         ("Clientes", transformacion.limpiar_y_transformar_clientes),
+        ("Agentes", transformacion.limpiar_y_transformar_agentes),
         ("Pólizas", transformacion.limpiar_y_transformar_polizas),
         ("Auto Insurance", transformacion.limpiar_y_transformar_autoinsurance),
         ("Peritos", transformacion.limpiar_y_transformar_peritos),
-        ("Pagos", transformacion.limpiar_y_transformar_pagos),
         ("Objetos", transformacion.limpiar_y_transformar_objetos),
-        ("Agentes", transformacion.limpiar_y_transformar_agentes),
         ("Partes", transformacion.limpiar_y_transformar_partes),
         ("Evaluaciones", transformacion.limpiar_y_transformar_evaluaciones),
+        ("Pagos", transformacion.limpiar_y_transformar_pagos),
         ("Garantías", transformacion.limpiar_y_transformar_garantias),
         ("Indicadores Fraude", transformacion.limpiar_y_transformar_indicadores_fraude),
     ]

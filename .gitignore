@@ -9,3 +9,5 @@ __pycache__/
 
 # Logs de ejecución
 etl_log.txt
+
+config.py
