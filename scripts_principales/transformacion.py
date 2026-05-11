@@ -107,15 +107,10 @@ def limpiar_y_transformar_polizas():
     # 6. Reglas de Negocio Numéricas (Limpieza de montos)
     columnas_numericas = ['prima_mensual', 'prima_total', 'customer_lifetime_value', 'numero_polizas_cliente', 'meses_desde_inicio']
     df = limpiar_numericos(df, columnas_numericas)
-        
-    # 7. Reglas de Negocio Específicas (Actualización de Estado)
-    # Si la fecha de vigencia_hasta ya pasó al día de hoy, forzamos el estado a 'VENCIDA'
-    hoy = pd.Timestamp.now()
-    df.loc[df['vigencia_hasta'] < hoy, 'estado'] = 'VENCIDA'
     
     log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 
-    # 8. Volcado a Staging y Exportación CSV
+    # 7. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_polizas_validadas")
 
 
