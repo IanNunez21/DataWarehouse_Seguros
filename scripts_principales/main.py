@@ -2,6 +2,7 @@ import staging
 import transformacion
 import carga_dimensiones
 import logging
+import carga_hechos
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -44,9 +45,20 @@ def ejecutar_etl_inicial():
         ("dim_ubicacion", carga_dimensiones.cargar_dim_ubicacion),
         ("dim_personas", carga_dimensiones.cargar_dim_personas),
     ]
+    tareas_hechos = [
+        ("fact_poliza", carga_hechos.cargar_fact_poliza),
+    ]
 
 
     for nombre, funcion in tareas_dimensiones:
+        try:
+            log.info(f"--- Cargando: {nombre} ---")
+            funcion()
+        except Exception as e:
+            log.error(f"❌ Error cargando {nombre}: {e}")
+    
+    # ── PASO 4: Carga al DW (hechos) ────────────────────────────────────────
+    for nombre, funcion in tareas_hechos:
         try:
             log.info(f"--- Cargando: {nombre} ---")
             funcion()

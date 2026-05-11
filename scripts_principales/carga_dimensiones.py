@@ -302,3 +302,4 @@ def cargar_dim_personas():
     )
 
     log.info(f"  ✔ dim_personas cargada: {len(df_dim)} clientes y {len(terceros) if not terceros.empty else 0} terceros ({len(df_dim_final)} total)")
+
