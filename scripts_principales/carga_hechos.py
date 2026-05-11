@@ -82,20 +82,20 @@ def cargar_fact_poliza():
 
     # --- dim_tiempo (fecha_alta → lookup por id_tiempo YYYYMMDD → id_tiempo_sk) ---
     log.info("  → Lookup dim_tiempo...")
-    dim_tiempo = pd.read_sql("SELECT id_tiempo_sk, id_tiempo FROM dim_tiempo", engine_dw)
-
-    df["id_tiempo_join"] = (
-        pd.to_datetime(df["fecha_alta"], errors="coerce")
-        .dt.strftime("%Y%m%d")
-        .astype("Int64")
+    dim_tiempo = pd.read_sql(
+        "SELECT id_tiempo_sk, Dia, Mes, Anio FROM dim_tiempo", engine_dw
     )
+
+    df["_dia"]  = pd.to_datetime(df["fecha_alta"], errors="coerce").dt.day
+    df["_mes"]  = pd.to_datetime(df["fecha_alta"], errors="coerce").dt.month
+    df["_anio"] = pd.to_datetime(df["fecha_alta"], errors="coerce").dt.year
+
     df = df.merge(
         dim_tiempo.rename(columns={"id_tiempo_sk": "id_fecha_venta_sk"}),
-        left_on="id_tiempo_join",
-        right_on="id_tiempo",
+        left_on=["_dia", "_mes", "_anio"],
+        right_on=["Dia", "Mes", "Anio"],
         how="left",
-    ).drop(columns=["id_tiempo_join", "id_tiempo"])
-    log.info(f"     ✔ id_fecha_venta_sk | nulos: {df['id_fecha_venta_sk'].isna().sum()}")
+    ).drop(columns=["_dia", "_mes", "_anio", "Dia", "Mes", "Anio"])
 
     # --- dim_persona para tomador y receptor (id_cliente) ---
     log.info("  → Lookup dim_personas...")
