@@ -26,12 +26,14 @@ def cargar_fact_poliza():
     # --- dim_agente ---
     log.info("  → Lookup dim_agente...")
     dim_agente = pd.read_sql("SELECT id_agente_sk, id_agente FROM dim_agente", engine_dw)
+    dim_agente = dim_agente.drop_duplicates(subset=['id_agente'])
     df = df.merge(dim_agente, on="id_agente", how="left")
     log.info(f"     ✔ id_agente_sk | nulos: {df['id_agente_sk'].isna().sum()}")
 
     # --- dim_objeto ---
     log.info("  → Lookup dim_objeto...")
     dim_objeto = pd.read_sql("SELECT id_objeto_sk, id_objeto FROM dim_objeto", engine_dw)
+    dim_objeto = dim_objeto.drop_duplicates(subset=['id_objeto'])
     df = df.merge(dim_objeto, left_on="id_objeto_asegurado", right_on="id_objeto", how="left")
     log.info(f"     ✔ id_objeto_sk | nulos: {df['id_objeto_sk'].isna().sum()}")
 
@@ -44,78 +46,78 @@ def cargar_fact_poliza():
     }
     df['categoria_plan'] = df['cobertura'].str.upper().map(mapeo_cobertura)
     dim_tipo_seguro = pd.read_sql("SELECT id_tipo_seguro_sk, categoria_plan FROM dim_tipo_seguro", engine_dw)
+    dim_tipo_seguro = dim_tipo_seguro.drop_duplicates(subset=['categoria_plan'])
     df = df.merge(dim_tipo_seguro, on="categoria_plan", how="left")
     log.info(f"     ✔ id_tipo_seguro_sk | nulos: {df['id_tipo_seguro_sk'].isna().sum()}")
 
    
-    # --- dim_ubicacion (via val_objetos_validados: provincia + localidad) ---
-    log.info("  → Lookup dim_ubicacion (via objetos)...")
-    objetos_ub = pd.read_sql(
-        "SELECT id_objeto, provincia, localidad FROM val_objetos_validados",
-        engine_staging,
+    # --- dim_ubicacion (Optimizado) ---
+    log.info("  → Optimizando lookup de dim_ubicacion...")
+    
+    # 1. Traer dimensiones y limpiar de una vez
+    dim_ub = pd.read_sql("SELECT id_ubicacion_sk, provincia, ciudad FROM dim_ubicacion", engine_dw)
+    
+    # Crear una llave única: "PROVINCIA|CIUDAD" para búsqueda rápida
+    dim_ub['lookup_key'] = (
+        dim_ub['provincia'].astype(str).str.strip().str.upper() + "|" + 
+        dim_ub['ciudad'].astype(str).str.strip().str.upper()
     )
-    dim_ubicacion = pd.read_sql(
-        "SELECT id_ubicacion_sk, provincia AS Nombre_Provincia, ciudad AS Nombre_Ciudad FROM dim_ubicacion",
-        engine_dw,
+    
+    # Crear el diccionario de búsqueda (esto es instantáneo en memoria)
+    dict_ub = dict(zip(dim_ub['lookup_key'], dim_ub['id_ubicacion_sk']))
+
+    # 2. Traer info de objetos desde staging
+    obj_ub = pd.read_sql("SELECT id_objeto, provincia, localidad FROM val_objetos_validados", engine_staging)
+    
+    # Crear la misma llave única en los objetos
+    obj_ub['lookup_key'] = (
+        obj_ub['provincia'].astype(str).str.strip().str.upper() + "|" + 
+        obj_ub['localidad'].astype(str).str.strip().str.upper()
     )
 
-    # Limpiar para hacer el join
-    for col in ["Nombre_Provincia", "Nombre_Ciudad"]:
-        dim_ubicacion[col] = dim_ubicacion[col].str.strip().str.title()
+    # 3. Mapear el SK a los objetos usando el diccionario
+    obj_ub['id_ubicacion_sk'] = obj_ub['lookup_key'].map(dict_ub)
 
-    objetos_ub = objetos_ub.rename(columns={
-        "provincia": "Nombre_Provincia",
-        "localidad": "Nombre_Ciudad",
-    })
-    for col in ["Nombre_Provincia", "Nombre_Ciudad"]:
-        objetos_ub[col] = objetos_ub[col].astype(str).str.strip().str.title()
+    # 4. Pasar el SK a la tabla principal 'df' mediante el id_objeto
+    # Usamos un mapeo de id_objeto -> id_ubicacion_sk
+    map_obj_to_ub = dict(zip(obj_ub['id_objeto'], obj_ub['id_ubicacion_sk']))
+    df['id_ubicacion_sk'] = df['id_objeto_asegurado'].map(map_obj_to_ub)
 
-    objetos_ub = objetos_ub.merge(dim_ubicacion, on=["Nombre_Provincia", "Nombre_Ciudad"], how="left")
-    log.info(f"     Objetos sin ubicacion_sk: {objetos_ub['id_ubicacion_sk'].isna().sum()} de {len(objetos_ub)}")
-    df = df.merge(
-        objetos_ub[["id_objeto", "id_ubicacion_sk"]],
-        left_on="id_objeto_asegurado",
-        right_on="id_objeto",
-        how="left",
-    )
     log.info(f"     ✔ id_ubicacion_sk | nulos: {df['id_ubicacion_sk'].isna().sum()}")
 
-    # --- dim_tiempo (fecha_alta → lookup por id_tiempo YYYYMMDD → id_tiempo_sk) ---
+    # --- dim_tiempo (Corrección de Formato) ---
     log.info("  → Lookup dim_tiempo...")
     dim_tiempo = pd.read_sql("SELECT id_tiempo_sk, id_tiempo FROM dim_tiempo", engine_dw)
-
+    dim_tiempo = dim_tiempo.drop_duplicates(subset=['id_tiempo'])
+    lookup_tiempo = dict(zip(dim_tiempo['id_tiempo'], dim_tiempo['id_tiempo_sk']))
+    
+    # Convertimos a datetime por si acaso vienen como strings
+    df['fecha_alta'] = pd.to_datetime(df['fecha_alta'], errors='coerce')
+    
+    # Transformamos: 2011-01-31 -> 20110131 (Integer)
     df["id_tiempo_join"] = (
-        pd.to_datetime(df["fecha_alta"], errors="coerce")
-        .dt.strftime("%Y%m%d")
-        .astype("Int64")
+        df["fecha_alta"].dt.strftime('%Y%m%d')
+        .fillna(0)
+        .astype(int)
     )
-    df = df.merge(
-        dim_tiempo.rename(columns={"id_tiempo_sk": "id_fecha_venta_sk"}),
-        left_on="id_tiempo_join",
-        right_on="id_tiempo",
-        how="left",
-    ).drop(columns=["id_tiempo_join", "id_tiempo"])
-    log.info(f"     ✔ id_fecha_venta_sk | nulos: {df['id_fecha_venta_sk'].isna().sum()}")
+    df["id_fecha_venta_sk"] = df["id_tiempo_join"].map(lookup_tiempo)
+    df = df.drop(columns=["id_tiempo_join"])
+    
+    # Si en tu DW el valor para fechas nulas es -1 o un ID específico, cámbialo:
+    # df["id_fecha_venta_sk"] = df["id_fecha_venta_sk"].replace(0, -1)
 
-    # --- dim_persona para tomador y receptor (id_cliente) ---
-    log.info("  → Lookup dim_personas...")
+    log.info(f"     ✔ id_fecha_venta_sk listo | Ejemplo: {df['id_fecha_venta_sk'].iloc[0]}")
+
+    # Crear un diccionario de búsqueda: {id_natural: id_surrogate}
+    log.info("  → Lookup dim_personas (Tomador y Receptor)...")
     dim_personas = pd.read_sql("SELECT id_persona_sk, id_persona FROM dim_personas", engine_dw)
+    dim_personas = dim_personas.drop_duplicates(subset=['id_persona'])
+    lookup_personas = dict(zip(dim_personas['id_persona'], dim_personas['id_persona_sk']))
 
-    df = df.merge(
-        dim_personas.rename(columns={"id_persona_sk": "id_persona_tomador_sk"}),
-        left_on="id_cliente",
-        right_on="id_persona",
-        how="left",
-    )
-    log.info(f"     ✔ id_persona_tomador_sk | nulos: {df['id_persona_tomador_sk'].isna().sum()}")
-    df = df.merge(
-        dim_personas.rename(columns={"id_persona_sk": "id_persona_receptor_sk"}),
-        left_on="id_asegurado",
-        right_on="id_persona",
-        how="left",
-        suffixes=("", "_receptor"),
-    )
-    log.info(f"     ✔ id_persona_receptor_sk | nulos: {df['id_persona_receptor_sk'].isna().sum()}")
+    df['id_persona_tomador_sk'] = df['id_cliente'].map(lookup_personas)
+    df['id_persona_receptor_sk'] = df['id_asegurado'].map(lookup_personas)
+
+    log.info(f"✔ Mapeo completado. Nulos Tomador: {df['id_persona_tomador_sk'].isna().sum()}")
 
     # 4. Seleccionar solo las columnas de fact_poliza
     df_fact = df[[
