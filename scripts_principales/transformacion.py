@@ -173,7 +173,7 @@ def limpiar_y_transformar_peritos():
     df = crear_nombre_completo(df)
     
     # Seleccionar columnas de interés
-    df = df[['id_perito', 'nombre', 'apellido', 'nombre_completo']]
+    df = df[['id_perito', 'nombre', 'apellido', 'nombre_completo', 'zona_cobertura']]
 
     log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
 

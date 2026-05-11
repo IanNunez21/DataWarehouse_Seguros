@@ -184,60 +184,38 @@ def _limpiar(serie: pd.Series) -> pd.Series:
 def cargar_dim_ubicacion():
     log.info("═══ Cargando dim_ubicacion ═══")
 
-    # 1. Leer las tablas validadas desde staging
+    # 1. Leer las dos fuentes con datos completos de ubicación.
+    #    Los peritos solo tienen zona_cobertura (provincia sin ciudad ni país),
+    #    no se incluyen porque generarían filas incompletas que no sirven como FK.
     clientes = pd.read_sql("SELECT pais, provincia, localidad FROM val_clientes_validados", engine_staging)
-    objetos  = pd.read_sql("SELECT provincia, localidad FROM val_objetos_asegurados_validados", engine_staging)
-    peritos  = pd.read_sql("SELECT zona_cobertura FROM val_peritos_validados", engine_staging)
+    objetos  = pd.read_sql("SELECT provincia, localidad FROM val_objetos_validados", engine_staging)
 
-    total_filas = len(clientes) + len(objetos) + len(peritos)
+    # 2. Normalizar ANTES del concat para que "  Buenos Aires  " y "Buenos Aires"
+    #    no generen dos filas distintas (el CSV de clientes tiene espacios extra).
+    for df in [clientes, objetos]:
+        for col in df.columns:
+            df[col] = _limpiar(df[col])
 
-    # 2. Renombrar columnas al esquema de dim_ubicacion
-    ub_clientes = clientes.rename(columns={
-        "pais":      "Nombre_Pais",
-        "provincia": "Nombre_Provincia",
-        "localidad": "Nombre_Ciudad",
-    })
+    # 3. Renombrar al esquema de dim_ubicacion y completar columnas faltantes
+    ub_clientes = clientes.rename(columns={"localidad": "ciudad"})
 
-    ub_objetos = objetos.rename(columns={
-        "provincia": "Nombre_Provincia",
-        "localidad": "Nombre_Ciudad",
-    })
-    ub_objetos["Nombre_Pais"] = None
+    ub_objetos = objetos.rename(columns={"localidad": "ciudad"})
+    ub_objetos["pais"] = "Argentina"   # todos los objetos son nacionales
 
-    ub_peritos = peritos.rename(columns={"zona_cobertura": "Nombre_Provincia"})
-    ub_peritos["Nombre_Pais"]   = None
-    ub_peritos["Nombre_Ciudad"] = None
-
-    # 3. Unir las tres fuentes
+    # 4. Concatenar y deduplicar
     df_dim = pd.concat(
-        [ub_clientes, ub_objetos, ub_peritos],
+        [ub_clientes, ub_objetos],
         ignore_index=True,
-    )[["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"]]
+    )[["pais", "provincia", "ciudad"]]
 
-    # 4. Limpiar cada columna
-    for col in ["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"]:
-        df_dim[col] = _limpiar(df_dim[col])
-
-    # 5. Deduplicar por la combinación de las tres columnas
     df_dim = (
         df_dim
-        .drop_duplicates(
-            subset=["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"],
-            keep="first",
-        )
+        .drop_duplicates(subset=["pais", "provincia", "ciudad"])
+        .dropna(subset=["provincia", "ciudad"])
         .reset_index(drop=True)
     )
 
-    # 6. Eliminar filas donde los tres campos sean nulos a la vez
-    df_dim = df_dim.dropna(
-        subset=["Nombre_Pais", "Nombre_Provincia", "Nombre_Ciudad"],
-        how="all",
-    )
-
-    # 7. Insertar en dim_ubicacion
-    #    id_ubicacion y UbicacionKey → generados por AUTO_INCREMENT en MySQL
-    #    if_exists="append" para no destruir registros existentes
-    #    index=False porque las SKs las genera MySQL
+    # 5. Insertar en dim_ubicacion
     df_dim.to_sql(
         name="dim_ubicacion",
         con=engine_dw,
@@ -245,7 +223,82 @@ def cargar_dim_ubicacion():
         index=False,
     )
 
-    log.info(
-        f"  ✔ dim_ubicacion cargada: {len(df_dim)} combinaciones únicas "
-        f"de {total_filas} filas fuente"
+    log.info(f"  ✔ dim_ubicacion cargada: {len(df_dim)} filas únicas")
+
+
+def cargar_dim_personas():
+    log.info("═══ Cargando dim_personas (Clientes + Terceros) ═══")
+
+    # --- 1. PROCESAR CLIENTES PROPIOS ---
+    df = pd.read_sql(
+        "SELECT id_cliente, segmento_persona, sexo, situacion_laboral FROM val_clientes_validados",
+        engine_staging
     )
+
+    df_dim = df.rename(columns={
+        "id_cliente":        "id_persona",
+        "segmento_persona":  "segmento_persona",
+        "sexo":              "sexo",
+        "situacion_laboral": "ocupacion",
+    }).copy()
+
+    df_dim["es_tercero"] = False
+    df_dim["fecha_desde"] = pd.Timestamp.today().normalize()
+    df_dim["fecha_hasta"] = None
+    df_dim["es_actual"]   = 1
+
+    # Resolver id_ubicacion_fk haciendo JOIN con dim_ubicacion
+    dim_ub = pd.read_sql("SELECT id_ubicacion_sk, provincia, ciudad FROM dim_ubicacion", engine_dw)
+    dim_ub["provincia"] = dim_ub["provincia"].str.strip().str.title()
+    dim_ub["ciudad"]    = dim_ub["ciudad"].str.strip().str.title()
+
+    df_clientes = pd.read_sql("SELECT id_cliente, provincia, localidad FROM val_clientes_validados", engine_staging)
+    df_clientes["provincia"] = df_clientes["provincia"].str.strip().str.title()
+    df_clientes["localidad"] = df_clientes["localidad"].str.strip().str.title()
+
+    df_clientes = df_clientes.merge(
+        dim_ub, left_on=["provincia", "localidad"], right_on=["provincia", "ciudad"], how="left"
+    )[["id_cliente", "id_ubicacion_sk"]]
+
+    df_dim = df_dim.merge(
+        df_clientes.rename(columns={"id_cliente": "id_persona"}), on="id_persona", how="left"
+    )
+    df_dim = df_dim.rename(columns={"id_ubicacion_sk": "id_ubicacion_fk"})
+
+    # --- 2. PROCESAR TERCEROS ---
+    partes = pd.read_sql("SELECT DISTINCT id_receptor_pago FROM val_partes_validados", engine_staging)
+    
+    # Nos aseguramos de no duplicar si el script se vuelve a correr
+    try:
+        personas_db = pd.read_sql("SELECT id_persona FROM dim_personas", engine_dw)
+        clientes_existentes = set(personas_db["id_persona"]).union(set(df_dim["id_persona"]))
+    except Exception:
+        clientes_existentes = set(df_dim["id_persona"])
+
+    terceros = partes[~partes["id_receptor_pago"].isin(clientes_existentes)].copy()
+    terceros = terceros.rename(columns={"id_receptor_pago": "id_persona"})
+
+    if not terceros.empty:
+        terceros["ocupacion"]        = None
+        terceros["segmento_persona"] = None
+        terceros["sexo"]             = None
+        terceros["id_ubicacion_fk"]  = None
+        terceros["es_tercero"]       = True
+        terceros["fecha_desde"]      = pd.Timestamp.today().normalize()
+        terceros["fecha_hasta"]      = None
+        terceros["es_actual"]        = 1
+        
+        # --- 3. UNIFICAR ---
+        df_dim_final = pd.concat([df_dim, terceros], ignore_index=True)
+    else:
+        df_dim_final = df_dim
+
+    # --- 4. INSERTAR EN LA BASE DE DATOS ---
+    df_dim_final.to_sql(
+        name="dim_personas",
+        con=engine_dw,
+        if_exists="append",
+        index=False,
+    )
+
+    log.info(f"  ✔ dim_personas cargada: {len(df_dim)} clientes y {len(terceros) if not terceros.empty else 0} terceros ({len(df_dim_final)} total)")
