@@ -9,7 +9,6 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
 def limpiar_y_transformar_clientes():
-    log.info("═══ Transformando Clientes ═══")
     
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM clientes", engine_staging)
@@ -76,7 +75,6 @@ def limpiar_y_transformar_clientes():
     return guardar_datos_curados(df, "val_clientes_validados")
 
 def limpiar_y_transformar_polizas():
-    log.info("═══ Transformando Pólizas ═══")
     
     # 1. Extracción desde Staging (Datos Crudos)
     df = pd.read_sql("SELECT * FROM polizas", engine_staging)
@@ -115,7 +113,6 @@ def limpiar_y_transformar_polizas():
 
 
 def limpiar_y_transformar_evaluaciones():
-    log.info("═══ Transformando Evaluaciones ═══")
     
     # 1. Extracción desde Staging (Datos Crudos)
     df = pd.read_sql("SELECT * FROM evaluaciones", engine_staging)
@@ -154,7 +151,6 @@ def limpiar_y_transformar_evaluaciones():
     return guardar_datos_curados(df, "val_evaluaciones_validadas")
 
 def limpiar_y_transformar_peritos():
-    log.info("═══ Transformando Peritos ═══")
     
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM peritos", engine_staging)
@@ -176,7 +172,6 @@ def limpiar_y_transformar_peritos():
     return guardar_datos_curados(df, "val_peritos_validados")
 
 def limpiar_y_transformar_pagos():
-    log.info("═══ Transformando Pagos ═══")
     
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM pagos", engine_staging)
@@ -217,7 +212,6 @@ def limpiar_y_transformar_pagos():
     return guardar_datos_curados(df, "val_pagos_validados")
 
 def limpiar_y_transformar_objetos():
-    log.info("═══ Transformando Objetos Asegurados ═══")
     
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM objetos", engine_staging)
@@ -246,7 +240,6 @@ def limpiar_y_transformar_objetos():
     return guardar_datos_curados(df, "val_objetos_validados")
 
 def limpiar_y_transformar_agentes():
-    log.info("═══ Transformando Agentes ═══")
 
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM agentes", engine_staging)
@@ -280,7 +273,6 @@ def limpiar_y_transformar_agentes():
     return guardar_datos_curados(df, "val_agentes_validados")
 
 def limpiar_y_transformar_partes():
-    log.info("═══ Transformando Partes de Accidente ═══")
 
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM partes", engine_staging)
@@ -346,7 +338,6 @@ def limpiar_y_transformar_partes():
     return guardar_datos_curados(df, "val_partes_validados")
 
 def limpiar_y_transformar_garantias():
-    log.info("═══ Transformando Garantías ═══")
     
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM garantias", engine_staging)
@@ -383,7 +374,6 @@ def limpiar_y_transformar_garantias():
     return guardar_datos_curados(df, "val_garantias_validadas")
 
 def limpiar_y_transformar_indicadores_fraude():
-    log.info("═══ Transformando Indicadores de Fraude ═══")
 
     # 1. Extracción
     df = pd.read_sql("SELECT id_parte, confirmado_fraude FROM indicadores", engine_staging)

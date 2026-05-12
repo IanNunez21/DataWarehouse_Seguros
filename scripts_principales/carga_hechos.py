@@ -7,7 +7,6 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
 def cargar_fact_poliza():
-    log.info("═══ Cargando fact_poliza ═══")
 
     # 1. Leer las tablas validadas desde staging
     df_pol = pd.read_sql("SELECT * FROM val_polizas_validadas", engine_staging)
@@ -137,7 +136,6 @@ def cargar_fact_poliza():
     log.info(f"  ✔ fact_poliza cargada: {len(df_fact)} registros de {total} validados")
 
 def cargar_fact_siniestro():
-    log.info("═══ Cargando fact_siniestro ═══")
  
     # ── 1. TABLA BASE: partes ────────────────────────────────────────────────
     log.info("  → Leyendo val_partes_validados...")

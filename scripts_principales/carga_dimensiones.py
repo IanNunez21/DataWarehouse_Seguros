@@ -9,7 +9,6 @@ log = logging.getLogger(__name__)
  
  
 def cargar_dim_agente():
-    log.info("═══ Cargando dim_agente ═══")
  
     # 1. Leer la tabla validada desde staging
     df = pd.read_sql("SELECT * FROM val_agentes_validados", engine_staging)
@@ -39,7 +38,6 @@ def cargar_dim_agente():
     log.info(f"  ✔ dim_agente: {len(df_dim)} registros nuevos (de {total} validados)")
  
 def cargar_dim_tiempo():
-    log.info("═══ Cargando dim_tiempo ═══")
  
     # 1. Rango definido por las fechas reales de negocio en los CSVs:
     #    - Más antigua útil: 2005-02-23 (fecha_ingreso agentes)
@@ -74,7 +72,6 @@ def cargar_dim_tiempo():
     log.info(f"  ✔ dim_tiempo: {len(df_dim)} fechas nuevas ({fecha_inicio.date()} → {fecha_fin.date()})")
 
 def cargar_dim_perito():
-    log.info("═══ Cargando dim_perito ═══")
  
     # 1. Leer la tabla validada desde staging
     df = pd.read_sql("SELECT * FROM val_peritos_validados", engine_staging)
@@ -100,7 +97,6 @@ def cargar_dim_perito():
 
 
 def cargar_dim_objeto():
-    log.info("═══ Cargando dim_objeto ═══")
  
     # 1. Leer la tabla validada desde staging
     df = pd.read_sql("SELECT * FROM val_objetos_validados", engine_staging)
@@ -125,7 +121,6 @@ def cargar_dim_objeto():
     log.info(f"  ✔ dim_objeto: {len(df_dim)} registros nuevos (de {total} validados)")
 
 def cargar_dim_tipo_seguro():
-    log.info("═══ Cargando dim_tipo_seguro ═══")
  
     # 1. Leer los valores únicos desde staging
     df = pd.read_sql("SELECT DISTINCT cobertura FROM val_polizas_validadas", engine_staging)
@@ -156,7 +151,6 @@ def cargar_dim_tipo_seguro():
     log.info(f"  ✔ dim_tipo_seguro: {len(df_dim)} registros nuevos")
 
 def cargar_dim_tiposiniestro():
-    log.info("═══ Cargando dim_tiposiniestro ═══")
  
     # 1. Leer tipo_siniestro desde val_partes_validados
     #    Es la única fuente que tiene los tipos de siniestro ya normalizados
@@ -208,7 +202,6 @@ def _limpiar(serie: pd.Series) -> pd.Series:
 
 
 def cargar_dim_ubicacion():
-    log.info("═══ Cargando dim_ubicacion ═══")
 
     # 1. Leer las dos fuentes con datos completos de ubicación.
     #    Los peritos solo tienen zona_cobertura (provincia sin ciudad ni país),
@@ -258,7 +251,6 @@ def cargar_dim_ubicacion():
 
 
 def cargar_dim_personas():
-    log.info("═══ Cargando dim_personas (Clientes + Terceros) ═══")
 
     # --- 1. PROCESAR CLIENTES PROPIOS ---
     df = pd.read_sql(
