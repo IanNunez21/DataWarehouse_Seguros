@@ -1,6 +1,7 @@
 import pandas as pd
 import logging
 from config import engine_staging, engine_dw
+from sqlalchemy import text
  
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -122,7 +123,9 @@ def cargar_fact_poliza():
     # 6. Insertar en fact_poliza
     #    id_poliza_sk → generada por AUTO_INCREMENT en MySQL
     with engine_dw.connect() as conn:
-        conn.execute("TRUNCATE TABLE fact_poliza")
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE fact_poliza"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
         conn.commit()
     df_fact.to_sql(
         name="fact_poliza",
@@ -340,7 +343,9 @@ def cargar_fact_siniestro():
     # ── 9. INSERTAR EN fact_siniestro ────────────────────────────────────────
     # SiniestroKey → AUTO_INCREMENT en MySQL, no se inserta
     with engine_dw.connect() as conn:
-            conn.execute("TRUNCATE TABLE fact_siniestro")
+            conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+            conn.execute(text("TRUNCATE TABLE fact_siniestro"))
+            conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
             conn.commit()
     df_fact.to_sql(
         name="fact_siniestro",

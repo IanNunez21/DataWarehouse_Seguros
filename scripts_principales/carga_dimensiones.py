@@ -1,6 +1,7 @@
 import pandas as pd
 import logging
 from config import engine_staging, engine_dw
+from sqlalchemy import text
  
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -23,6 +24,11 @@ def cargar_dim_agente():
     # 4. Insertar en dim_agente
     #    if_exists="append" para no destruir registros existentes.
     #    index=False porque la SK la genera MySQL con AUTO_INCREMENT.
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_agente"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim.to_sql(
         name="dim_agente",
         con=engine_dw,
@@ -54,6 +60,11 @@ def cargar_dim_tiempo():
     })
  
     # 3. Insertar en dim_tiempo
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_tiempo"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim.to_sql(
         name="dim_tiempo",
         con=engine_dw,
@@ -75,6 +86,11 @@ def cargar_dim_perito():
     df_dim = df_dim.rename(columns={"nombre_completo": "Nombre_Perito"})
  
     # 3. Insertar en dim_perito
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_perito"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim.to_sql(
         name="dim_perito",
         con=engine_dw,
@@ -97,6 +113,11 @@ def cargar_dim_objeto():
     df_dim = df_dim.rename(columns={"valor_asegurado": "valor_objeto"})
  
     # 3. Insertar en dim_objeto
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_objeto"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim.to_sql(
         name="dim_objeto",
         con=engine_dw,
@@ -124,6 +145,11 @@ def cargar_dim_tipo_seguro():
     df_dim = df[['categoria_plan']].dropna().copy()
  
     # 3. Insertar en dim_tipo_seguro
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_tipo_seguro"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim.to_sql(
         name="dim_tipo_seguro",
         con=engine_dw,
@@ -151,6 +177,11 @@ def cargar_dim_tiposiniestro():
  
     # 3. Insertar en dim_tiposiniestro
     #    id_tipo_siniestro_sk lo genera MySQL con AUTO_INCREMENT
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_tiposiniestro"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim.to_sql(
         name="dim_tiposiniestro",
         con=engine_dw,
@@ -216,6 +247,11 @@ def cargar_dim_ubicacion():
     )
 
     # 5. Insertar en dim_ubicacion
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_ubicacion"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim.to_sql(
         name="dim_ubicacion",
         con=engine_dw,
@@ -294,6 +330,11 @@ def cargar_dim_personas():
         df_dim_final = df_dim
 
     # --- 4. INSERTAR EN LA BASE DE DATOS ---
+    with engine_dw.connect() as conn:
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        conn.execute(text("TRUNCATE TABLE dim_personas"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
     df_dim_final.to_sql(
         name="dim_personas",
         con=engine_dw,

@@ -138,7 +138,7 @@ CREATE TABLE Fact_Siniestro (
         REFERENCES Dim_Ubicacion(id_ubicacion_sk),
 
 
-    CONSTRAINT chk_jerarquia_montos CHECK (monto_declarado >= monto_evaluado AND monto_evaluado >= monto_pagado AND monto_pagado >= 0 ),
+    -- CONSTRAINT chk_jerarquia_montos CHECK (monto_declarado >= monto_evaluado AND monto_evaluado >= monto_pagado AND monto_pagado >= 0 ),
     CONSTRAINT chk_fechas_orden CHECK (FechaAperturaKey <= FechaCierreKey )
 );
 

@@ -11,7 +11,7 @@ def ejecutar_etl_inicial():
     log.info("INICIANDO PIPELINE ETL SEGUROS")
 
     # ── PASO 1: Staging (carga cruda) ────────────────────────────────────────
-    #staging.cargar_staging_area()
+    staging.cargar_staging_area()
 
     # ── PASO 2: Transformación y validación ───────────────────────────────────
     tareas_transformacion = [
@@ -27,12 +27,12 @@ def ejecutar_etl_inicial():
          ("Indicadores Fraude", transformacion.limpiar_y_transformar_indicadores_fraude),
      ]
 
-    # for nombre, funcion in tareas_transformacion:
-    #      try:
-    #          log.info(f"--- Procesando: {nombre} ---")
-    #          funcion()
-    #      except Exception as e:
-    #          log.error(f"❌ Error en la transformación de {nombre}: {e}")
+    for nombre, funcion in tareas_transformacion:
+          try:
+              log.info(f"--- Procesando: {nombre} ---")
+              funcion()
+          except Exception as e:
+              log.error(f"❌ Error en la transformación de {nombre}: {e}")
 
     # ── PASO 3: Carga al DW (dimensiones) ────────────────────────────────────
     tareas_dimensiones = [
@@ -46,17 +46,17 @@ def ejecutar_etl_inicial():
         ("dim_personas", carga_dimensiones.cargar_dim_personas),
     ]
     tareas_hechos = [
-        # ("fact_poliza", carga_hechos.cargar_fact_poliza),
+        ("fact_poliza", carga_hechos.cargar_fact_poliza),
         ("fact_siniestro", carga_hechos.cargar_fact_siniestro)
     ]
 
 
-    # for nombre, funcion in tareas_dimensiones:
-    #     try:
-    #         log.info(f"--- Cargando: {nombre} ---")
-    #         funcion()
-    #     except Exception as e:
-    #         log.error(f"❌ Error cargando {nombre}: {e}")
+    for nombre, funcion in tareas_dimensiones:
+         try:
+             log.info(f"--- Cargando: {nombre} ---")
+             funcion()
+         except Exception as e:
+             log.error(f"❌ Error cargando {nombre}: {e}")
     
     # ── PASO 4: Carga al DW (hechos) ────────────────────────────────────────
     for nombre, funcion in tareas_hechos:
