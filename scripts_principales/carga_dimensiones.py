@@ -9,33 +9,42 @@ log = logging.getLogger(__name__)
  
  
 def cargar_dim_agente():
- 
+
     # 1. Leer la tabla validada desde staging
     df = pd.read_sql("SELECT * FROM val_agentes_validados", engine_staging)
     total = len(df)
- 
-    # 2. Seleccionar y renombrar solo las columnas que existen en dim_agente
-    #    id_agente_sk  → surrogate key, se genera por AUTO_INCREMENT en MySQL (no la insertamos)
-    #    nombre_agente → viene de nombre_completo en la tabla validada
+
+    # 2. Seleccionar y renombrar columnas
     df_dim = df[["id_agente", "nombre_completo"]].copy()
     df_dim = df_dim.rename(columns={"nombre_completo": "nombre_agente"})
 
- 
-    # 4. Insertar en dim_agente
-    #    if_exists="append" para no destruir registros existentes.
-    #    index=False porque la SK la genera MySQL con AUTO_INCREMENT.
-    # 4. Identificar nuevos e Insertar
+    # 3. Leer registros existentes del DW
     try:
-        existentes = pd.read_sql("SELECT id_agente FROM dim_agente", engine_dw)["id_agente"].tolist()
+        df_db = pd.read_sql("SELECT id_agente, nombre_agente FROM dim_agente WHERE id_agente != 'N/A'", engine_dw)
     except Exception:
-        existentes = []
-        
-    df_dim = df_dim[~df_dim["id_agente"].isin(existentes)]
+        df_db = pd.DataFrame(columns=["id_agente", "nombre_agente"])
 
-    if not df_dim.empty:
-        df_dim.to_sql(name="dim_agente", con=engine_dw, if_exists="append", index=False)
- 
-    log.info(f"  ✔ dim_agente: {len(df_dim)} registros nuevos (de {total} validados)")
+    existentes_ids = df_db["id_agente"].tolist()
+
+    # 4a. Nuevos registros → INSERT
+    df_nuevos = df_dim[~df_dim["id_agente"].isin(existentes_ids)]
+    if not df_nuevos.empty:
+        df_nuevos.to_sql(name="dim_agente", con=engine_dw, if_exists="append", index=False)
+
+    # 4b. SCD TIPO 1: detectar cambios en atributos y sobreescribir
+    df_existentes = df_dim[df_dim["id_agente"].isin(existentes_ids)]
+    df_merged = df_existentes.merge(df_db, on="id_agente", suffixes=("_new", "_old"))
+    df_modificados = df_merged[df_merged["nombre_agente_new"] != df_merged["nombre_agente_old"]]
+
+    if not df_modificados.empty:
+        with engine_dw.connect() as conn:
+            for _, row in df_modificados.iterrows():
+                conn.execute(text(
+                    "UPDATE dim_agente SET nombre_agente = :nombre WHERE id_agente = :id"
+                ), {"nombre": row["nombre_agente_new"], "id": row["id_agente"]})
+            conn.commit()
+
+    log.info(f"  ✔ dim_agente: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
  
 def cargar_dim_tiempo():
  
@@ -72,53 +81,84 @@ def cargar_dim_tiempo():
     log.info(f"  ✔ dim_tiempo: {len(df_dim)} fechas nuevas ({fecha_inicio.date()} → {fecha_fin.date()})")
 
 def cargar_dim_perito():
- 
+
     # 1. Leer la tabla validada desde staging
     df = pd.read_sql("SELECT * FROM val_peritos_validados", engine_staging)
     total = len(df)
- 
-    # 2. Seleccionar y renombrar solo las columnas que existen en dim_perito
+
+    # 2. Seleccionar y renombrar columnas
     df_dim = df[["id_perito", "nombre_completo"]].copy()
     df_dim = df_dim.rename(columns={"nombre_completo": "Nombre_Perito"})
- 
-    # 3. Insertar en dim_perito
-    # 3. Identificar e Insertar en dim_perito
-    try:
-        existentes = pd.read_sql("SELECT id_perito FROM dim_perito", engine_dw)["id_perito"].tolist()
-    except Exception:
-        existentes = []
-        
-    df_dim = df_dim[~df_dim["id_perito"].isin(existentes)]
 
-    if not df_dim.empty:
-        df_dim.to_sql(name="dim_perito", con=engine_dw, if_exists="append", index=False)
- 
-    log.info(f"  ✔ dim_perito: {len(df_dim)} registros nuevos (de {total} validados)")
+    # 3. Leer registros existentes del DW
+    try:
+        df_db = pd.read_sql("SELECT id_perito, Nombre_Perito FROM dim_perito WHERE id_perito != 'N/A'", engine_dw)
+    except Exception:
+        df_db = pd.DataFrame(columns=["id_perito", "Nombre_Perito"])
+
+    existentes_ids = df_db["id_perito"].tolist()
+
+    # 4a. Nuevos registros → INSERT
+    df_nuevos = df_dim[~df_dim["id_perito"].isin(existentes_ids)]
+    if not df_nuevos.empty:
+        df_nuevos.to_sql(name="dim_perito", con=engine_dw, if_exists="append", index=False)
+
+    # 4b. SCD TIPO 1: detectar cambios en atributos y sobreescribir
+    df_existentes = df_dim[df_dim["id_perito"].isin(existentes_ids)]
+    df_merged = df_existentes.merge(df_db, on="id_perito", suffixes=("_new", "_old"))
+    df_modificados = df_merged[df_merged["Nombre_Perito_new"] != df_merged["Nombre_Perito_old"]]
+
+    if not df_modificados.empty:
+        with engine_dw.connect() as conn:
+            for _, row in df_modificados.iterrows():
+                conn.execute(text(
+                    "UPDATE dim_perito SET Nombre_Perito = :nombre WHERE id_perito = :id"
+                ), {"nombre": row["Nombre_Perito_new"], "id": row["id_perito"]})
+            conn.commit()
+
+    log.info(f"  ✔ dim_perito: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
 
 
 def cargar_dim_objeto():
- 
+
     # 1. Leer la tabla validada desde staging
     df = pd.read_sql("SELECT * FROM val_objetos_validados", engine_staging)
     total = len(df)
- 
-    # 2. Seleccionar y renombrar solo las columnas que existen en dim_objeto
+
+    # 2. Seleccionar y renombrar columnas
     df_dim = df[["id_objeto", "tipo_objeto", "valor_asegurado"]].copy()
     df_dim = df_dim.rename(columns={"valor_asegurado": "valor_objeto"})
- 
-    # 3. Insertar en dim_objeto
-    # 3. Insertar en dim_objeto
-    try:
-        existentes = pd.read_sql("SELECT id_objeto FROM dim_objeto", engine_dw)["id_objeto"].tolist()
-    except Exception:
-        existentes = []
-        
-    df_dim = df_dim[~df_dim["id_objeto"].isin(existentes)]
 
-    if not df_dim.empty:
-        df_dim.to_sql(name="dim_objeto", con=engine_dw, if_exists="append", index=False)
- 
-    log.info(f"  ✔ dim_objeto: {len(df_dim)} registros nuevos (de {total} validados)")
+    # 3. Leer registros existentes del DW
+    try:
+        df_db = pd.read_sql("SELECT id_objeto, tipo_objeto, valor_objeto FROM dim_objeto WHERE id_objeto != 'N/A'", engine_dw)
+    except Exception:
+        df_db = pd.DataFrame(columns=["id_objeto", "tipo_objeto", "valor_objeto"])
+
+    existentes_ids = df_db["id_objeto"].tolist()
+
+    # 4a. Nuevos registros → INSERT
+    df_nuevos = df_dim[~df_dim["id_objeto"].isin(existentes_ids)]
+    if not df_nuevos.empty:
+        df_nuevos.to_sql(name="dim_objeto", con=engine_dw, if_exists="append", index=False)
+
+    # 4b. SCD TIPO 1: detectar cambios en tipo_objeto o valor_objeto y sobreescribir
+    df_existentes = df_dim[df_dim["id_objeto"].isin(existentes_ids)]
+    df_merged = df_existentes.merge(df_db, on="id_objeto", suffixes=("_new", "_old"))
+    df_modificados = df_merged[
+        (df_merged["tipo_objeto_new"] != df_merged["tipo_objeto_old"]) |
+        (df_merged["valor_objeto_new"] != df_merged["valor_objeto_old"])
+    ]
+
+    if not df_modificados.empty:
+        with engine_dw.connect() as conn:
+            for _, row in df_modificados.iterrows():
+                conn.execute(text(
+                    "UPDATE dim_objeto SET tipo_objeto = :tipo, valor_objeto = :valor WHERE id_objeto = :id"
+                ), {"tipo": row["tipo_objeto_new"], "valor": row["valor_objeto_new"], "id": row["id_objeto"]})
+            conn.commit()
+
+    log.info(f"  ✔ dim_objeto: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
 
 def cargar_dim_tipo_seguro():
  
