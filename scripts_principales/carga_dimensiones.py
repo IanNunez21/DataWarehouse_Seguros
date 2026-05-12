@@ -372,3 +372,29 @@ def cargar_dim_personas():
         
     log.info(f"  ✔ dim_personas: {len(df_nuevos)} nuevos, {len(df_modificados)} modificados (total evaluados: {len(df_dim_final)})")
 
+def asegurar_registros_desconocidos():
+    log.info("--- Insertando/Verificando registros Desconocidos (SK = -1) en Dimensiones ---")
+    
+    queries = [
+        "INSERT IGNORE INTO dim_agente (id_agente_sk, id_agente, nombre_agente) VALUES (-1, 'N/A', 'Desconocido');",
+        "INSERT IGNORE INTO dim_tiempo (id_tiempo_sk, id_tiempo, Dia, Mes, Anio) VALUES (-1, -1, -1, -1, -1);",
+        "INSERT IGNORE INTO dim_perito (id_perito_sk, id_perito, Nombre_Perito) VALUES (-1, 'N/A', 'Desconocido');",
+        "INSERT IGNORE INTO dim_objeto (id_objeto_sk, id_objeto, tipo_objeto, valor_objeto) VALUES (-1, 'N/A', 'Desconocido', 0);",
+        "INSERT IGNORE INTO dim_tipo_seguro (id_tipo_seguro_sk, categoria_plan) VALUES (-1, 'Desconocido');",
+        "INSERT IGNORE INTO dim_tiposiniestro (id_tipo_siniestro_sk, Nombre_Siniestro) VALUES (-1, 'Desconocido');",
+        "INSERT IGNORE INTO dim_ubicacion (id_ubicacion_sk, pais, provincia, ciudad) VALUES (-1, 'N/A', 'Desconocido', 'Desconocido');",
+        "INSERT IGNORE INTO dim_personas (id_persona_sk, id_persona, ocupacion, segmento_persona, sexo, id_ubicacion_fk, es_tercero, fecha_desde, fecha_hasta, es_actual) VALUES (-1, 'N/A', 'Desconocido', 'Desconocido', 'O', -1, 0, '1900-01-01', NULL, 1);"
+    ]
+    
+    with engine_dw.connect() as conn:
+        # Desactivamos checks de foreign keys para poder meter la FK de ubicacion en dim_personas si fuera necesario
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+        for query in queries:
+            try:
+                conn.execute(text(query))
+            except Exception as e:
+                log.warning(f"  ⚠ Error insertando -1: {e}")
+        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+        conn.commit()
+    
+    log.info("  ✔ Registros -1 asegurados en todas las dimensiones")

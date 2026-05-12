@@ -58,6 +58,8 @@ def ejecutar_etl_inicial():
          except Exception as e:
              log.error(f"❌ Error cargando {nombre}: {e}")
     
+    carga_dimensiones.asegurar_registros_desconocidos()
+
     # ── PASO 4: Carga al DW (hechos) ────────────────────────────────────────
     for nombre, funcion in tareas_hechos:
         try:

@@ -22,11 +22,13 @@ def cargar_fact_poliza():
     dim_agente = pd.read_sql("SELECT id_agente_sk, id_agente FROM dim_agente", engine_dw)
     dim_agente = dim_agente.drop_duplicates(subset=['id_agente'])
     df = df.merge(dim_agente, on="id_agente", how="left")
+    df['id_agente_sk'] = df['id_agente_sk'].fillna(-1)
 
     # --- dim_objeto ---
     dim_objeto = pd.read_sql("SELECT id_objeto_sk, id_objeto FROM dim_objeto", engine_dw)
     dim_objeto = dim_objeto.drop_duplicates(subset=['id_objeto'])
     df = df.merge(dim_objeto, left_on="id_objeto_asegurado", right_on="id_objeto", how="left")
+    df['id_objeto_sk'] = df['id_objeto_sk'].fillna(-1)
 
     # --- dim_tipo_seguro ---
     mapeo_cobertura = {
@@ -38,6 +40,7 @@ def cargar_fact_poliza():
     dim_tipo_seguro = pd.read_sql("SELECT id_tipo_seguro_sk, categoria_plan FROM dim_tipo_seguro", engine_dw)
     dim_tipo_seguro = dim_tipo_seguro.drop_duplicates(subset=['categoria_plan'])
     df = df.merge(dim_tipo_seguro, on="categoria_plan", how="left")
+    df['id_tipo_seguro_sk'] = df['id_tipo_seguro_sk'].fillna(-1)
 
     # --- dim_ubicacion (Optimizado) ---
     
@@ -68,7 +71,7 @@ def cargar_fact_poliza():
     # 4. Pasar el SK a la tabla principal 'df' mediante el id_objeto
     # Usamos un mapeo de id_objeto -> id_ubicacion_sk
     map_obj_to_ub = dict(zip(obj_ub['id_objeto'], obj_ub['id_ubicacion_sk']))
-    df['id_ubicacion_sk'] = df['id_objeto_asegurado'].map(map_obj_to_ub)
+    df['id_ubicacion_sk'] = df['id_objeto_asegurado'].map(map_obj_to_ub).fillna(-1)
 
     # --- dim_tiempo (Corrección de Formato) ---
     dim_tiempo = pd.read_sql("SELECT id_tiempo_sk, id_tiempo FROM dim_tiempo", engine_dw)
@@ -84,19 +87,16 @@ def cargar_fact_poliza():
         .fillna(0)
         .astype(int)
     )
-    df["id_fecha_venta_sk"] = df["id_tiempo_join"].map(lookup_tiempo)
+    df["id_fecha_venta_sk"] = df["id_tiempo_join"].map(lookup_tiempo).fillna(-1)
     df = df.drop(columns=["id_tiempo_join"])
-    
-    # Si en tu DW el valor para fechas nulas es -1 o un ID específico, cámbialo:
-    # df["id_fecha_venta_sk"] = df["id_fecha_venta_sk"].replace(0, -1)
 
     # Crear un diccionario de búsqueda: {id_natural: id_surrogate}
     dim_personas = pd.read_sql("SELECT id_persona_sk, id_persona FROM dim_personas", engine_dw)
     dim_personas = dim_personas.drop_duplicates(subset=['id_persona'])
     lookup_personas = dict(zip(dim_personas['id_persona'], dim_personas['id_persona_sk']))
 
-    df['id_persona_tomador_sk'] = df['id_cliente'].map(lookup_personas)
-    df['id_persona_receptor_sk'] = df['id_asegurado'].map(lookup_personas)
+    df['id_persona_tomador_sk'] = df['id_cliente'].map(lookup_personas).fillna(-1)
+    df['id_persona_receptor_sk'] = df['id_asegurado'].map(lookup_personas).fillna(-1)
 
     # 4. Seleccionar solo las columnas de fact_poliza
     df_fact = df[[
@@ -187,7 +187,7 @@ def cargar_fact_siniestro():
     dim_poliza = pd.read_sql("SELECT id_poliza_sk, id_poliza FROM fact_poliza", engine_dw)
     dim_poliza = dim_poliza.drop_duplicates(subset=["id_poliza"])
     lookup_poliza = dict(zip(dim_poliza["id_poliza"], dim_poliza["id_poliza_sk"]))
-    df["id_poliza_sk"] = df["id_poliza"].map(lookup_poliza)
+    df["id_poliza_sk"] = df["id_poliza"].map(lookup_poliza).fillna(-1)
     log.info(f"     ✔ id_poliza_sk | nulos: {df['id_poliza_sk'].isna().sum()}")
  
     # --- PeritoKey (desde dim_perito) ---
@@ -195,7 +195,7 @@ def cargar_fact_siniestro():
     dim_perito = pd.read_sql("SELECT id_perito_sk, id_perito FROM dim_perito", engine_dw)
     dim_perito = dim_perito.drop_duplicates(subset=["id_perito"])
     lookup_perito = dict(zip(dim_perito["id_perito"], dim_perito["id_perito_sk"]))
-    df["PeritoKey"] = df["id_perito"].map(lookup_perito)
+    df["PeritoKey"] = df["id_perito"].map(lookup_perito).fillna(-1)
     log.info(f"     ✔ PeritoKey | nulos: {df['PeritoKey'].isna().sum()}")
  
     # --- CobradorKey (desde dim_personas por id_receptor_pago) ---
@@ -203,7 +203,7 @@ def cargar_fact_siniestro():
     dim_personas = pd.read_sql("SELECT id_persona_sk, id_persona FROM dim_personas", engine_dw)
     dim_personas = dim_personas.drop_duplicates(subset=["id_persona"])
     lookup_personas = dict(zip(dim_personas["id_persona"], dim_personas["id_persona_sk"]))
-    df["CobradorKey"] = df["id_receptor_pago"].map(lookup_personas)
+    df["CobradorKey"] = df["id_receptor_pago"].map(lookup_personas).fillna(-1)
     log.info(f"     ✔ CobradorKey | nulos: {df['CobradorKey'].isna().sum()}")
  
     # --- TipoSiniestroKey (desde dim_tiposiniestro) ---
@@ -211,7 +211,7 @@ def cargar_fact_siniestro():
     dim_tipo = pd.read_sql("SELECT id_tipo_siniestro_sk, Nombre_Siniestro FROM dim_tiposiniestro", engine_dw)
     dim_tipo = dim_tipo.drop_duplicates(subset=["Nombre_Siniestro"])
     lookup_tipo = dict(zip(dim_tipo["Nombre_Siniestro"], dim_tipo["id_tipo_siniestro_sk"]))
-    df["TipoSiniestroKey"] = df["tipo_siniestro"].map(lookup_tipo)
+    df["TipoSiniestroKey"] = df["tipo_siniestro"].map(lookup_tipo).fillna(-1)
     log.info(f"     ✔ TipoSiniestroKey | nulos: {df['TipoSiniestroKey'].isna().sum()}")
  
     # --- UbicacionKey (via id_objeto_asegurado → val_objetos → dim_ubicacion) ---
@@ -236,7 +236,7 @@ def cargar_fact_siniestro():
     lookup_ub = dict(zip(dim_ub["lookup_key"], dim_ub["id_ubicacion_sk"]))
     obj_ub["id_ubicacion_sk"] = obj_ub["lookup_key"].map(lookup_ub)
     lookup_obj_ub = dict(zip(obj_ub["id_objeto"], obj_ub["id_ubicacion_sk"]))
-    df["UbicacionKey"] = df["id_objeto_asegurado"].map(lookup_obj_ub)
+    df["UbicacionKey"] = df["id_objeto_asegurado"].map(lookup_obj_ub).fillna(-1)
     log.info(f"     ✔ UbicacionKey | nulos: {df['UbicacionKey'].isna().sum()}")
  
     # --- FechaAperturaKey y FechaCierreKey (desde dim_tiempo) ---
@@ -252,6 +252,7 @@ def cargar_fact_siniestro():
         df["fecha_apertura"].dt.strftime("%Y%m%d")
         .astype("Int64", errors="ignore")
         .map(lookup_tiempo)
+        .fillna(-1)
     )
     df["FechaCierreKey"] = (
         df["fecha_cierre"].dt.strftime("%Y%m%d")
