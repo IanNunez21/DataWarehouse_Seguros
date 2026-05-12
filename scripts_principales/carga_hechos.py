@@ -119,13 +119,24 @@ def cargar_fact_poliza():
     if nulos:
         log.warning(f"  ⚠ {nulos} filas con al menos una SK nula — revisar dimensiones")
 
-    # 6. Insertar en fact_poliza
+    # 6. Filtrar pólizas existentes e Insertar en fact_poliza
     #    id_poliza_sk → generada por AUTO_INCREMENT en MySQL
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE fact_poliza"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
+    try:
+        existentes_poliza = pd.read_sql("SELECT id_poliza FROM fact_poliza", engine_dw)["id_poliza"].tolist()
+        existentes_poliza = [str(x) for x in existentes_poliza]  # normalizar tipo
+    except Exception as e:
+        log.warning(f"  ⚠ No se pudo leer fact_poliza para filtro incremental: {e}")
+        existentes_poliza = []
+
+    df_fact["id_poliza"] = df_fact["id_poliza"].astype(str)  # normalizar tipo
+    df_nuevas = df_fact[~df_fact["id_poliza"].isin(existentes_poliza)]
+    log.info(f"  → Pólizas en DW: {len(existentes_poliza)} | Nuevas a insertar: {len(df_nuevas)}")
+
+    if df_nuevas.empty:
+        log.info(f"  ✔ fact_poliza: 0 registros nuevos (ya existían los {total} validados)")
+        return
+
+    df_fact = df_nuevas
     df_fact.to_sql(
         name="fact_poliza",
         con=engine_dw,
@@ -341,11 +352,22 @@ def cargar_fact_siniestro():
  
     # ── 9. INSERTAR EN fact_siniestro ────────────────────────────────────────
     # SiniestroKey → AUTO_INCREMENT en MySQL, no se inserta
-    with engine_dw.connect() as conn:
-            conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-            conn.execute(text("TRUNCATE TABLE fact_siniestro"))
-            conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-            conn.commit()
+    try:
+        existentes_siniestros = pd.read_sql("SELECT id_siniestro FROM fact_siniestro", engine_dw)["id_siniestro"].tolist()
+        existentes_siniestros = [str(x) for x in existentes_siniestros]  # normalizar tipo
+    except Exception as e:
+        log.warning(f"  ⚠ No se pudo leer fact_siniestro para filtro incremental: {e}")
+        existentes_siniestros = []
+
+    df_fact["id_siniestro"] = df_fact["id_siniestro"].astype(str)  # normalizar tipo
+    df_nuevos = df_fact[~df_fact["id_siniestro"].isin(existentes_siniestros)]
+    log.info(f"  → Siniestros en DW: {len(existentes_siniestros)} | Nuevos a insertar: {len(df_nuevos)}")
+
+    if df_nuevos.empty:
+        log.info(f"  ✔ fact_siniestro: 0 registros nuevos (ya existían los {total} partes)")
+        return
+
+    df_fact = df_nuevos
     df_fact.to_sql(
         name="fact_siniestro",
         con=engine_dw,
