@@ -1,5 +1,5 @@
 id_cliente,nombre,apellido,fecha_nacimiento,sexo,educacion,estado_civil,situacion_laboral,ingreso_anual,localidad,provincia,pais,telefono,email,fuente
-CLI-04166,Lucio,Flores,1999-07-12,M,Master,Single,Disabled,19132.0,Rosario de la Frontera,Salta,Argentina,+54 15 2719 2271,mlopez@example.net,AutoInsurance
+CLI-04166,Lucio,Flores,1999-07-12,M,Master,Single,Empleado,19132.0,Rosario de la Frontera,Salta,Argentina,+54 15 2719 2271,mlopez@example.net,AutoInsurance
 CLI-06011,Angelina,Fernandez,1989-07-04,F,ph.d,Divorced,Unemployed,853505.0,Leandro N. Alem,Misiones,Argentina,+54 15 2179 7604,tomasrojas@example.net,AutoInsurance
 CLI-06190,Francisca,Herrera,1961-10-31,F,Bachelor,Married,Employed,33901.0,Salta,Mendoza,Argentina,+54 9 3606 6999,catalina40@@example.org,AutoInsurance
 CLI-05943,Olivia,Ferreyra,1995-06-22,F,null,Single,Employed,82534.0,Gualeguaychú,Entre Ríos,Argentina,,ramirezantonella@example.net,AutoInsurance
@@ -31,7 +31,7 @@ CLI-02808,Genaro,Campos,1992-01-20,M,College,Divorced,Employed,70600.0,Apóstole
 CLI-01748,Matias,Rios,1979-10-10,M,College,Married,Employed,44186.0,Mar del Plata,Buenos Aires,Argentina,,camilagomez@example.net,AutoInsurance
 CLI-00563,Luz Milagros,Acuña,1996-06-13,F,Bachelor,Divorced,Employed,87747.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 9 3949 0753,lautarogarcia@example.net,AutoInsurance
 CLI-01409,Benjamin,Moreno,1975-08-01,M,Master,Divorced,Employed,54613.0,Recoleta,CABA,Argentina,+54 15 2278 5221,sebastian71@example.net,AutoInsurance
-CLI-07517,Maria Emilia,Maldonado	,1974-09-01,F,High School or Below,Married,Medical Leave,28806.0,Salta,Salta,Argentina,+54 15 2159 7618,torresthiago@example.org,AutoInsurance
+"CLI-07517,Maria Emilia,Maldonado	,1974-09-01,F,High School or Below,Married,Medical Leave,28806.0,Salta,Salta,Argentina,+54 15 2159 7618,torresthiago@example.org,AutoInsurance"
 CLI-04719,thiago benjamin,ramirez,1963-05-28,M,Bachelor,Married,Employed,74586.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3670 9319,lortiz@example.com,AutoInsurance
 CLI-04830,Santino Benjamin,Diaz,1975-02-13,M,High School or Below,Single,Employed,92539.0,Flores,CABA,Argentina,+54 15 2760 1078,ralvarez@example.org,AutoInsurance
 CLI-08093,Tomàs,Gomez,1982-06-17,Masc.,College,Married,Medical Leave,23830.0,Orán,Salta,Argentina,+54 9 3928 9761,agustin46@example.org,AutoInsurance
@@ -355,7 +355,7 @@ CLI-07945,Carmela,Sosa,1955-11-09,F,High School or Below,Married,Employed,47528.
 CLI-07287,Bianca,Gimenez,1975-07-24,F,College,Married,Employed,83926.0,Villa Ángela,Chaco,Argentina,+54 9 3699 7854,josefina41@example.com,AutoInsurance
 CLI-10391,Mora,Diaz,1975-05-03,F,High School,Married,Unemployed,1113758.0,Córdoba,Córdoba,Argentina,+54 9 3215 6838,vegaolivia@example.com,HealthInsurance
 CLI-00347,Santino,Rios,1980-05-22,M,High School or Below,Married,Medical Leave,29664.0,Mendoza,Mendoza,Argentina,+54 15 2364 3347,brunolopez@example.org,AutoInsurance
-CLI-08006,Benjamin	,Suarez,,M,Bachelor,Single,Unemployed,1213089.0,Posadas,Misiones,Argentina,+54 15 2477 6810,candelamansilla@example.com,AutoInsurance
+"CLI-08006,Benjamin	,Suarez,,M,Bachelor,Single,Unemployed,1213089.0,Posadas,Misiones,Argentina,+54 15 2477 6810,candelamansilla@example.com,AutoInsurance"
 CLI-00583,Matilda,Moreno,1988/10/24,F,Bachelor,Married,Employed,43817.0,Bell Ville,Córdoba,Argentina,+54 15 2680 7156,xlopez@example.net,AutoInsurance
 CLI-10003,Ignacio,Lopez,1965-05-05,M,Doctor,Single,Unemployed,1692175.0,Salta,Salta,Argentina,+54 15 2419 1051,milagrosjuarez@example.net,HealthInsurance
 CLI-05866,Ignacio,Sosa,1983-05-16,M,Bachelor,Married,Unemployed,797779.0,Yerba Buena,Tucumán,Argentina,+54 15 2484 8310,josefina94@example.org,AutoInsurance
@@ -722,7 +722,7 @@ CLI-02914,Benjamin,Sanchez,1967-04-08,M,Bachelor,Single,UNEMPLOYED,63651.0,Paler
 CLI-03329,Lourdes,Medina,1995-01-02,F,Bachelor,Divorced,Unemployed,1282761.0,Bell Ville,Córdoba,Argentina,+54 15 2478 3931,juliangonzalez@example.net,AutoInsurance
 CLI-08559,Paulina,Soto,15/05/1959,F,Bachelor,Divorced,Employed,26129.0,Rosario,Santa Fe,Argentina,+54 9 3802 9106,emma49@example.com,AutoInsurance
 CLI-08486,Thiago Benjamin,Gimenez,1988-07-02,M,College,Married,Employed,88340.0,Posadas,Misiones,Argentina,+54934200002,catalina32@example.org,AutoInsurance
-CLI-00458,Delfina,Caceres,1955-01-15,F,Bachelor,Married,Employed,21450.0,Presidencia Roque Sáenz Peña	,Chaco,Argentina,+54 9 3681 1379,rdiaz@example.com,AutoInsurance
+"CLI-00458,Delfina,Caceres,1955-01-15,F,Bachelor,Married,Employed,21450.0,Presidencia Roque Sáenz Peña	,Chaco,Argentina,+54 9 3681 1379,rdiaz@example.com,AutoInsurance"
 CLI-10452,Thiago Benjamin,Perez,2008-04-24,M,Bachelor,Divorced,Unemployed,794178.0,Apóstoles,Misiones,Argentina,,feliperodriguez @ example.org,HealthInsurance
 CLI-10209,Agustina,Acosta,1966-05-05,F,Doctor,divorciado,Employed,552359.0,San Miguel de Tucumán,Tucumán,Argentina,+54 15 2534 6770,uortiz@example.net,HealthInsurance
 CLI-08422,Antonia,Martinez,1980-07-27,F,Bachelor,Married,Employed,49480.0,Villa Ángela,Chaco,Argentina,+54 15 2411 9213,riossantiago-nicolas@example.net,AutoInsurance
@@ -903,7 +903,7 @@ CLI-07686,Alma,Gonzalez,1987-08-03,F,High School or Below,Single,Employed,36710.
 CLI-09257,Paulina,Peralta,25-04-2006,F,Bachelor,Divorced,Employed,496451.0,Flores,CABA,Argentina,+54 9 3987 5563,sanchezcamila@example.net,HealthInsurance
 CLI-02493,Valentina Jazmin,Juarez,1985-04-03,F,Bachelor,Married,Unemployed,,Córdoba,Córdoba,Argentina,TE: +54 9 3284 9674,mflores@example.net,AutoInsurance
 CLI-07326,BAUTISTA BENJAMIN,Ramirez,1969-01-03,M,College,Divorced,Employed,59325.0,Mendoza,Mendoza,Argentina,+54 9 3465 6663,ledesmanicolas_2@example.org,AutoInsurance
-CLI-00622,Fausto,Fernandez	,1967-06-19,M,High School or Below,Single,Employed,67176.0,Eldorado,Misiones,Argentina,+54 9 3613 7681,navarrojuan-bautista@example.com,AutoInsurance
+"CLI-00622,Fausto,Fernandez	,1967-06-19,M,High School or Below,Single,Employed,67176.0,Eldorado,Misiones,Argentina,+54 9 3613 7681,navarrojuan-bautista@example.com,AutoInsurance"
 CLI-05643,Jazmin,Benitez,1972-07-01,F,High School or Below,Married,Disabled,11432.0,  Rosario de la Frontera  ,Salta,Argentina,+54 9 3516 8674,vgomez@example.org,AutoInsurance
 CLI-06861,Francisco,Romero,1982-01-25,M,College,Married,Employed,46900.0,Lomas de Zamora,Buenos Aires,Argentina,+54 9 3108 0861,felicitas26@example.net,AutoInsurance
 CLI-08810,Elena,Quiroga,1965-06-03,F,Bachelor,Married,Employed,42522.0,Rosario de la Frontera,Salta,Argentina,+54 9 3148 4113,saramartinez@example.net,AutoInsurance
@@ -989,7 +989,7 @@ CLI-09086,Guadalupe,Rojas,1966-11-30,F,High School or Below,Divorced,Unemployed,
 CLI-04716,Thiago Benjamin,Gomez,1991-08-31,masculino,Master,Divorced,Unemployed,1148282.0,Concordia,Entre Ríos,Argentina,+54 15 2324 6155,juanavega@example.org,AutoInsurance
 CLI-04519,Guillermina,Mansilla,1963-11-17,F,Bachelor,Married,Employed,80681.0,Recoleta,CABA,Argentina,+54 9 3253 4096,wramos@example.org,AutoInsurance
 CLI-05152,Juana,Perez,1992-05-28,F,College,Married,Employed,23840.0,Alta Gracia,Córdoba,Argentina,+54 15 2780 0866,maximo15@example.org,AutoInsurance
-CLI-00211,Tomàs	,Gomez,1991-03-31,M,High School or Below,Single,Employed,78108.0,Tafí Viejo,Tucumán,Argentina,+54 9 3391 8055,kguzman@example.com,AutoInsurance
+"CLI-00211,Tomàs	,Gomez,1991-03-31,M,High School or Below,Single,Employed,78108.0,Tafí Viejo,Tucumán,Argentina,+54 9 3391 8055,kguzman@example.com,AutoInsurance"
 CLI-03711,Bautista,Escobar,1961-03-27,M,College,Married,Employed,60462.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3233 6098,sanchezbenjamin@example.net,AutoInsurance
 CLI-05495,Lucio,Arias,1951-11-28,M,Doctor,Married,Unemployed,907771.0,Tafí Viejo,Tucumán,Argentina,+54 15 2298 9775,valentino80@example.com,AutoInsurance
 CLI-05763,Thiago Valentin,Silva,1984-04-22,M,Bachelor,Divorced,Employed,43626.0,Colón,Entre Ríos,Argentina,+54 9 3579 1721,kcastro@example.net,AutoInsurance
@@ -1143,7 +1143,7 @@ CLI-00837,Thiago Leonel,Gomez,1962-02-26,M,Master,Married,Employed,48587.0,Cabal
 CLI-03985,Felicitas,Godoy,1989-08-30,F,Bachelor,Married,Employed,63287.0,Rafaela,Santa Fe,Argentina,+54 9 3533 0507,isabella44@example.org,AutoInsurance
 CLI-07300,Martina,Diaz,1963-11-15,F,Doctor,Married,Employed,59803.0,Concordia,Entre Ríos,Argentina,+54 9 3846 5878,santino-benjamin76@example.net,AutoInsurance
 CLI-06061,Ambar,Roldan,1989-11-03,F,Bachelor,Married,Unemployed,-1.0,Concepción,Tucumán,Argentina,+54 9 3722 1328,qledesma@example.com,AutoInsurance
-CLI-02239,Ciro	,Acosta,1969-11-02,M,Bachelor,Married,Employed,74217.0,Oberá,Misiones,Argentina,+541521137983,alejo76@example.org,AutoInsurance
+"CLI-02239,Ciro	,Acosta,1969-11-02,M,Bachelor,Married,Employed,74217.0,Oberá,Misiones,Argentina,+541521137983,alejo76@example.org,AutoInsurance"
 CLI-04701,Zoe,Lopez,,F,College,Single,Unemployed,657720.0,Apóstoles,Misiones,Argentina,+54 9 3358 5542,sanchezsebastian@example.net,AutoInsurance
 CLI-01113,Giuliana,Medina,1951-10-20,F,Bachelor,Married,Medical Leave,25261.0,Godoy Cruz,Mendoza,Argentina,+54 9 3103 2145,valentin66@example.org,AutoInsurance
 CLI-04798,Bruno,Martinez,1953/08/07,M,High School or Below,Married,Employed,35124.0,Belgrano,CABA,Argentina,+54 9 3355 0793,gonzalezlucia@example.net,AutoInsurance
@@ -1186,7 +1186,7 @@ CLI-06389,Santino,Rodriguez,1995-12-12,M,High School or Below,Single,Unemployed,
 CLI-02948,Juana,Luna,25/06/1964,F,doctor,Divorced,Disabled,21986.0,Rosario,Santa Fe,Argentina,TE: +54 15 2271 2996,juana82@example.com,AutoInsurance
 CLI-08748,Juan Martin,Barrios,1999-11-29,M,Master,Married,EMPLOYED,60880.0,Concordia,Entre Ríos,Argentina,+54 15 2861 9469,cordobacamilo@example.com,AutoInsurance
 CLI-01972,Manuel,Godoy,1957-01-07,M,Doctor,Married,Employed,99443.0,Leandro N. Alem,Misiones,Argentina,+54 9 3231 5922,jazminrodriguez@example.com,AutoInsurance
-CLI-02040,Vicente,Chavez	,1956-04-16,M,High School or Below,Married,Disabled,21159.0,Rosario de la Frontera,Salta,Argentina,+54 9 3391 0082,valentino16@example.net,AutoInsurance
+"CLI-02040,Vicente,Chavez	,1956-04-16,M,High School or Below,Married,Disabled,21159.0,Rosario de la Frontera,Salta,Argentina,+54 9 3391 0082,valentino16@example.net,AutoInsurance"
 CLI-00971,Lucía,Benitez,1994-10-27,F,College,Single,Employed,28919.0,Reconquista,Santa Fe,Argentina,+54 9 3498 0660,benjaminleiva@example.org,AutoInsurance
 CLI-00795,Morena,Martinez,1984-01-10,F,Master,Married,Employed,25666.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 15 2270 8760,lola23@example.net,AutoInsurance
 CLI-00731,Ignacio,Rodriguez,1951-05-28,M,Master,Married,Employed,47761.0,Barranqueras,Chaco,Argentina,+54 9 3847 4721,torresemilia@example.com,AutoInsurance
@@ -1274,7 +1274,7 @@ CLI-01594,Agustina,Gomez,1952-05-13 00:00:00,F,College,Single,Unemployed,1032595
 CLI-07026,bAUTISTA,vILLALBA,1993-12-30,M,Bachelor,Divorced,Employed,,Villa Carlos Paz,Córdoba,Argentina,+54 9 3151 4623,ramosmicaela@example.org,AutoInsurance
 CLI-09319,Bautista Benjamin,Pereyra,1982-05-01,M,Master,Divorced,Employed,350972.0,Rafaela,Santa Fe,Argentina,+54 9 3367 0042,paloma36@example.net,HealthInsurance
 CLI-03603,Julia,Mendoza,1962-03-05,F,High School or Below,Married,Employed,59107.0,Resistencia,Mendoza,Argentina,+54 15 2415 7872,avilamorena@example.com,AutoInsurance
-CLI-00077,Emilia	,Alvarez,1951-04-29,F,High School or Below,Single,Employed,71811.0,Posadas,Misiones,Argentina,54936137098,laragodoy@example.com,AutoInsurance
+"CLI-00077,Emilia	,Alvarez,1951-04-29,F,High School or Below,Single,Employed,71811.0,Posadas,Misiones,Argentina,54936137098,laragodoy@example.com,AutoInsurance"
 CLI-06030,Emilia,Cardozo,1954-03-19,F,High School or Below,Single,Employed,57925.0,Río Cuarto,Córdoba,Argentina,+54 9 3125 3164,genaroacosta@example.net,AutoInsurance
 CLI-04191,Agostina,Romero,1973-02-20,F,Bachelor,Married,Employed,87139.0,Colón,Entre Ríos,Argentina,+54 15 2991 9193,agustinacastillo@example.org,AutoInsurance
 CLI-09382,Ignacio,  Suarez  ,2002-04-26,M,Bachelor,Married,Retired,1968907.0,Gualeguaychú,Entre Ríos,Argentina,+54 15 2535 7842,warias@example.net,HealthInsurance
@@ -1328,7 +1328,7 @@ CLI-02228,Jeremias,Pereyra,1987-08-21,M,Bachelor,Single,Unemployed,946553.0,San 
 CLI-01596,Manuel,Coronel,1957-07-25,M,College,999,Employed,58842.0,Alta Gracia,Córdoba,Argentina,+54 9 3874 6706,bautista91@example.org,AutoInsurance
 CLI-03661,Paloma,Arias,1952-08-25,F,College,Single,Employed,24186.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2867 1274,ramirezgonzalo@example.com,AutoInsurance
 CLI-08889,Sofía,Caceres,13/06/1953,F,High School or Below,Married,jub.,32272.0,Tafí Viejo,Tucumán,Argentina,+54 9 3719 0719,leivaisabella@example.com,AutoInsurance
-CLI-05270,Elena	,Castro,1994-03-14,F,Bachelor,Divorced,Unemployed,1348324.0,Santa Fe,Santa Fe,Argentina,+54 9 3702 7862,juan-gabrielaguero@example.com,AutoInsurance
+"CLI-05270,Elena	,Castro,1994-03-14,F,Bachelor,Divorced,Unemployed,1348324.0,Santa Fe,Santa Fe,Argentina,+54 9 3702 7862,juan-gabrielaguero@example.com,AutoInsurance"
 CLI-07160,MIA,Castillo,1959-12-24,F,High School or Below,Single,Unemployed,1483848.0,Rosario,Santa Fe,Argentina,+54 15 2707 8283,sjuarez_2@example.net,AutoInsurance
 CLI-02013,Jeremias,Muñoz,1997-02-14,M,High School or Below,Single,Unemployed,417909.0,Flores,CABA,Argentina,+54 15 2618 1233,fperalta@example.com,AutoInsurance
 CLI-02155,Guadalupe,Torres,1956-11-26,F,College,Married,Employed,35482.0,Mendoza,Mendoza,Argentina,+54 15 2925 3807,nunezjuan-gabriel@example.net,AutoInsurance
@@ -1419,7 +1419,7 @@ CLI-06812,fRANCESCA,gOMEZ,1972-02-27,F,High School or Below,Single,Unemployed,13
 CLI-06454,Pilar,Farias,1965-10-23,FEMENINO,High School or Below,Married,Employed,25419.0,Maipú,Mendoza,Argentina,+54 9 3565 7602,camposkiara@example.com,AutoInsurance
 CLI-01512,antonella,martinez,1965-03-16,F,High School or Below,Single,Unemployed,275625.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 15 2360 8788,sosajoaquin@example.net,AutoInsurance
 CLI-03007,Tobias,Flores,,M,Bachelor,Married,Unemployed,386938.0,Caballito,CABA,Argentina,+54 9 3569 5881,crojas@example.net,AutoInsurance
-CLI-04455,Isabella	,Perez,1967-01-11,F,High School or Below,Divorced,Disabled,18017.0,Recoleta,CABA,Argentina,(+54) 15 2771 1364,luceroolivia@example.net,AutoInsurance
+"CLI-04455,Isabella	,Perez,1967-01-11,F,High School or Below,Divorced,Disabled,18017.0,Recoleta,CABA,Argentina,(+54) 15 2771 1364,luceroolivia@example.net,AutoInsurance"
 CLI-04481,Matias,Farias,1970-06-10,masculino,High School or Below,Married,Employed,53588.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,TE: +54 9 3730 9514,acostasantino-ezequiel@example.org,AutoInsurance
 CLI-03132,Paloma,Aguirre,1993-10-21,F,High School or Below,Married,Unemployed,320579.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 15 2688 0501,martinezvalentina@example.net,AutoInsurance
 CLI-09330,jUAN pABLO,mORENO,2007-04-25,M,Doctor,Married,Unemployed,871142.0,Lanús,Buenos Aires,Argentina,+54 9 3361 5905,juana62@example.net,HealthInsurance
@@ -1451,7 +1451,7 @@ CLI-09694,Santino,Ayala,2007-04-25,M,High School,Married,Retired,1517214.0,Ober�
 CLI-00621,Lourdes,Roldan,1954-08-04,F,College,Married,Employed,63860.0,Rosario de la Frontera,Salta,Argentina,+54 9 3332 9676,ruizrosario@example.org,AutoInsurance
 CLI-04217,Valentino,Blanco,1956-01-11,M,College,Married,Employed,83221.0,Eldorado,Misiones,Argentina,+54 15 2114 9141,gomezvalentino@example.org,AutoInsurance
 CLI-01524,Julieta,Castro,1998-04-05,F,High School or Below,Married,Employed,92801.0,Luján de Cuyo,Mendoza,Argentina,1533 9663 9 45+,navarrovalentin@example.net,AutoInsurance
-CLI-00783,aLMA,vILLALBA,1993-05-08,F,College,Married,Unemployed,1223104.0,Resistencia	,Chaco,Argentina,+54 15 2361 4878,nahuel55@example.com,AutoInsurance
+"CLI-00783,aLMA,vILLALBA,1993-05-08,F,College,Married,Unemployed,1223104.0,Resistencia	,Chaco,Argentina,+54 15 2361 4878,nahuel55@example.com,AutoInsurance"
 CLI-05423,Mateo,Escobar,1955-06-13,M,PHD,Married,Employed,86876.0,Caballito,CABA,Argentina,+54 9 3575 6765,jmartinez@example.com,AutoInsurance
 CLI-01157,Mia Morena,Perez,1984-05-13,F,High School or Below,Married,Employed,28806.0,Maipú,Mendoza,Argentina,+54 15 2290 3106,sofia22@example.net,AutoInsurance
 CLI-08966,Victoria,Coronel,1962-04-14,F,High School or Below,Single,Unemployed,1384639.0,Famailla,Tucumán,Argentina,+54 9 3679 5030,bravobenjamin@example.org,AutoInsurance
@@ -1526,7 +1526,7 @@ CLI-07353,Maria Paz,Diaz,1984-05-23,F,College,Single,Employed,32517.0,Rosario,Sa
 CLI-01225,Thiago Benjamin,Fernandez,1961-08-11,M,High School or Below,Married,Employed,72874.0,Recoleta,CABA,Argentina,+54 9 3548 0164,martinezsofia@example.com,AutoInsurance
 CLI-06759,Nicolas,Herrera,1976-07-28,M,High School or Below,Married,Employed,38667.0,Santa Fe,Santa Fe,Argentina,+54 9 3278 9880,lbustos@example.org,AutoInsurance
 CLI-10268,Maia,Pereyra,1974-05-03,F,High School,Divorced,Self-Employed,1333165.0,Rosario de la Frontera,Salta,Argentina,+54 15 2399 1942,pbarrios@example.net,HealthInsurance
-CLI-01200,Sebastian,Fernandez,1952-04-14,M,High School or Below,Single,Employed,86617.0,Alta Gracia,Córdoba	,Argentina,+54 15 2899 8213,ignacio61@example.org,AutoInsurance
+"CLI-01200,Sebastian,Fernandez,1952-04-14,M,High School or Below,Single,Employed,86617.0,Alta Gracia,Córdoba	,Argentina,+54 15 2899 8213,ignacio61@example.org,AutoInsurance"
 CLI-01627,FAUSTO,MARTINEZ,1970-11-20,M,College,Single,Unemployed,389156.0,Mar del Plata,Buenos Aires,Argentina,+54 9 3945 0369,juliana39@example.org,AutoInsurance
 CLI-00765,juan manuel,perez,1991-10-23,M,High School or Below,Married,Retired,10475.0,Paraná,Entre Ríos,Argentina,+54 9 3161 8579,dgarcia@example.com,AutoInsurance
 CLI-10416,martina,gomez,,F,Bachelor,Divorced,Unemployed,804203.0,Lomas de Zamora,Buenos Aires,Argentina,+54 9 3783 6204,lautaro-ezequielcruz@example.org,HealthInsurance
@@ -1816,7 +1816,7 @@ CLI-02681,Tiziana,Diaz,1984-09-12,F,High School or Below,Married,Unemployed,5715
 CLI-01509,Valentin,Godoy,1996-06-26,M,Bachelor,Married,Employed,93495.0,Rafaela,Santa Fe,Argentina,+54 9 3549 1477,agustin53@example.com,AutoInsurance
 CLI-02026,jULIANA,sILVA,1979-11-05,F,College,Single,Employed,50071.0,Salta,Salta,Argentina,+54 15 2876 4054,julianflores@@example.org,AutoInsurance
 CLI-03946,Maximo,Maldonado,1991-07-12,M,High School or Below,Married,Employed,56980.0,Concordia,Entre Ríos,Argentina,,fernandezcatalina@example.com,AutoInsurance
-CLI-01685,Enzo,Mendez,,M,Master,Married,Employed,85871.0,,Misiones	,Argentina,+54 15 2720 4298,mateoramirez@example.net,AutoInsurance
+"CLI-01685,Enzo,Mendez,,M,Master,Married,Employed,85871.0,,Misiones	,Argentina,+54 15 2720 4298,mateoramirez@example.net,AutoInsurance"
 CLI-00500,Lautaro Nicolas,Alvarez,1983-04-21,M,High School or Below,Married,Employed,77060.0,Colón,Entre Ríos,Argentina,+54 9 3924 9911,marias@example.com,AutoInsurance
 CLI-05404,Emma,Gonzalez,1978-03-07,F,Doctor,Married,Employed,,Lomas de Zamora,Buenos Aires,Argentina,+54 9 3887 2020,felipe02@example.com,AutoInsurance
 CLI-09142,Josefina,Gutierrez,1989-04-29,F,Bachelor,Married,Retired,870092.0,,Buenos Aires,Argentina,+54 9 3106 0530,villalbasofia@example.org,HealthInsurance
@@ -1861,7 +1861,7 @@ CLI-08515,jULIETA,oRTIZ,26-07-1990,F,High School or Below,soltero,Employed,37455
 CLI-06089,Tomas,Torres,07-09-1984,M,College,Married,Employed,23006.0,Lanús,Buenos Aires,Argentina,+54 9 3172 4633,julietarojas@example.net,AutoInsurance
 CLI-06432,Maria Emilia,Suarez,1962-10-17,F,Secundaria,Divorced,Employed,45856.0,Orán,Salta,Argentina,+54 15 2245 2319,valentinadiaz@example.com,AutoInsurance
 CLI-08245,Thiago Valentin,Juarez,1951-04-03,M,Bachelor,Married,Employed,25998.0,Luján de Cuyo,Mendoza,Argentina,+54 15 2688 1298,gfernandez@example.net,autoinsurance
-CLI-10468,Mateo,Pereyra	,1976-05-02,M,Bachelor,Divorced,Self-Employed,709593.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3159 7953,sofiadiaz@example.com,HealthInsurance
+"CLI-10468,Mateo,Pereyra	,1976-05-02,M,Bachelor,Divorced,Self-Employed,709593.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3159 7953,sofiadiaz@example.com,HealthInsurance"
 CLI-01350,Juan Bautista,Gonzalez,1975-01-15,M,Bachelor,Married,Employed,61401.0,Rosario de la Frontera,Salta,Argentina,+54 9 3621 7558,medinafacundo@example.net,AutoInsurance
 CLI-05583,Francisco,Fernandez,1973/07/30,M,Master,Married,Employed,,Posadas,Misiones,Argentina,+54 15 2316 9689,lortiz@example.com,AUTO INSURANCE
 CLI-10362,Tiziano,Diaz,1984-04-30,M,Maestría,Married,Employed,903960.0,Charata,Chaco,Argentina,+54 15 2987 6503,bautistaromero@example.org,HealthInsurance
@@ -1940,7 +1940,7 @@ CLI-00094,Benjamin,Sanchez,1996-11-25,M,Bachelor,Married,Employed,52822.0,Presid
 CLI-02496,Thiago Leonel,Maldonado,1980-08-15,M,High School or Below,Single,Unemployed,592569.0,San Rafael,Mendoza,Argentina,+54 15 2634 1700,thiago-daniel58@example.org,AutoInsurance
 CLI-05533,Olivia,Gutierrez,1962-09-04,F,High School or Below,Single,Unemployed,1101512.0,Maipú,Mendoza,Argentina,+54 15 2733 5717,santiago49@example.net,AutoInsurance
 CLI-10120,Milagros,Molina,1982-05-01,F,High School,Single,Unemployed,499001.0,Concordia,Entre Ríos,Argentina,+54 15 2258 2568,juan-ignaciogonzalez@example.org,HealthInsurance
-CLI-05360,Renata,Godoy,1997-10-27,F,College,Single,Unemployed,567202.0,Lomas de Zamora,Buenos Aires	,Argentina,+54 9 3722 9234,tgomez@example.com,AutoInsurance
+"CLI-05360,Renata,Godoy,1997-10-27,F,College,Single,Unemployed,567202.0,Lomas de Zamora,Buenos Aires	,Argentina,+54 9 3722 9234,tgomez@example.com,AutoInsurance"
 CLI-03903,Agustin,Castro,1956-08-18,M,High School or Below,Married,Employed,79153.0,Recoleta,CABA,Argentina,+54 15 2577 9491,sosamatilda@example.net,AUTO INSURANCE
 CLI-05652,Juan Martin,Acosta,1967-08-02,M,doctor,Married,Disabled,14909.0,Colón,Entre Ríos,Argentina,+54 15 2738 3514,beniciofranco@example.com,AutoInsurance
 CLI-05573,Catalina,Luna,1974-03-27 00:00:00,F,High School or Below,Married,Disabled,27604.0,Mendoza,Mendoza,Argentina,+54 15 2891 6527,benjaminherrera@example.org,AutoInsurance
@@ -2148,7 +2148,7 @@ CLI-03434,Thiago Leonel,Gomez,1952-01-29,M,College,Married,Unemployed,0.0,Córdo
 CLI-09965,Santino,Romero,1963-05-06,M,Master,Divorced,Employed,280092.0,Lanús,Buenos Aires,Argentina,+54 9 3566 1469,emilia23@example.com,HealthInsurance
 CLI-02151,Catalina,Diaz,1997-10-21,F,Doctor,Married,Employed,56362.0,Eldorado,Misiones,Argentina,+54 15 2173 4533,mailto:lucas-ezequielflores@example.org,AutoInsurance
 CLI-05182,Valentino,Ledesma,1974-07-14,M,College,Married,Employed,43204.0,Leandro N. Alem,Misiones,Argentina,+54 15 2563 5021,catalinagonzalez@example.net,AutoInsurance
-CLI-10404,Juan Ignacio,Vega,,M,Doctor,Single,Unemployed,1130013.0,Maipú	,Mendoza,Argentina,+54 9 3804 5859,pgonzalez@example.net,HealthInsurance
+"CLI-10404,Juan Ignacio,Vega,,M,Doctor,Single,Unemployed,1130013.0,Maipú	,Mendoza,Argentina,+54 9 3804 5859,pgonzalez@example.net,HealthInsurance"
 CLI-01019,mATEO bENJAMIN,oLIVERA,1998-08-02,M,High School or Below,Single,Employed,86689.0,Rafaela,Santa Fe,Argentina,+54 9 3879 9270,antonio15@example.org,AutoInsurance
 CLI-07489,Emma,Valdez,1978-07-29,F,College,Married,EMPLOYED,35301.0,Concordia,Entre Ríos,Argentina,+54 15 2254 8669,sofia-belen55@example.com,importación
 CLI-07475,Felipe,Juarez,1989-11-11,M,Bachelor,Married,EMPLOYED,0.0,Quilmes,Buenos Aires,Argentina,+54 15 2332 6772,fperalta@example.org,AutoInsurance
@@ -2236,7 +2236,7 @@ CLI-05377,Victoria,Mendez,1970-10-18,F,Master,Divorced,Disabled,16181.0,Oberá,M
 CLI-01373,Octavio,Flores,1978-09-27,M,Bachelor,Married,Employed,82655.0,Reconquista,Santa Fe,Argentina,+54 9 3411 8491,justina92@example.net,AutoInsurance
 CLI-00713,Francesco,Juarez,1991-06-26,M,Bachelor,Divorced,Employed,61953.0,Eldorado,Misiones,Argentina,+54 15 2368 5926,lucia45@example.org,AutoInsurance
 CLI-04266,Juana,Avila,1972-12-17,F,College,Married,Employed,84581.0,Rafaela,Santa Fe,Argentina,+54 9 3466 7830,aguirrematias@example.com,AutoInsurance
-CLI-04092,Clara,Perez,1990-10-27,F,High School or Below,Single,Employed,30916.0,Villa Ángela,Chaco	,Argentina,+54 15 2611 3921 int.2,silvavalentin@example.com,AutoInsurance
+"CLI-04092,Clara,Perez,1990-10-27,F,High School or Below,Single,Employed,30916.0,Villa Ángela,Chaco	,Argentina,+54 15 2611 3921 int.2,silvavalentin@example.com,AutoInsurance"
 CLI-03849,Jazmin,Fernandez,,F,Bachelor,Single,Unemployed,365815.0,Belgrano,CABA,Argentina,+54 15 2454 5614,romerosantiago@example.net,AutoInsurance
 CLI-06577,Isabella,Gonzalez,1966-09-24,FEMENINO,Bachelor,Married,Employed,85185.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 15 2312 8344,dominguezagustin@example.org,AutoInsurance
 CLI-08070,Martina,Castro,1970-05,F,Bachelor,Married,Disabled,27627.0,La Plata,Buenos Aires,Argentina,+54 15 2750 6609,lucas-ezequiel78@example.net,AutoInsurance
@@ -2398,7 +2398,7 @@ CLI-01528,Luna,Arias,1960-06-06,F,s/d,Married,Employed,,Gualeguaychú,Entre Río
 CLI-04002,Olivia,Fernandez,1982-11-10,F,Bachelor,Divorced,Employed,33599.0,Bell Ville,Córdoba,Argentina,+54 9 3344 0557,guillermina72@@example.org,AutoInsurance
 CLI-09789,Emma,Rodriguez,1967-05-05,F,Master,Single,Employed,1147701.0,Maipú,Mendoza,Argentina,TE: +54 15 2987 8075,sotorosario@example.com,HealthInsurance
 CLI-00059,Luz Maria,Herrera,,F,High School or Below,Divorced,Disabled,16969.0,Rafaela,Santa Fe,Argentina,+54 9 3855 1256,antonella68@example.org,AutoInsurance
-CLI-02515,Facundo,Acosta	,2045-01-01,M,Bachelor,Divorced,Retired,25905.0,Mendoza,Mendoza,Argentina,+54 9 3215 2035,silvabruno@example.net,AutoInsurance
+"CLI-02515,Facundo,Acosta	,2045-01-01,M,Bachelor,Divorced,Retired,25905.0,Mendoza,Mendoza,Argentina,+54 9 3215 2035,silvabruno@example.net,AutoInsurance"
 CLI-09802,Paula,Rodriguez,1986-04-30 00:00:00,F,Master,Married,Employed,695549.0,Santa Fe,Santa Fe,Argentina,+54 9 3605 2882,toledoclara@example.net,HealthInsurance
 CLI-02292,Renata,Herrera,1963-03-23,F,College,Married,Employed,41968.0,Maipú,Mendoza,Argentina,+54 9 3245 8474,victoriagomez@example.net,AutoInsurance
 CLI-10333,Gael,Acosta,1986-04,M,Bachelor,Single,Retired,1179170.0,Resistencia,Chaco,Argentina,+54937310883,lautaro-benjaminbenitez@example.net,HealthInsurance
@@ -2418,7 +2418,7 @@ CLI-06068,Camilo,Bustos,1997-10-03,M,High School or Below,Married,Employed,74624
 CLI-10123,Santiago,Herrera,1992-04-28,M,Bachelor,Divorced,Unemployed,969936.0,,Misiones,Argentina,+54 9 3848 0498,plopez@example.net,HealthInsurance
 CLI-08740,Sofia,Perez,1960-03-25,F,High School or Below,Single,Employed,57846.0,Quilmes,Buenos Aires,Argentina,+54 15 2758 0552,rodriguezsofia@example.org,AutoInsurance
 CLI-07336,Juan Ignacio,Gomez,1984-10-27,M,High School or Below,Single,Retired,26487.0,Eldorado,Misiones,Argentina,+54 15 2964 0407,milagrossoria@example.net,AutoInsurance
-CLI-05299,Benicio,Fernandez,1975-10-08,M,High School or Below,Single,Unemployed,495064.0,Caballito	,CABA,Argentina,+54 15 2638 1894,valentina-97@example.com,AutoInsurance
+"CLI-05299,Benicio,Fernandez,1975-10-08,M,High School or Below,Single,Unemployed,495064.0,Caballito	,CABA,Argentina,+54 15 2638 1894,valentina-97@example.com,AutoInsurance"
 CLI-02134,Juan Ignacio,Gomez,1956-05-05,M,High School or Below,Married,Employed,88701.0,Lomas de Zamora,Buenos Aires,Argentina,+54 15 2885 2332,gro.elpmaxe@etnadorevir,AutoInsurance
 CLI-01898,Thiago Benjamin,Hernandez,11-04-1967,M,High School or Below,Married,Employed,67099.0,Rafaela,Santa Fe,Argentina,+54 9 3846 1308,nahiara-jazmingonzalez@example.net,AutoInsurance
 CLI-06871,Emma,Gonzalez,1977-03-09,F,Bachelor,Married,Employed,34628.0,Godoy Cruz,Mendoza,Argentina,+54 15 2229 9552,tomas23@example.org,AutoInsurance
@@ -2438,7 +2438,7 @@ CLI-08892,Valentina,Rodriguez,1977-12-17,F,Bachelor,Single,Employed,69379.0,Belg
 CLI-08631,Isabella,Cruz,1978-05-30,F,High School or Below,Single,Unemployed,334283.0,Maipú,Mendoza,Argentina,(+54) 15 2767 6708,joaquin68@example.net,AutoInsurance
 CLI-02321,Juan Ignacio,Morales,1972-03-19,M,Master,Divorced,Retired,24182.0,La Plata,Santa Fe,Argentina,+54 9 3573 0882,lopezsebastian@example.net,AutoInsurance
 CLI-04278,Benjamin,Rojas,1975-07-02,M,Bachelor,Married,Unemployed,432848.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 9 3207 0435 int.2,mtorres@example.org,AutoInsurance
-CLI-10424,Juan Cruz,Navarro,1982-05-01,M,Bachelor,Married,Retired,1491205.0,Resistencia,Chaco	,Argentina,+54 9 3552 2924,martina19@example.com,health
+"CLI-10424,Juan Cruz,Navarro,1982-05-01,M,Bachelor,Married,Retired,1491205.0,Resistencia,Chaco	,Argentina,+54 9 3552 2924,martina19@example.com,health"
 CLI-00767,Helena,Martinez,1978-01-27,F,Bachelor,Married,Employed,49721.0,Yerba Buena,Tucumán,Argentina,+54 15 2135 8004,gonzalezjulieta@example.com,AutoInsurance
 CLI-01145,Ana Paula.,Ramos,1964-12-30,F,Bachelor,Married,Unemployed,644365.0,Villa Carlos Paz,Córdoba,Argentina,+54 15 2637 8765,tiziano-valentingonzalez@example.org,AutoInsurance
 CLI-04706,Benicio,Moyano,1988-08-02 00:00:00,M,Master,Married,Employed,30092.0,Resistencia,Chaco,Argentina,+54 9 3802 6871,lucas-benjamin40@example.com,AutoInsurance
@@ -2473,7 +2473,7 @@ CLI-00222,Lautaro,Ponce,1974-10-14,M,Bachelor,Divorced,Employed,93870.0,Charata,
 CLI-06342,Lucas,Sosa,1984-03-31,M,Bachelor,Divorced,Employed,24031.0,Recoleta,CABA,Argentina,+54 9 3355 5456,joaquinrodriguez@example.net,AutoInsurance
 CLI-06527,Joaquin,Rodriguez,1978-07-27,M,Bachelor,Single,Unemployed,727280.0,Famailla,Tucumán,Argentina,+54 15 2197 5753,ludmila37@example.org,AutoInsurance
 CLI-08139,Mia Valentina,Castro,1979-06-02,F,College,Single,Employed,29194.0,Concepción del Uruguay,Entre Ríos,Argentina,,caceresjosefina@@example.net,AutoInsurance
-CLI-00859,Morena,Mansilla	,1985-11-07,F,College,Single,Unemployed,895408.0,Lomas de Zamora,Buenos Aires,Argentina,,sancheztiziano@example.com,AutoInsurance
+"CLI-00859,Morena,Mansilla	,1985-11-07,F,College,Single,Unemployed,895408.0,Lomas de Zamora,Buenos Aires,Argentina,,sancheztiziano@example.com,AutoInsurance"
 CLI-03856,Santiago,Suarez,1962-04-13,M,College,Married,Employed,-999.0,Reconquista,Santa Fe,Argentina,+54 9 3458 6862,sgutierrez@example.com,AutoInsurance
 CLI-09529,JULIA,ORTIZ,1980-05-01,F,Master,Married,Employed,,Paraná,Entre Ríos,Argentina,+54 15 2592 2463,bustosluana@example.org,HealthInsurance
 CLI-05406,Valentina,Roldan,1952-05-10,F,College,Married,Employed,69600.0,Paraná,Entre Ríos,Argentina,+54 15 2853 5962,cmartinez@example.net,AutoInsurance
@@ -2536,7 +2536,7 @@ CLI-00212,Ignacio,Castillo,1965-10-20,M,College,Single,Retired,10621.0,Rosario d
 CLI-10253,Franco,Gomez,1993-04-28,M,Bachelor,Married,Self-Employed,1627979.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 15 2834 3775,velazquezguadalupe@example.net,HealthInsurance
 CLI-09849,Victoria,Ayala,2002-04-26,F,Doctor,Married,Retired,1181682.0,Maipú,Mendoza,Argentina,+54 9 3650 6016,kferreyra@example.com,HealthInsurance
 CLI-08627,Mora,Soto,1997-07-10,F,Doctor,Married,Employed,74423.0,Barranqueras,Chaco,Argentina,+54 9 3422 8736,ysilva@example.net,AutoInsurance
-CLI-06984,Julieta,Martinez,1978-07-26,F,Master,Married,Medical Leave,-1.0,Mar del Plata,Buenos Aires	,Argentina,+54 15 2200 3153,isabellarivero@example.com,AutoInsurance
+"CLI-06984,Julieta,Martinez,1978-07-26,F,Master,Married,Medical Leave,-1.0,Mar del Plata,Buenos Aires	,Argentina,+54 15 2200 3153,isabellarivero@example.com,AutoInsurance"
 CLI-07087,Lautaro,Diaz,1953-02-25,M,Doctor,Divorced,Employed,27907.0,Córdoba,Córdoba,Argentina,+54 15 2973 5799,ucarrizo@example.org,AutoInsurance
 CLI-01439,Delfina,Ramirez,1968-07-20,Femenino,High School or Below,Married,Employed,96339.0,Lanús,Buenos Aires,Argentina,+54 15 2564 3159,tomas54@example.com,AutoInsurance
 CLI-02516,Thiago Leonel,Gonzalez,1950-09-16,M,Bachelor,Married,Employed,21442.0,San Miguel de Tucumán,Tucumán,Argentina,+54 9 3965 1335,isabella14@example.org,AutoInsurance
@@ -2879,7 +2879,7 @@ CLI-04976,delfina,gomez,1976-02-24,F,College,Married,Employed,47918.0,Belgrano,C
 CLI-04610,Felipe,Sanchez,1976-11-25,Fem.,College,Single,Employed,42596.0,Tartagal,Salta,Argentina,+54 9 3348 9564,felipe53@example.org,AutoInsurance
 CLI-00100,Juan Pablo,Sosa,1969-02-14,M,College,Married,Employed,32627.0,Leandro N. Alem.,Misiones,Argentina,+54 15 2547 7005,morenomaria-belen@example.org,AutoInsurance
 CLI-07418,Luisana,Flores,1955-06-08,F,High School or Below,Married,Employed,56617.0,Flores,CABA,Argentina,+54 9 3617 9328,lperez@example.com,AutoInsurance
-CLI-01457,Benjamin,Rojas,1961-06-22,M,College,Single,Employed,56342.0,Lanús,Buenos Aires	,Argentina,+54 9 3319 0172,juanalucero@example.org,AutoInsurance
+"CLI-01457,Benjamin,Rojas,1961-06-22,M,College,Single,Employed,56342.0,Lanús,Buenos Aires	,Argentina,+54 9 3319 0172,juanalucero@example.org,AutoInsurance"
 CLI-00362,Violeta,Rojas,1899-01-01,F,Bachelor,Married,Unemployed,1070075.0,Resistencia,Chaco,Argentina,+54 9 3608 6209,juan-cruzrodriguez@example.net,AutoInsurance
 CLI-00813,Mateo,Nuñez,1981-12-03,M,Doctor,Single,Employed,70247.0,Reconquista,Santa Fe,Argentina,+54 15 2168 9003,rodriguezsimon@example.com,AutoInsurance
 CLI-01093,Tiziano Benjamin,Gutierrez,1962-03-30,M,Bachelor,Single,Employed,45259.0,Tafí Viejo,Tucumán,Argentina,+54 9 3234 0679,ubenitez@example.org,AutoInsurance
@@ -2894,7 +2894,7 @@ CLI-01415,Valentina ,Aguirre,1972-02-01,F,Master,Divorced,Medical Leave,25143.0,
 CLI-00541,Morena,Garcia,1983-01-07,F,Master,Married,Employed,92163.0,Flores,CABA,Argentina,+54 9 3417 4224,dgarcia@example.net,AutoInsurance
 CLI-06753,Ambar,Fernandez,1965-12-09,F,Bachelor,Married,Unemployed,1395412.0,Rosario de la Frontera,Salta,Argentina,+54 9 3474 9988,lisandro19@example.net,AutoInsurance
 CLI-07998,Juliana,Juarez,1966-05-15,F,High School or Below,Married,desempleado,25030.0,Flores,CABA,Argentina,+54 9 3562 5894,genaro53@example.org,AutoInsurance
-CLI-01147,Juan Pablo,Herrera,,M,College,Divorced,Employed,22093.0,Tartagal,Salta	,Argentina,+54 9 3919 0534,ggarcia@example.org,AutoInsurance
+"CLI-01147,Juan Pablo,Herrera,,M,College,Divorced,Employed,22093.0,Tartagal,Salta	,Argentina,+54 9 3919 0534,ggarcia@example.org,AutoInsurance"
 CLI-03541,Lucía,Lopez,1994-04-14,F,Bachelor,Single,Unemployed,1287621.0,Villa Ángela,Chaco,Argentina,+54 9 3865 2936,francesca75@example.com,AutoInsurance
 CLI-00755,Guillermina,Gutierrez,1974-01-31,F,Bachelor,Married,Employed,41449.0,Lomas de Zamora,Buenos Aires,Argentina,+54 15 2335 1305,catalinaledesma@example.org,AutoInsurance
 CLI-04468,Ciro,Castillo,05/17/1969,M,High School or Below,Single,Employed,41186.0,Concordia,Entre Ríos,Argentina,+54 15 2485 5867,alvarezthiago-lionel @ example.net,AutoInsurance
@@ -2940,7 +2940,7 @@ CLI-05118,Agustina,Romero,1963-04-11,F,High School or Below,Married,Employed,623
 CLI-02405,Benjamin,Sosa,1970-02-20,M,Master,Married,Employed,54585.0,Salta,Salta,Argentina,+54 15 2991 9396,brodriguez@example.net,AutoInsurance
 CLI-01396,Alfonsina,Lucero,1950-06-14,F,High School or Below,Married,Employed,,Lanús,Buenos Aires,Argentina,+54 15 2963 6219,dsosa@example.com,AutoInsurance
 CLI-07310,Juliana,Castillo,1976-04-20,F,Bachelor,Single,Retired,23904.0,San Rafael,Mendoza,Argentina,+54 15 2156 3804,sanchezguadalupe@example.com,AutoInsurance
-CLI-00619,Renata	,Juarez,1962-01-06,F,College,Married,Employed,63259.0,Orán,Salta,Argentina,(+54) 9 3193 8743,tomaspaz@example.net,AutoInsurance
+"CLI-00619,Renata	,Juarez,1962-01-06,F,College,Married,Employed,63259.0,Orán,Salta,Argentina,(+54) 9 3193 8743,tomaspaz@example.net,AutoInsurance"
 CLI-06031,Mateo,Bustos,1983-08-25,M,Master,Single,Employed,39910.0,Orán,Salta,Argentina,+54 9 3957 4129,qgonzalez@example.net,AutoInsurance
 CLI-03679,  Isabella  ,Ponce,1997-05-20,F,High School or Below,Married,Employed,79140.0,Alta Gracia,Córdoba,Argentina,+54 9 3174 7299,angel-gabriel52@example.org,AutoInsurance
 CLI-01601,Benjamin,Gomez,1974-06-10,M,College,Married,Employed,59847.0,Leandro N. Alem,Misiones,Argentina,+54937764278,sanchezemma@example.com,AutoInsurance
@@ -3149,12 +3149,12 @@ CLI-06311,Joaquin,Gutierrez,1987-11-03,M,Bachelor,Married,Retired,23665.0,La Pla
 CLI-09812,Santino,Lopez,1966-05-05,M,Bachelor,Married,Unemployed,756728.0,Caballito,CABA,Argentina,+54 9 3639 2781,josefinaacosta@example.org,HealthInsurance
 CLI-06948,Benjamin,Diaz,1997-08-31,M,Bachelor,Single,Employed,43720.0,,  Buenos Aires  ,Argentina,+54 9 3645 2490,joaquin13@example.org,AutoInsurance
 CLI-03959,Clara,Gonzalez,1998-07-16,F,Master,Married,Employed,33157.0,Oberá,Misiones,Argentina,+54 9 3235 1591,nromero@example.org,AutoInsurance
-CLI-03008,Julian,Cardozo,1966-11-18,M,College,Married,Employed,28432.0,Resistencia	,Chaco,Argentina,+54 15 2294 4993,cirososa@example.com,AutoInsurance
+"CLI-03008,Julian,Cardozo,1966-11-18,M,College,Married,Employed,28432.0,Resistencia	,Chaco,Argentina,+54 15 2294 4993,cirososa@example.com,AutoInsurance"
 CLI-04339,Amparo,Ojeda,1955-06-28,F,High School or Below,Single,Unemployed,1450331.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2522 1200,godoydelfina@example.com,AutoInsurance
 CLI-08994,Joaquin,Rodriguez,1956-11-21,M,Master,Married,Employed,78032.0,Venado Tuerto,Santa Fe,Argentina,+54 15 2179 8190,garciavictoria@example.org,AutoInsurance
 CLI-00210,Emilia,Rodriguez,1959-06-21,F,Bachelor,Married,Jubilada,68964.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 9 3404 3898,dgarcia @ example.org,AutoInsurance
 CLI-08940,Juan Martin,Sosa,1985-12-14,M,secundario,Married,Unemployed,824489.0,Rafaela,Santa Fe,Argentina,+54 9 3984 2962,antoniolucero@example.com,AutoInsurance
-CLI-02751,Luz Milagros,Lopez,1966-07-13,F,College,Married,Employed,49625.0,Salta,Salta	,Argentina,+54 9 3428 9868,santinolopez@example.net,AutoInsurance
+"CLI-02751,Luz Milagros,Lopez,1966-07-13,F,College,Married,Employed,49625.0,Salta,Salta	,Argentina,+54 9 3428 9868,santinolopez@example.net,AutoInsurance"
 CLI-09701,Emilia,Gonzalez,1988-04-29,F,High School,Married,Retired,,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 9 3129 5031,esanchez@example.net,HealthInsurance
 CLI-05095,Santino,Chavez,1996-02-10,M,Bachelor,Divorciada,Employed,45277.0,Salta,Salta,Argentina,+54 9 3560 9901,ruizbautista@example.com,AutoInsurance
 CLI-07519,Dante,Miranda,1997-04-22,f,College,Married,Employed,66429.0,Famailla,Tucumán,Argentina,+54 9 3774 6738,gonzalezsantiago@example.org,AutoInsurance
@@ -3172,7 +3172,7 @@ CLI-02651,Juan Ignacio,Alvarez,1955-06-10,M,High School or Below,Married,Disable
 CLI-03313,Simon,Ramirez,1955-11-11,M,High School or Below,Married,Unemployed,644407.0,Recoleta,CABA,Argentina,+54 15 2838 4178,ggonzalez@example.com,AutoInsurance
 CLI-10428,Lautaro Benjamin,Diaz,1980-05-01,M,Bachelor,Divorced,Unemployed,1852748.0,Alta Gracia,Córdoba,Argentina,+54 9 3822 0576,ian-benjaminojeda@example.com,HealthInsurance
 CLI-08289,tomas,soto,,M,Bachelor,Married,Employed,38638.0,Posadas,Misiones,Argentina,+54 15 2585 3193,tferreyra@example.net,AutoInsurance
-CLI-08736,Alma Jazmin,Miranda,1956-10-24,F,Bachelor,Married,Employed,27725.0,Presidencia Roque Sáenz Peña	,Chaco,Argentina,+54 9 3347 6836,xfigueroa@example.com,AutoInsurance
+"CLI-08736,Alma Jazmin,Miranda,1956-10-24,F,Bachelor,Married,Employed,27725.0,Presidencia Roque Sáenz Peña	,Chaco,Argentina,+54 9 3347 6836,xfigueroa@example.com,AutoInsurance"
 CLI-04631,Pedro,Villalba,1963-07-09,M,High School or Below,Married,Employed,72421.0,Venado Tuerto,Santa Fe,Argentina,+54 9 3274 9167,blucero@example.com,Auto_Insurance
 CLI-08854,Lucia,Ferreyra,1977-05-15,F,High School or Below,Single,Unemployed,1020045.0,Luján de Cuyo,Mendoza,Argentina,+54 9 3353 4997,jazminmoyano@example.net,AutoInsurance
 CLI-01227,Mia Jazmin,Nuñez,1984-05-22,F,Bachelor,Married,employed,209791.0,Paraná,Entre Ríos,Argentina,+54 15 2913 4862,abril79@example.com,AutoInsurance
@@ -3338,7 +3338,7 @@ CLI-09066,Mateo,Dominguez,1955-02-07,M,College,Single,Employed,22346.0,Presidenc
 CLI-00869,Isabella,Valdez,1968-07-23,F,High School or Below,Single,Employed,24213.0,Colón,Entre Ríos,Argentina,+54 15 2987 6754,martinezfrancesca@example.com,AutoInsurance
 CLI-03689,Valentina,Quiroga,1956-02-05,F,Doctor,DIVORCED,Employed,22241.0,Tafí Viejo,Tucumán,Argentina,+54 15 2203 1759,juan-cruz90@example.net,AutoInsurance
 CLI-08012,Alvaro,Gomez,1979-02-13,Masc.,High School or Below,Married,Employed,39248.0,Lanús,Buenos Aires,Argentina,+54 9 3494 5276,cabreraciro@example.org,AutoInsurance
-CLI-08314,Agustin,Figueroa,2045-01-01,M,College,Married,Employed,39377.0,,Mendoza	,Argentina,+54 9 3230 2372,qhernandez@example.net,AutoInsurance
+"CLI-08314,Agustin,Figueroa,2045-01-01,M,College,Married,Employed,39377.0,,Mendoza	,Argentina,+54 9 3230 2372,qhernandez@example.net,AutoInsurance"
 CLI-01507,Guillermina,Molina,1955-02-26,F,High School or Below,Married,Employed,66014.0,Barranqueras,N/A,Argentina,+54 15 2695 8558,joaquincarrizo@exampleorg,AutoInsurance
 CLI-05991,Julieta,Guzman,1979-10-29,male,Bachelor,Divorced,Employed,49467.0,Salta,Salta,Argentina,54938566020,rmoreno@example.net,AutoInsurance
 CLI-09518,Victoria,Navarro,1991-04-29,F,High School,Single,Unemployed,1319755.0,Resistencia,Chaco,Argentina,+54 15 2808 5140,gomezgael@example.org,HealthInsurance
@@ -3351,7 +3351,7 @@ CLI-06101,Lucía,Martinez,1982-06-11,F,Bachelor,Married,Unemployed,338322.0,Apó
 CLI-04562,Antonia,Mansilla,1972-02-01,F,Bachelor,Married,Employed,60021.0,Charata,Chaco,Argentina,+54 9 3819 3064,lucianogonzalez@example.net,AutoInsurance
 CLI-01076,Thiago Benjamin,Gomez,1984-11-05,M,College,SINGLE,Unemployed,944079.0,Barranqueras,Chaco,Argentina,+54 15 2713 7730,thiago-nahuelgonzalez@example.org,AutoInsurance
 CLI-03525,Tiziano,Rojas,1956-02-28,Femenino,High School or Below,Divorced,Employed,51833.0,,Santa Fe,Argentina,+54 9 3223 4615,santinocorrea@example.com,AutoInsurance
-CLI-04641,Sofia Belen	,Figueroa,1992-08-15,F,High School or Below,Single,Employed,69240.0,,Entre Ríos,Argentina,+54 15 2166 7549,maria-luz73@example.org,AutoInsurance
+"CLI-04641,Sofia Belen	,Figueroa,1992-08-15,F,High School or Below,Single,Employed,69240.0,,Entre Ríos,Argentina,+54 15 2166 7549,maria-luz73@example.org,AutoInsurance"
 CLI-08687,Pedro,Ledesma,9999-12-31,M,College,Married,Employed,-999.0,Leandro N. Alem,Misiones,Argentina,+54 15 2337 3052,juan-cruzmartinez@example.net,AutoInsurance
 CLI-03210,Federico,Lopez,1977-03-22,M,College,Married,jubilado,91580.0,San Rafael,Mendoza,Argentina,+54 9 3149 9587,sosaluca@example.com,AutoInsurance
 CLI-08328,Valentina,Perez,1987-01-18,F,High School or Below,Married,Employed,,La Plata,Buenos Aires,Argentina,+54 9 3711 4337,kflores@example.net,AutoInsurance
@@ -3423,7 +3423,7 @@ CLI-04644,Juan,Maidana,1987-04-01,M,Bachelor,Married,Employed,99824.0,Córdoba,C
 CLI-07771,Martín,Diaz,1988-08-19,M,Bachelor,Married,Employed,21808.0,Leandro N. Alem,Misiones,Argentina,,juan-cruz54@example.com,AutoInsurance
 CLI-07927,Lola,Martinez,1998-08-19,F,NA,Married,Employed,49675.0,Caballito,CABA,Argentina,+54 9 3363 3266,torresguadalupe@example.org,AutoInsurance
 CLI-07587,Thiago,Alvarez,1983-03-04,M,doctor,Single,Unemployed,672686.0,Apóstoles,Misiones,Argentina,+54 15 2674 2258,dantemartinez@example.com,AutoInsurance
-CLI-03712,Luisana	,Sanchez,04/21/1999,F,College,Div.,Unemployed,488925.0,Salta,Salta,Argentina,+54 9 3619 7400 int.2,htorres@example.org,AutoInsurance
+"CLI-03712,Luisana	,Sanchez,04/21/1999,F,College,Div.,Unemployed,488925.0,Salta,Salta,Argentina,+54 9 3619 7400 int.2,htorres@example.org,AutoInsurance"
 CLI-02457,Martina,Gomez,1952-04-30,F,High School or Below,Single,Employed,99189.0,Concepción,Tucumán,Argentina,+54 9 3349 1773,lgonzalez@example.com,AutoInsurance
 CLI-03699,Juan Cruz,Lopez,1994-04-12,M,Bachelor,Married,Retired,22828.0,Rosario,Santa Fe,Argentina,+54 9 3365 6219,juan-gabriel09@example.net,AutoInsurance
 CLI-02215,Juliana,Benitez,1950-03-22,F,Doctor,Married,Employed,67895.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2711 4330,benjamin80@example.com,AutoInsurance
@@ -3484,7 +3484,7 @@ CLI-06593,LUZ MILAGROS,SANCHEZ,,F,High School or Below,Single,Unemployed,840370.
 CLI-08658,Santiago,Figueroa,1956-02-11,M,High School or Below,Married,Employed,81082.0,Mendoza,Mendoza,Argentina,+54 9 3572 4335,agustina44@example.org,AutoInsurance
 CLI-09322,Zoe Jazmin,Diaz,04/27/1996,F,Master,Married,Activo,233077.0,Concepción,Tucumán,Argentina,+54 15 2435 1156,valentina48@example.net,HealthInsurance
 CLI-01948,Morena Jazmin,Gomez,1976-05-23,F,Bachelor,Single,Unemployed,330884.0,Río Cuarto,Córdoba,Argentina,+54 9 3473 1234,sanchezalma@example.org,AutoInsurance
-CLI-02319,Juan Cruz	,Lopez,1988-05-30,M,College,Single,Unemployed,923817.0,Caballito,CABA,Argentina,+54 9 3925 2078,octaviorodriguez@example.net,AutoInsurance
+"CLI-02319,Juan Cruz	,Lopez,1988-05-30,M,College,Single,Unemployed,923817.0,Caballito,CABA,Argentina,+54 9 3925 2078,octaviorodriguez@example.net,AutoInsurance"
 CLI-07583,Luciana,Garcia,1980-12-25,F,High School or Below,Divorced,Employed,46587.0,Maipú,Mendoza,Argentina,+54 15 2892 7133,alma-valentina02@example.org,AutoInsurance
 CLI-02300,Amparo,Garcia,1994-02-27,F,Bachelor,Married,Employed,96917.0,Apóstoles,Misiones,Argentina,541522288252,uma-pereyra@example.net,AutoInsurance
 CLI-05258,Felipe,Ledesma,05-05-1958,M,College,Soltero,Unemployed,898910.0,Orán,Salta,Argentina,+54 9 3762 0726,juan-ignaciorojas@example.com,AutoInsurance
@@ -3516,7 +3516,7 @@ CLI-03460,Alma Mia,Gonzalez,1985-03-30,F,College,Single,Unemployed,415785.0,Luj�
 CLI-08526,Salvador,Cordoba,1964-01-31,M,College,Married,Employed,48428.0,Luján de Cuyo,Mendoza,Argentina,+54 15 2250 3152,wfernandez@example.com,AutoInsurance
 CLI-02472,Lorenzo,Benitez,,M,Bachelor,Single,Unemployed,850329.0,,Entre Ríos,Argentina,+54 9 3307 1812,lautaro-nicolasruiz@example.org,AutoInsurance
 CLI-05847,Josefina,Fernandez,1956-09-21,F,Bachelor,Single,Employed,41341.0,San Rafael,Mendoza,Argentina,+54 9 3686 1508 int.2,santino08@example.org,AutoInsurance
-CLI-08876,Juan Cruz,Olivera	,1978-08-19,M,Bachelor,Divorced,Employed,74271.0,Mendoza,Mendoza,Argentina,+54 15 2592 1068,gabrielflores@example.net,AutoInsurance
+"CLI-08876,Juan Cruz,Olivera	,1978-08-19,M,Bachelor,Divorced,Employed,74271.0,Mendoza,Mendoza,Argentina,+54 15 2592 1068,gabrielflores@example.net,AutoInsurance"
 CLI-05381,Santiago,Molina,1998-03-24,M,Bachelor,Married,Retired,27681.0,Posadas,Misiones,Argentina,+54 15 2569 4538,alma27@example.org,AutoInsurance
 CLI-09972,Antonia,Ojeda,1970-05-04,F,Master,Divorced,Self-Employed,1643530.0,Yerba Buena,Tucumán,Argentina,+54 15 2657 9623,rodriguezemma@example.org,HealthInsurance
 CLI-01397,julia,vargas,1985-05-10,F,High School or Below,Married,Employed,45039.0,Charata,Chaco,Argentina,+54 9 3540 7663,lucioortiz@example.com,AutoInsurance
@@ -3618,7 +3618,7 @@ CLI-06694,Catalina,Moreno,1956-08-19,F,College,Single,Employed,,Lomas de Zamora,
 CLI-02527,Lautaro Benjamin,Torres,1967-03-31,male,High School or Below,Married,Employed,50407.0,Maipú,Mendoza,Argentina,+54 9 3195 1657,mnunez@example.org,AutoInsurance
 CLI-08677,Santino,Ferreyra,1996-04-15,M,College,Married,Employed,23916.0,Yerba Buena,Tucumán,Argentina,+54 9 3962 2715,dominguezlara@example.org,AutoInsurance
 CLI-04310,Bautista,Juarez,1981-10-26,M,Bachelor,Married,Employed,26790.0,Reconquista,Santa Fe,Argentina,+54 9 3441 8520,cgomez@example.org,HealthInsurance
-CLI-00069,Felicitas,Gomez	,1988-01-01,F,Bachelor,Divorced,Unemployed,1062143.0,Yerba Buena,Tucumán,Argentina,+54 15 2640 0504,lorenzo38@example.com,AutoInsurance
+"CLI-00069,Felicitas,Gomez	,1988-01-01,F,Bachelor,Divorced,Unemployed,1062143.0,Yerba Buena,Tucumán,Argentina,+54 15 2640 0504,lorenzo38@example.com,AutoInsurance"
 CLI-01169,Thiago Agustin,Rojas,1996-05-03,M,High School or Below,Married,Unemployed,984146.0,Paraná,Entre Ríos,Argentina,541528074820,violetapaez@example.org,AutoInsurance
 CLI-00049,Victoria,Gomez,1960-01-14,F,Bachelor,Married,Unemployed,961225.0,Quilmes,Buenos Aires,Argentina,+54 15 2851 8233,lisandro89@example.com,AutoInsurance
 CLI-01054,Ambar,Vazquez,1954-07-18,F,Bachelor,Single,Retired,24910.0,Concordia,Entre Ríos,Argentina,+54 15 2421 0613,zoe-jazmin39@example.com,AutoInsurance
@@ -3808,7 +3808,7 @@ CLI-05036,Lautaro Ezequiel,Peralta,1999-08-06,M,Bachelor,Married,Unemployed,9999
 CLI-09780,Luciano,Lopez,1978-05-02,Masc.,Bachelor,Single,Retired,788803.0,Villa Ángela,Chaco,Argentina,+54 9 3831 0018,alma-mia18@example.com,HealthInsurance
 CLI-03147,Facundo,Toledo,1975-07-24,M,Master,Married,Employed,76646.0,Rosario,Santa Fe,Argentina,+54 15 2193 0046,constanzasanchez@example.net,AutoInsurance
 CLI-02638,Mia,Herrera,1984-04-09,F,College,Married,Disabled,21947.0,Concepción,Tucumán,Argentina,+54 15 2908 7121,lautaro39@example.net,AutoInsurance
-CLI-10394,Justina,Martinez,1974-05-03,F,Doctor,Married,Self-Employed,659160.0,Resistencia	,Chaco,Argentina,+54 15 2885 4212,coronelthiago-ezequiel@example.net,HealthInsurance
+"CLI-10394,Justina,Martinez,1974-05-03,F,Doctor,Married,Self-Employed,659160.0,Resistencia	,Chaco,Argentina,+54 15 2885 4212,coronelthiago-ezequiel@example.net,HealthInsurance"
 CLI-10090,Nicolas,Ojeda,1995-04-28,M,Doctor,Divorced,Employed,511222.0,Rosario de la Frontera,Salta,Argentina,+54 15 2795 4541,gaeldiaz@example.org,HealthInsurance
 CLI-09235,Sol,Gonzalez,1985-04-30,female,Bachelor,Single,Self-Employed,945205.0,Recoleta,CABA,Argentina,1478 0272 51 45+,ypereyra@example.org,HealthInsurance
 CLI-07388,Lola,Diaz,07/19/1992,F,Bachelor,Married,Employed,51791.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3144 5983,catalina22@example.org,AutoInsurance
@@ -3817,7 +3817,7 @@ CLI-09360,Francisco,Herrera,1971-05-04,M,High School,Married,Employed,1175205.0,
 CLI-05851,ISABELLA,Silva,1994-05-25,F,High School or Below,Married,Employed,34831.0,Rafaela,Santa Fe,Argentina,+54 9 3559 9152,agustinsanchez_2@example.org,AutoInsurance
 CLI-00878,Santino,Ayala,1966-09-21,M,Master,Soltera,Employed,25816.0,Alta Gracia,Córdoba,Argentina,+54 15 2112 5902,lucamedina@example.net,AutoInsurance
 CLI-08728,Benjamin,Garcia,,M,Bachelor,Single,Unemployed,285337.0,Rosario de la Frontera,Salta,Argentina,+54 15 2917 7348,thiago-nicolas54@example.org,AutoInsurance
-CLI-00197,Valentino,Ortiz,1963-09-03,M,High School or Below,Single,Employed,56855.0,Barranqueras	,Chaco,Argentina,+54 15 2340 4384,xortiz@example.com,AutoInsurance
+"CLI-00197,Valentino,Ortiz,1963-09-03,M,High School or Below,Single,Employed,56855.0,Barranqueras	,Chaco,Argentina,+54 15 2340 4384,xortiz@example.com,AutoInsurance"
 CLI-10461,Sofia,Farias,1984-04-30,F,Master,Married,Retired,1591987.0,Córdoba,Córdoba,Argentina,+54 15 2841 3774,lisandrolucero@example.net,HealthInsurance
 CLI-03384,Benjamin,Medina,1950-05-01,M,Bachelor,Married,Employed,92296.0,Apóstoles,Misiones,Argentina,+54 15 2284 7980,medinaabril@example.com,AutoInsurance
 CLI-04263,Matilda,Gomez,,F,College,Married,Unemployed,315988.0,Lomas de Zamora,Buenos Aires,Argentina,+54 9 3371 0262,matilda19@example.org,AutoInsurance
@@ -3859,7 +3859,7 @@ CLI-01245,Benjamin,Pereyra,1954-05-12,M,College,Married,Employed,60944.0,Charata
 CLI-04603,Ezequiel,Paz,1984-08-20,M,Master,Single,Unemployed,792379.0,Colón,Entre Ríos,Argentina,+54 15 2465 0983,dominguezmorena@example.com,AutoInsurance
 CLI-00421,Mateo Ezequiel,Rodriguez,1977-12-16,M,College,Married,Unemployed,,Famailla,Tucumán,Argentina,+54 15 2496 5701,angelinabarrios@example.net,AutoInsurance
 CLI-10168,Juan Ignacio,Medina,2008-04-24,M,High School,Divorced,retired,1127994.0,Famailla,Tucumán,Argentina,+54 9 3518 3525,juan-sebastianjuarez@example.com,HealthInsurance
-CLI-07220,Tiziano Valentin	,Garcia,1983-07-30,M,High School or Below,Single,Disabled,16924.0,Posadas,Misiones,Argentina,+54 15 2956 4807,isabella27@example.net,AutoInsurance
+"CLI-07220,Tiziano Valentin	,Garcia,1983-07-30,M,High School or Below,Single,Disabled,16924.0,Posadas,Misiones,Argentina,+54 15 2956 4807,isabella27@example.net,AutoInsurance"
 CLI-08016,Lautaro,Gonzalez,1963-10-31,M,College,Married,Employed,42124.0,Concordia,Entre Ríos,Argentina,+54 9 3354 0631,ignaciomorales@example.org,AutoInsurance
 CLI-02059,Mia,Sosa,1991-02-14,F,Bachelor,Married,Unemployed,1325250.0,Oberá,Misiones,Argentina,+54 9 3715 6419,bpereyra@example.org,AutoInsurance
 CLI-09853,Sofia,Pereyra,1975-05-03,F,High School,Divorced,Retired,739298.0,Salta,Salta,Argentina,+54 15 2430 5046,cojeda@example.com,HealthInsurance
@@ -3929,7 +3929,7 @@ CLI-04399,Lucas,Gonzalez,1996-10-22,M,College,Married,Employed,58089.0,San Ramó
 CLI-01438,Sofia,Ledesma,1983-02-22,F,Bachelor,Married,Medical Leave,24177.0,San Rafael,Mendoza,Argentina,+54 15 2153 0597,guadalupegomez@example.net,AutoInsurance
 CLI-03482,Sofia,Dominguez,1967-09-08,F,High School or Below,Single,Unemployed,304144.0,Venado Tuerto,Santa Fe,Argentina,+54 9 3668 0940,csanchez@example.org,AutoInsurance
 CLI-10340,Bautista Benjamin,Herrera,,M,Master,Married,Employed,552774.0,Maipú,Mendoza,Argentina,+54939736782,martina04@example.org,HealthInsurance
-CLI-08837,Martina,Lopez,1994-01-28,F,College,Single,Employed,72335.0,Gualeguaychú	,Entre Ríos,Argentina,+54 9 3718 0984,mblanco@example.net,AutoInsurance
+"CLI-08837,Martina,Lopez,1994-01-28,F,College,Single,Employed,72335.0,Gualeguaychú	,Entre Ríos,Argentina,+54 9 3718 0984,mblanco@example.net,AutoInsurance"
 CLI-00057,Tomas,Leiva,1983-07-03,M,College,Married,Employed,64749.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3571 9065,gomezluisina@example.net,AutoInsurance
 CLI-06148,Lautaro Ezequiel,Vargas,04-04-1958,M,College,Married,Employed,62575.0,Mendoza,Mendoza,Argentina,+54 9 3890 4012,rafaelsanchez@example.org,AutoInsurance
 CLI-09096,Santiago,Suarez,1999-03-07,M,College,Married,Employed,46900.0,Resistencia,Chaco,Argentina,+54 9 3446 2576,juan-ignaciocorrea@example.org,AutoInsurance
@@ -4005,7 +4005,7 @@ CLI-07602,Benjamin,Villalba,1990-11-16,M,Master,Divorced,Employed,49564.0,,Santa
 CLI-05929,Tomàs,Lucero,1996-04-03,M,High School or Below,Married,Employed,84493.0,,Buenos Aires,Argentina,+54 9 3190 4062,maximo34@example.org,AutoInsurance
 CLI-06283,Malena,Rodriguez,1980-03-20,F,High School or Below,Married,Employed,62582.0,Reconquista,Santa Fe,Argentina,+54 15 2203 7864,molinaramiro@example.com,AutoInsurance
 CLI-06461,Constanza,Martinez,1988-07-29,F,Bachelor,Married,Employed,29286.0,Alta Gracia,Córdoba,Argentina,+54 9 3286 6790,sgutierrez@example.com,AutoInsurance
-CLI-06516,Thiago,Sosa,1974-05-13,M,Doctor,Single,Disabled,28383.0,Lomas de Zamora,Buenos Aires	,Argentina,+54 9 3190 5973,fcardozo@example.net,AutoInsurance
+"CLI-06516,Thiago,Sosa,1974-05-13,M,Doctor,Single,Disabled,28383.0,Lomas de Zamora,Buenos Aires	,Argentina,+54 9 3190 5973,fcardozo@example.net,AutoInsurance"
 CLI-03252,Emiliano,Romero,1970-02-15,M,Master,Single,Unemployed,250333.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2489 8122,vfigueroa@example.com,AutoInsurance
 CLI-04814,Alma Jazmin,Romero,1976-10-15,F,Bachelor,Married,Employed,39837.0,Santa Fe,Santa Fe,Argentina,+54 9 3249 7172,camilagutierrez@example.com,AutoInsurance
 CLI-08746,Juan Cruz,Medina,1968-09-29,M,College,n/a,Employed,42633.0,Concepción,Tucumán,Argentina,54939097090,thiagocardozo@example.com,AutoInsurance
@@ -4029,7 +4029,7 @@ CLI-08302,Vicente,Sosa,05/03/1992,M,Bachelor,Single,Medical Leave,10458.0,Barran
 CLI-00070,Agustina,Arias,1958-10-30,F,College,Married,Disabled,29879.0,La Plata,Buenos Aires,Argentina,+54 15 2821 9693,franciscogodoy@example.com,AutoInsurance
 CLI-06642,Geronimo,Pereyra,1993-09-19,M,High School or Below,Married,Unemployed,1118875.0,Caballito,CABA,Argentina,+54 9 3286 7149,jnunez@example.net,AutoInsurance
 CLI-06180,Sofia,Martinez,1984-07-19,F,College,Divorced,Employed,40516.0,Luján de Cuyo,Mendoza,Argentina,+54 15 2139 9492,lopezmilo@example.net,AutoInsurance
-CLI-02760,Julieta,Ferreyra,1965-10-18,F,Bachelor,Married,Employed,93836.0,Quilmes,Buenos Aires	,Argentina,+54 15 2580 2459,gimenezlautaro-nahuel@example.net,AutoInsurance
+"CLI-02760,Julieta,Ferreyra,1965-10-18,F,Bachelor,Married,Employed,93836.0,Quilmes,Buenos Aires	,Argentina,+54 15 2580 2459,gimenezlautaro-nahuel@example.net,AutoInsurance"
 CLI-06153,Valentina,Ledesma,1974-02-14,F,High School or Below,Married,Employed,34337.0,Rosario de la Frontera,Salta,Argentina,+54 9 3802 1421,catalinaluna@example.net,AutoInsurance
 CLI-10277,Mora,Lucero,05/03/1974,F,Master,single,Self-Employed,,,Mendoza,Argentina,+54 9 3322 5699,micaelacoronel@example.net,HealthInsurance
 CLI-01587,Juan Ignacio,Vera,1974-05-03,femenino,High School or Below,Married,Employed,28082.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3200 3203,lmolina@example.net,AutoInsurance
@@ -4125,7 +4125,7 @@ CLI-02941,Lautaro,Olivera,1967-06-05,M,College,Married,Employed,65733.0,Alta Gra
 CLI-00472,Lucía,Garcia,1975-05-19,F,College,Married,Employed,38977.0,Yerba Buena,Tucumán,Argentina,+54 15 2603 8569,pilar88@@example.com,AutoInsurance
 CLI-01642,Valentin,Sosa,1982-05-03,f,Bachelor,SINGLE,Employed,30915.0,Rosario,Santa Fe,Argentina,+54 9 3424 7286,justina01@example.org,AutoInsurance
 CLI-03339,Zoe,Roldan,1956-02-12,F,Doctor,Married,Employed,92509.0,Río Cuarto,Córdoba,Argentina,+54 9 3623 0636,mguzman@example.com,AutoInsurance
-CLI-09586,Benjamin,Silva,1996-04-27,M,Master,Divorced,Self-Employed,1063305.0,Yerba Buena,Tucumán	,Argentina,+54 15 2900 6345,perezdylan-benjamin@example.net,HealthInsurance
+"CLI-09586,Benjamin,Silva,1996-04-27,M,Master,Divorced,Self-Employed,1063305.0,Yerba Buena,Tucumán	,Argentina,+54 15 2900 6345,perezdylan-benjamin@example.net,HealthInsurance"
 CLI-01173,Benjamin,Lopez,1968-01-04,M,High School or Below,Married,Unemployed,320853.0,Santa Fe,Santa Fe,Argentina,+54 9 3711 2312,benitezconstanza@example.org,AutoInsurance
 CLI-06924,Catalina,Ruiz,1992-07-25,F,College,Married,Employed,79189.0,Leandro N. Alem,Misiones,Argentina,+54 15 2628 1259,joaquin04@example.net,AutoInsurance
 CLI-06608,Facundo,Hernandez,1992-12-13,M,College,Divorced,employed,290915.0,Flores,CABA,Argentina,+54 15 2906 2128,ramirezsalvador@example.org,AutoInsurance
@@ -4345,7 +4345,7 @@ CLI-05906,Luca,Fernandez,1971-03-03,M,master,Married,Employed,78189.0,Luján de 
 CLI-08451,Benicio,Perez,1974-06-27,M,Bachelor,Married,Employed,50719.0,La Plata,Buenos Aires,Argentina,+54 15 2375 7394,calvarez@example.net,AutoInsurance
 CLI-03549,Federico,Rojas,1994-06-04,M,High School or Below,Married,Employed,60986.0,San Rafael,Mendoza,Argentina,+54 9 3461 6217 int.2,fsoria@example.org,AutoInsurance
 CLI-01917,Mia Jazmin,Chavez,1970-10-15,F,Secundaria,Divorced,Unemployed,669330.0,Concordia,Entre Ríos,Argentina,+54 9 3605 3110,amparovillalba@example.org,AutoInsurance
-CLI-03186,Olivia,Miranda,,F,College,Married,Employed,26023.0,Concepción	,Tucumán,Argentina,+54 9 3245 4300,rcruz@example.com,AutoInsurance
+"CLI-03186,Olivia,Miranda,,F,College,Married,Employed,26023.0,Concepción	,Tucumán,Argentina,+54 9 3245 4300,rcruz@example.com,AutoInsurance"
 CLI-04979,Joaquin,Godoy,,M,High School or Below,Single,Unemployed,,Concepción del Uruguay,Entre Ríos,Argentina,+54 15 2732 2275,aguirremateo-agustin@example.com,AutoInsurance
 CLI-01911,Juan Martin,Ponce,1966-01-21,M,College,Single,Disabled,20545.0,Rosario de la Frontera,Salta,Argentina,+54 15 2708 6014,sanchezsalvador@example.net,AutoInsurance
 CLI-07965,Augusto,Acuña,1950-04-24,M,Bachelor,Divorced,Employed,85756.0,Concordia,Entre Ríos,Argentina,+54 9 3293 8102,lopezcatalina@example.com,AutoInsurance
@@ -4541,7 +4541,7 @@ CLI-05439,LARA,Suarez,1991-06-12,F,Bachelor,Single,Unemployed,285519.0,Flores,CA
 CLI-09515,Nina,Farias,1999-04-27,F,Doctor,Divorced,Retired,545591.0,Luján de Cuyo,Mendoza,Argentina,+54 15 2438 4831,florenciaramirez@example.org,health
 CLI-01756,Juan Pablo,Aguero,1955-12-23,M,Master,Married,Employed,60880.0,San Miguel,Buenos Aires,Argentina,+54 9 3224 5284,guadalupecabrera@example.net,AutoInsurance
 CLI-04961,Sebastian,Fernandez,1993-10-05,M,High School or Below,Single,Unemployed,1009697.0,Leandro N. Alem,Misiones,Argentina,+54 15 2919 1396,gro.elpmaxe@zednanrehleiuqeze-nimajneb,AUTO INSURANCE
-CLI-07573,Constanza,Diaz,1976-03-23,F,High School or Below,Single,Unemployed,577614.0,Luján de Cuyo,Mendoza	,Argentina,+54 9 3135 6840,ycoronel@example.com,AutoInsurance
+"CLI-07573,Constanza,Diaz,1976-03-23,F,High School or Below,Single,Unemployed,577614.0,Luján de Cuyo,Mendoza	,Argentina,+54 9 3135 6840,ycoronel@example.com,AutoInsurance"
 CLI-04328,Alma Valentina,Ruiz,1968-11-14,F,Bachelor,Div.,activo,50398.0,Rosario,Santa Fe,Argentina,+54 15 2918 6701,nrojas@example.com,AutoInsurance
 CLI-00111,Benjamin,Soria,1974-10-28,M,Secundaria,Married,Employed,56398.0,Salta,Salta,Argentina,+54 9 3822 0472,fcabrera@example.org,AutoInsurance
 CLI-06337,Camila,Nuñez,1995-02-20,F,Bachelor,Married,Medical Leave,29957.0,Flores,CABA,Argentina,+54 15 2944 0608,josefinacarrizo@example.org,AutoInsurance
@@ -4573,7 +4573,7 @@ CLI-06585,Augusto,Hernandez,1987-02-06,M,High School or Below,Married,Disabled,2
 CLI-02919,Guadalupe,Navarro,1964-09-23,F,High School or Below,Divorced,Unemployed,614263.0,San Rafael,Mendoza,Argentina,+54 9 3247 3534,genaro91@example.org,AutoInsurance
 CLI-03085,Isabella,Martin,1988-11-26,F,High School or Below,Married,Employed,29444.0,,Tucumán,Argentina,+54 15 2279 5118,valentina-gomez@example.com,AutoInsurance
 CLI-04305,Francesca,Silva,,F,High School or Below,Married,Employed,88669.0,Salta,Salta,Argentina,+54 15 2370 6487,ignaciopereyra@example.net,AutoInsurance
-CLI-02796,Alma Valentina,Vega	,1957-01-05,F,College,Married,Unemployed,779705.0,Oberá,Misiones,Argentina,+541525273032,palomasanchez@example.net,AutoInsurance
+"CLI-02796,Alma Valentina,Vega	,1957-01-05,F,College,Married,Unemployed,779705.0,Oberá,Misiones,Argentina,+541525273032,palomasanchez@example.net,AutoInsurance"
 CLI-04611,Ciro,Navarro,1991-04-07,M,Bachelor,Single,Unemployed,1060611.0,Lanús,Buenos Aires,Argentina,+54 15 2705 3725,olivia37@exampleorg,AutoInsurance
 CLI-00799,Benjamin,Fernandez,1997-05-20,M,College,Single,Unemployed,289237.0,Belgrano,CABA,Argentina,+54 15 2358 6812,mailto:ambar95@example.com,AutoInsurance
 CLI-00735,Luciano,Diaz,1989-05-19,M,Bachelor,Single,Employed,25290.0,Tartagal,Salta,Argentina,+54 9 3815 5973,garciamartina@example.org,AutoInsurance
@@ -4646,7 +4646,7 @@ CLI-05582,Martina,Toledo,1985-08-23,F,College,Married,Employed,39018.0,Lanús,Bu
 CLI-08945,Juan Cruz,Gonzalez,1991-11-10,M,High School or Below,Single,Unemployed,587564.0,Rosario de la Frontera,Salta,Argentina,+54 15 2158 9774,paloma96@example.net,
 CLI-06244,Ramiro,Fernandez,1979-09-07,M,High School or Below,Married,Employed,25746.0,Quilmes,Buenos Aires,Argentina,03152 6354,guillermina01@example.net,AutoInsurance
 CLI-04727,Francisco.,Medina,1967-01-16,M,Bachelor,Married,Employed,86305.0,Venado Tuerto,Santa Fe,Argentina,+54 9 3722 2855,bautistanavarro@example.net,AutoInsurance
-CLI-07477,Ciro,Aguero	,1962-01-05,M,Bachelor,Single,Employed,56869.0,Resistencia,Chaco,Argentina,+54 9 3269 6190,ecabrera@example.org,AutoInsurance
+"CLI-07477,Ciro,Aguero	,1962-01-05,M,Bachelor,Single,Employed,56869.0,Resistencia,Chaco,Argentina,+54 9 3269 6190,ecabrera@example.org,AutoInsurance"
 CLI-04017,Julian,Maidana,1972-02-19,M,High School or Below,Married,Unemployed,845466.0,Belgrano,CABA,Argentina,+54 15 2869 1548,carrizothiago-benjamin@example.net,AutoInsurance
 CLI-06679,Martina,Acosta,,F,Master,Divorced,Unemployed,1325799.0,Apóstoles,Misiones,Argentina,+54 9 3889 8687,toledojuan-ignacio@example.com,AutoInsurance
 CLI-04249,GUADALUPE,HERNANDEZ,1998-04-27,M,High School or Below,Married,Employed,70958.0,Tafí Viejo,Tucumán,Argentina,+54 9 3644 9118,gonzalezalma@example.net,AutoInsurance
@@ -4731,7 +4731,7 @@ CLI-02939,tIZIANO vALENTIN,lUNA,,M,College,Single,Unemployed,1057289.0,Mendoza,M
 CLI-07189,Valentin,Bravo,1989-08-14,M,College,Divorced,Employed,62873.0,Tartagal,Salta,Argentina,+54 15 2999 7546,constanzagimenez@example.com,AutoInsurance
 CLI-09299,Valentin,Rodriguez,1989-04-29,M,Doctor,Divorced,Retired,1253571.0,Paraná,Entre Ríos,Argentina,+54 9 3913 4363,maite64@example.net,HealthInsurance
 CLI-05823,Tiziano Valentin,Sosa,1952-11-11,M,High School or Below,Married,Employed,40376.0,Flores,CABA,Argentina,+54 9 3873 8890,pmunoz@example.org,AutoInsurance
-CLI-01980,Lucía	,Gonzalez,1977-04-12,F,High School or Below,Married,Employed,-1.0,Lanús,Buenos Aires,Argentina,+54 15 2767 5321,benjamin-ezequielledesma@example.com,AutoInsurance
+"CLI-01980,Lucía	,Gonzalez,1977-04-12,F,High School or Below,Married,Employed,-1.0,Lanús,Buenos Aires,Argentina,+54 15 2767 5321,benjamin-ezequielledesma@example.com,AutoInsurance"
 CLI-03804,Octavio,Fernandez,1986-07-27,M,High School or Below,Divorced,Retired,15741.0,Reconquista,Santa Fe,Argentina,+54 9 3924 5979,santiagofigueroa@example.com,AutoInsurance
 CLI-04535,Emma,Diaz,1978-10-04,F,High School or Below,Single,Employed,59207.0,Recoleta,CABA,Argentina,+54 15 2892 9501,wrodriguez@example.org,AutoInsurance
 CLI-05255,Maria Victoria,Fernandez,1998-12-28,F,College,Married,Employed,64987.0,Eldorado,Misiones,Argentina,+54 15 2919 0101,rafael40@example.com,AutoInsurance
@@ -4748,7 +4748,7 @@ CLI-04131,Matilda,Gonzalez,1978-09-05,F,College,Married,Employed,72608.0,Concepc
 CLI-07024,Facundo,Sanchez,1983-06-29,M,College,Single,Unemployed,460969.0,La Plata,Buenos Aires,Argentina,+54 9 3781 5642,valentina-jazmin96@example.net,AutoInsurance
 CLI-05071,Agustina,Maldonado,1978-03-22,F,Doctor,Married,Unemployed,1221777.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2509 6702,rodriguezrenata@example.net,AutoInsurance
 CLI-01785,Victoria,Benitez,1963/08/20,F,High School or Below,Married,Employed,37995.0,San Rafael,Mendoza,Argentina,+54 9 3807 3446,francesca15@example.net,AutoInsurance
-CLI-03183,Isabella,Sosa,1999-07-03,F,Bachelor,Single,Employed,31532.0,Mar del Plata	,Buenos Aires,Argentina,+54 9 3474 8084,fferreyra@example.net,AutoInsurance
+"CLI-03183,Isabella,Sosa,1999-07-03,F,Bachelor,Single,Employed,31532.0,Mar del Plata	,Buenos Aires,Argentina,+54 9 3474 8084,fferreyra@example.net,AutoInsurance"
 CLI-00495,Jazmin,Sosa,1983-01-01,F,Master,Married,Employed,62773.0,Reconquista,xxx,Argentina,+54 9 3780 1571,facundo47@example.org,AutoInsurance
 CLI-05172,Agustín,Suarez,1972-06-25,M,College,Married,Employed,62291.0,Alta Gracia,Córdoba,Argentina,+54937914185,emmabarrios@example.net,AutoInsurance
 CLI-09163,Benicio,Gimenez,2003-04-26,M,Bachelor,Married,Unemployed,1750994.0,Colón,Entre Ríos,Argentina,+54 15 2797 3363,catalinanavarro@example.com,HealthInsurance
@@ -4761,7 +4761,7 @@ CLI-02898,Juana,Fernandez,1970-11-14,F,Bachelor,Single,Unemployed,244487.0,Lanú
 CLI-00367,Mia Valentina,Ortiz,1955-06-08,F,College,Single,Employed,52135.0,Yerba Buena,Tucumán,Argentina,+54 15 2888 6195,kcruz@example.org,AutoInsurance
 CLI-00850,Francesca,Silva,1976-02-20,F,Bachelor,Married,Employed,33906.0,Paraná,Entre Ríos,Argentina,+54 15 2383 1995,duartebenjamin@example.com,AutoInsurance
 CLI-07021,Constanza,Gonzalez,1991-06-08,F,Bachelor,Married,Employed,57938.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 15 2607 3106,oliviaaguirre@example.com,AutoInsurance
-CLI-07384,Valentina Jazmin	,Lopez,1970-12-21,F,High School or Below,Married,Employed,59130.0,Tartagal,Salta,Argentina,+54 9 3849 5691,pilar84@example.net,AutoInsurance
+"CLI-07384,Valentina Jazmin	,Lopez,1970-12-21,F,High School or Below,Married,Employed,59130.0,Tartagal,Salta,Argentina,+54 9 3849 5691,pilar84@example.net,AutoInsurance"
 CLI-06216,Antonella,Acosta,1952-12-11,F,Master,Divorced,Employed,36639.0,Lomas de Zamora,Buenos Aires,Argentina,+54 15 2309 7465,maximo48@example.org,desconocido
 CLI-07949,Valentina Jazmin,Leiva,1956-05-02,F,High School or Below,Married,Employed,35504.0,Colón,Entre Ríos,Argentina,+54 9 3818 6766,franco51@example.org,AutoInsurance
 CLI-02654,Tiziano Benjamin,Ramirez,1970-12-21,male,High School or Below,Married,Employed,62488.0,Salta,Salta,Argentina,+54 15 2529 8568,zaguero@example.com,AutoInsurance
@@ -4953,7 +4953,7 @@ CLI-00673,Sofía,Rodriguez,1955-04-23,F,High School or Below,Married,Employed,,,
 CLI-08125,Ignacio,Avila,1979-12-10,M,Bachelor,Single,Unemployed,385001.0,Lanús,Buenos Aires,Argentina,+54 15 2194 6594,maria-pazcaceres@example.com,AutoInsurance
 CLI-06119,Agostina,Ponce,,F,College,Single,Unemployed,1391209.0,Rosario,Santa Fe,Argentina,+54 9 3322 3413,mateo28@example.net,AutoInsurance
 CLI-03378,Thiago Ezequiel,Suarez,1984-11-29,M,High School or Below,Married,Employed,0.0,San Miguel de Tucumán,Tucumán,Argentina,+54 15 2791 6942,chavezsantiago-benjamin@example.com,AutoInsurance
-CLI-04477,Lola,Romero,1956-11-29,F,College,Married,Employed,23449.0,Tafí Viejo	,Tucumán,Argentina,+54 9 3292 5384,santiago-nicolasledesma@example.net,AutoInsurance
+"CLI-04477,Lola,Romero,1956-11-29,F,College,Married,Employed,23449.0,Tafí Viejo	,Tucumán,Argentina,+54 9 3292 5384,santiago-nicolasledesma@example.net,AutoInsurance"
 CLI-09440,Juan,Fernandez,1997-04-27,M,Doctor,Divorced,Retired,899045.0,Maipú,Mendoza,Argentina,(+54) 9 3814 1530,isabellagonzalez@example.org,HealthInsurance
 CLI-01465,Antonella,Perez,1962-10-21,F,High School or Below,Single,Unemployed,1421897.0,Tartagal,Salta,Argentina,+54 9 3533 0833,julieta04@example.net,AutoInsurance
 CLI-04746,Mateo Benjamin,Gimenez,1970-07-16,Femenino,High School or Below,Married,Employed,43412.0,Famailla,Tucumán,Argentina,+54 9 3620 1648,malena33@example.org,AutoInsurance
@@ -5005,7 +5005,7 @@ CLI-01913,Agostina,Miranda.,1979-10-25,F,College,Married,Employed,35503.0,San Ra
 CLI-05305,Lautaro,Figueroa,1993-02-04,M,College,Married,Employed,70882.0,Villa Carlos Paz,Córdoba,Argentina,,afernandez@example.com,AutoInsurance
 CLI-00600,Maia,Torres,1993-06-11,F,Master,Divorced,Employed,93018.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3120 5015,fernandezsimon@example.net,AutoInsurance
 CLI-03893,Lorenzo,Romero,1964-06-24,M,College,MARRIED,retired,29242.0,Godoy Cruz,Mendoza,Argentina,+54 9 3123 0056,victoria61@example.com,AutoInsurance
-CLI-04142,Mateo Agustin,Soria,1975-06-21,M,High School or Below,Single,Unemployed,1366938.0,Lomas de Zamora	,Buenos Aires,Argentina,+54 9 3386 7154,felicitas95@example.com,AutoInsurance
+"CLI-04142,Mateo Agustin,Soria,1975-06-21,M,High School or Below,Single,Unemployed,1366938.0,Lomas de Zamora	,Buenos Aires,Argentina,+54 9 3386 7154,felicitas95@example.com,AutoInsurance"
 CLI-01653,Santiago,Diaz,1970-11-16,M,High School or Below,Married,Employed,56146.0,Gualeguaychú,Entre Ríos,Argentina,+54 9 3544 1723,pedro53@example.net,AutoInsurance
 CLI-06071,Malena,Diaz,1977-10-16,masculino,Bachelor,Married,Disabled,19240.0,Villa Carlos Paz,Córdoba,Argentina,,juan-cruzroldan@example.org,AutoInsurance
 CLI-01894,Emma,Sosa,1957-10-24,F,College,Single,Unemployed,898959.0,Villa Ángela,Chaco,Argentina,+54 15 2995 6572,emma33@example.net,
@@ -5165,7 +5165,7 @@ CLI-09997,Constanza,Medina,1971-05-04,F,Master,Divorced,Employed,541334.0,Charat
 CLI-04156,Isabella,Torres,1997-10-15,F,College,Divorced,Unemployed,900563.0,Lomas de Zamora,Buenos Aires,Argentina,54938654934,ariasmilo@example.com,AutoInsurance
 CLI-04884,Manuel,Gomez,1986-02-26,M,High School or Below,Married,Employed,52198.0,San Miguel de Tucumán,Tucumán,Argentina,+54 15 2515 7864,lucasbenitez@example.org,AutoInsurance
 CLI-07504,Alma Jazmin,Acosta,9999-12-31,F,High School or Below,Single,Employed,34807.0,Gualeguaychú,Entre Ríos,Argentina,+54 9 3315 2566,tiziana53@example.org,AutoInsurance
-CLI-06189,Malena,Acosta	,1973-09-18,F,Master,Married,Employed,99652.0,Quilmes,Buenos Aires,Argentina,+54 15 2696 7477,ten.elpmaxe@zeravlasalocin-oratual,AutoInsurance
+"CLI-06189,Malena,Acosta	,1973-09-18,F,Master,Married,Employed,99652.0,Quilmes,Buenos Aires,Argentina,+54 15 2696 7477,ten.elpmaxe@zeravlasalocin-oratual,AutoInsurance"
 CLI-09258,Bautista,Avila,1982-05-01,M,Master,Married,retired,315503.0,Villa Ángela,Chaco,Argentina,+54 15 2448 4449,rojasalexander@example.com,HealthInsurance
 CLI-10006,Juana,Pereyra,2000-04-26,F,High School,Married,Employed,434911.0,San Rafael,Mendoza,Argentina,+54 9 3653 1426,facundovelazquez@example.org,HealthInsurance
 CLI-04297,Guadalupe,Castro,1956-01-09,F,High School or Below,Single,Unemployed,358445.0,Famailla,Tucumán,Argentina,+54 9 3868 9823,benjamin-alejandrofernandez@example.net,AutoInsurance
@@ -5405,7 +5405,7 @@ CLI-07440,MATIAS,DIAZ,1954-04-14,M,High School or Below,Single,Employed,24475.0,
 CLI-06712,Luca,Campos,1979-08-29,M,High School or Below,Single,Unemployed,224628.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 9 3907 2790,pmartinez@example.net,AutoInsurance
 CLI-01236,Abril,Ferreyra,,F,High School or Below,Married,Employed,88706.0,Colón,Entre Ríos,Argentina,9164 7922 51 45+,iaguirre@example.com,AutoInsurance
 CLI-01226,Thiago Valentin,Ruiz,1988-07-10,M,High School or Below,Single,Unemployed,,San Ramón de la Nueva Orán,Salta,Argentina,+54 15 2227 7822,mirandaluca@example.com,AUTO INSURANCE
-CLI-01765,Maria Emilia,Cruz,1993-12-15,F,College,Single,Employed,76456.0,Yerba Buena	,Tucumán,Argentina,+54 9 3159 4698,psoria@example.org,AutoInsurance
+"CLI-01765,Maria Emilia,Cruz,1993-12-15,F,College,Single,Employed,76456.0,Yerba Buena	,Tucumán,Argentina,+54 9 3159 4698,psoria@example.org,AutoInsurance"
 CLI-09231,Delfina,Villalba,1972-05-03,F,Master,Married,Employed,234995.0,Tafí Viejo,Tucumán,Argentina,+54 15 2795 9661,castropedro@example.org,HealthInsurance
 CLI-06157,Guillermina,Rodriguez,1999-03-09,F,High School or Below,Married,Unemployed,624258.0,Orán,Salta,Argentina,+54 9 3348 0057,bautista-benjamin94@example.com,AutoInsurance
 CLI-05911,lautaro ezequiel,martinez,1953-05-26,M,High School or Below,Single,Unemployed,1436576.0,Eldorado,Misiones,Argentina,+54 15 2163 4811,benjamin72@example.com,AutoInsurance
@@ -5430,7 +5430,7 @@ CLI-05317,Juan Ignacio,Moyano,1951-10-04,M,High School or Below,Divorced,Disable
 CLI-00658,Isabella,Rojas,1993-01-17,F,College,Married,Employed,44552.0,Concepción,Tucumán,Argentina,+54 9 3465 5289,ruizmateo-benjamin@example.com,AutoInsurance
 CLI-03302,Camila,Martinez,1988-01-04,F,Bachelor,Married,Unemployed,528834.0,Rafaela,Santa Fe,Argentina,+54 9 3437 3801,pereyrathiago-benjamin@example.com,AutoInsurance
 CLI-06780,Micaela,Garcia,1971-12,F,College,Married,Employed,24019.0,Luján de Cuyo,Mendoza,Argentina,,cirocorrea@example.com,AutoInsurance
-CLI-02846,Lautaro	,Gomez,1966-02-10,M,High School or Below,Single,Jubilada,41539.0,Reconquista,Santa Fe,Argentina,+54 15 2762 8033,sofia84@example.net,AutoInsurance
+"CLI-02846,Lautaro	,Gomez,1966-02-10,M,High School or Below,Single,Jubilada,41539.0,Reconquista,Santa Fe,Argentina,+54 15 2762 8033,sofia84@example.net,AutoInsurance"
 CLI-10044,Luna,Dominguez,1994-04-28,F,Bachelor,Divorced,Retired,1250203.0,  San Rafael  ,Mendoza,Argentina,+54 9 3856 4614,josefina84@example.com,HealthInsurance
 CLI-09547,Pilar,Perez,2000-04-26,F,Bachelor,soltero,Employed,664131.0,Santa Fe,Santa Fe,Argentina,2206 2972 51 45+,diazvalentin@example.org,HealthInsurance
 CLI-05245,Matilda,Pereyra,1982-08-21,F,College,Married,Unemployed,357520.0,Apóstoles,Misiones,Argentina,+54 9 3106 5413,rgodoy@example.com,AutoInsurance
@@ -5554,7 +5554,7 @@ CLI-06979,Ciro,Barrios,1983-03-26,M,Bachelor,Single,Unemployed,861909.0,Mar del 
 CLI-06436,Thiago Benjamin,Pereyra,1974-10-11,M,College,Married,Retired,28142.0,Concordia,Entre Ríos,Argentina,+54 15 2940 6858,helenamartin@example.net,AutoInsurance
 CLI-04702,Helena,Acosta,1980-12-06,F,High School or Below,Single,Unemployed,704932.0,Luján de Cuyo,Mendoza,Argentina,+54 15 2791 2989,pmartinez@example.com,AutoInsurance
 CLI-03962,JULIETA,MARTINEZ,1959-03-07,F,High School or Below,Married,Disabled,11432.0,Barranqueras,Chaco,Argentina,+54 15 2703 2569,tomas41@example.org,AutoInsurance
-CLI-08986,Alma,Gonzalez,1954-05-08,F,College,Married,Unemployed,857608.0,Palermo	,CABA,Argentina,+54 15 2574 1961 int.2,velazquezguadalupe@example.org,AutoInsurance
+"CLI-08986,Alma,Gonzalez,1954-05-08,F,College,Married,Unemployed,857608.0,Palermo	,CABA,Argentina,+54 15 2574 1961 int.2,velazquezguadalupe@example.org,AutoInsurance"
 CLI-09595,Ambar,Maldonado,1977-05-02,F,Doctor,Divorced,Retired,1211059.0,Santa Fe,Santa Fe,Argentina,+54 15 2509 0997,ludmiladiaz@example.com,HealthInsurance
 CLI-00891,Guadalupe,Romero,1957-08-09,F,Bachelor,Married,Employed,80744.0,Barranqueras,Chaco,Argentina,+54 15 2899 6132,martinasanchez@example.org,AutoInsurance
 CLI-05801,Joaquin,Garcia,1997-12-30,M,College,Divorced,Unemployed,1027003.0,Rosario,Santa Fe,Argentina,+54 9 3566 4798,zbustos@example.net,AutoInsurance
@@ -5627,8 +5627,8 @@ CLI-01270,Elena,Aguero,,F,High School or Below,Single,Employed,41711.0,Yerba Bue
 CLI-00129,Valentino,Dominguez,,M,College,Divorced,Retired,25251.0,San Rafael,Mendoza,Argentina,+54 9 3590 0109,camiloramirez@example.net,AutoInsurance
 CLI-08350,Felicitas,Fernandez,1959-10-08,F,Bachelor,Married,Employed,58733.0,Villa Ángela,Chaco,Argentina,+54 15 2227 7544,silvaemma@example.com,AutoInsurance
 CLI-01712,Helena,Campos,1993-04-16,F,High School or Below,Married,Disabled,11432.0,Tafí Viejo,Tucumán,Argentina,+54 15 2582 3171,nvillalba@example.net,AutoInsurance
-CLI-04183,Emilia	,Molina,1959-04-19,F,Bachelor,Married,Employed,25134.0,Belgrano,CABA,Argentina,+54 15 2876 9657,nsanchez@example.net,AutoInsurance
-CLI-09326,alma jazmin	,perez,1990-04-29,F,Master,Divorced,Employed,,N/A,Salta,Argentina,+54 9 3571 2483,antonio21@example.org,HealthInsurance
+"CLI-04183,Emilia	,Molina,1959-04-19,F,Bachelor,Married,Employed,25134.0,Belgrano,CABA,Argentina,+54 15 2876 9657,nsanchez@example.net,AutoInsurance"
+"CLI-09326,alma jazmin	,perez,1990-04-29,F,Master,Divorced,Employed,,N/A,Salta,Argentina,+54 9 3571 2483,antonio21@example.org,HealthInsurance"
 CLI-04236,Dante,Suarez,1960-01-03,M,Bachelor,Married,Employed,52009.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3285 9877,valentin33@example.org,AutoInsurance
 CLI-06913,LUCAS,GOMEZ,,M,Bachelor,Divorced,Employed,47509.0,Luján de Cuyo,Mendoza,Argentina,+54 9 3542 1066,oherrera@example.com,AutoInsurance
 CLI-02399,Benjamin,Garcia,1972-05-24,M,Bachelor,Married,Employed,42837.0,Bell Ville,Córdoba,Argentina,+54 15 2837 6474,lponce@example.org,AutoInsurance
@@ -5700,7 +5700,7 @@ CLI-05771,Milena,Flores,1969-03-17,F,College,Single,Employed,54840.0,Villa Ánge
 CLI-06062,Valentina,Romero,1962-02-07,F,High School or Below,Single,Disabled,24400.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 9 3809 9394,manuel98@example.net,AutoInsurance
 CLI-06142,Julia,Blanco,1991-01-02,F,High School or Below,Married,Employed,60884.0,Lomas de Zamora,Buenos Aires,Argentina,,qfernandez@example.org,AutoInsurance
 CLI-01087,Morena Jazmin,Mendez,1965-12-03,F,Bachelor,Single,Employed,35457.0,Concepción,Tucumán,Argentina,+54 9 3387 6989,sromero@example.com,AutoInsurance
-CLI-06736,Benjamin,Aguirre	,,M,High School or Below,Married,Employed,67837.0,Lomas de Zamora,Buenos Aires,Argentina,+54 15 2444 1463,constantinogutierrez@example.net,AutoInsurance
+"CLI-06736,Benjamin,Aguirre	,,M,High School or Below,Married,Employed,67837.0,Lomas de Zamora,Buenos Aires,Argentina,+54 15 2444 1463,constantinogutierrez@example.net,AutoInsurance"
 CLI-08538,Camila,Peralta,02-07-1987,F,licenciado,Married,Employed,42045.0,La Plata,Buenos Aires,Argentina,+54 9 3209 7305,sanchezolivia@example.org,AutoInsurance
 CLI-06351,Francesca,Sanchez,1992-10-09 00:00:00,F,Doctor,Married,Employed,91071.0,n/a,Córdoba,Argentina,+54 15 2821 6933,vicente36@example.org,AutoInsurance
 CLI-07745,Thiago Ezequiel,Arias,,M,High School or Below,Married,Unemployed,1457222.0,Posadas,Misiones,Argentina,+54 15 2344 8737,malenamoreno@example.net,AutoInsurance
@@ -6157,7 +6157,7 @@ CLI-10153,Sofia,Flores,1972-05-03,F,Doctor,Divorced,Retired,629680.0,Tafí Viejo
 CLI-05711,Josefina,Romero,1992-06-04,F,High School or Below,Single,Unemployed,1377520.0,Posadas,Misiones,Argentina,+54 15 2446 5998,perezconstantino@example.net,AutoInsurance
 CLI-00608,bAUTISTA,cARDOZO,1984-06-18,M,College,Married,Employed,45345.0,Luján de Cuyo,Mendoza,Argentina,+54 9 3878 5390,pedro76@example.com,AutoInsurance
 CLI-06995,Luciano,Sosa,1955-06-22,M,Bachelor,Married,Unemployed,484434.0,Concepción,Tucumán,Argentina,+54 15 2410 7248,santino67@example.org,AutoInsurance
-CLI-01094,Juan Ignacio,Gomez,1993-09-16,M,Doctor,Divorced,Employed,30817.0,Orán,Salta	,Argentina,+54 15 2501 4188,martinblanco@example.net,AutoInsurance
+"CLI-01094,Juan Ignacio,Gomez,1993-09-16,M,Doctor,Divorced,Employed,30817.0,Orán,Salta	,Argentina,+54 15 2501 4188,martinblanco@example.net,AutoInsurance"
 CLI-06302,Luca,Benitez,1956-07-16,M,TEST,Single,Unemployed,1234378.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2592 4590,vfernandez@example.net,AutoInsurance
 CLI-07332,Camila,Ojeda,1951-05-22,F,null,Divorced,Employed,27083.0,Caballito,CABA,Argentina,+54 9 3208 1251,franciscogutierrez@example.com,AutoInsurance
 CLI-09631,Emilia,Castillo,1995-04-28,Fem.,Bachelor,Married,Retired,1058169.0,Charata,Chaco,Argentina,+54 15 2410 1968,godoytomas@example.org,HealthInsurance
@@ -6304,7 +6304,7 @@ CLI-02582,Francesca,Campos,1973-03-17,F,Master,Married,Employed,45820.0,Oberá,M
 CLI-08795,Guadalupe,Sanchez,1971-12-09,F,Master,Single,Employed,29462.0,Rosario,Santa Fe,Argentina,+54 15 2718 1568,romerosofia@example.net,AutoInsurance
 CLI-07786,Micaela,Caceres,1991-03-27,F,High School or Below,Soltero,Unemployed,284546.0,Santa Fe,Santa Fe,Argentina,+54 9 3786 2775,nahuel46@example.net,AutoInsurance
 CLI-08103,Matias,Juarez,1974-06-20,M,College,Divorced,Medical Leave,16040.0,Famailla,Tucumán,Argentina,+54 9 3645 3610,diazcatalina@example.org,AutoInsurance
-CLI-06367,Lucía,Gonzalez,1987-06-30,F,High School or Below,Single,Employed,97234.0,Caballito	,CABA,Argentina,+54 9 3761 7592,franco38@example.net,AutoInsurance
+"CLI-06367,Lucía,Gonzalez,1987-06-30,F,High School or Below,Single,Employed,97234.0,Caballito	,CABA,Argentina,+54 9 3761 7592,franco38@example.net,AutoInsurance"
 CLI-06927,GENARO,FERNANDEZ,1998-09-29,M,Doctor,Single,Employed,45484.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 15 2369 2382,mendezthiago@example.org,AutoInsurance
 CLI-09642,Benicio,Martinez,,M,Master,Divorced,Retired,1457543.0,Gualeguaychú,Entre Ríos,Argentina,+54 9 3708 1850,fernandezisabella@example.org,HealthInsurance
 CLI-01256,Valentin,Cordoba,1996-12-07,M,Bachelor,Married,Employed,25998.0,San Rafael,Mendoza,Argentina,+54 15 2481 2312,emilianomoreno@example.net,Auto_Insurance
@@ -6355,9 +6355,9 @@ CLI-08310,Ludmila,Rodriguez,1959-06-11,F,Doctor,Married,Employed,35159.0,Godoy C
 CLI-04401,Pedro,Barrios,1950-01-12,M,Bachelor,MARRIED,Employed,99583.0,Mendoza,Mendoza,Argentina,+54 15 2740 0771,gomezmartina@example.net,AutoInsurance
 CLI-08158,Lourdes,Lopez,1979-02-04,F,Bachelor,Divorced,Employed,39854.0,Flores,CABA,Argentina,+54 9 3913 2908,juan-ignacio57example.org,AutoInsurance
 CLI-05389,Martina,Perez,1964-10-08,F,High School or Below,Single,Unemployed,779466.0,Gualeguaychú,Entre Ríos,Argentina,+54 9 3121 5357,cabreraignacio@example.com,AutoInsurance
-CLI-04167,Mateo,Lopez,1964-06-24,M,High School or Below,Married,retired,1160010.0,Rafaela,Santa Fe	,Argentina,03601 7726,juan-bautista32@example.com,AutoInsurance
+"CLI-04167,Mateo,Lopez,1964-06-24,M,High School or Below,Married,retired,1160010.0,Rafaela,Santa Fe	,Argentina,03601 7726,juan-bautista32@example.com,AutoInsurance"
 CLI-07338,Valentino,Gomez,1979-08-10,M,Bachelor,Single,Unemployed,687949.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 15 2987 1270,claramoyano@example.org,AutoInsurance
-CLI-04952,Lorenzo	,Rojas,1971-08-27,M,Bachelor,Married,Employed,52278.0,Bell Ville,Córdoba,Argentina,,victorialopez@example.net,AutoInsurance
+"CLI-04952,Lorenzo	,Rojas,1971-08-27,M,Bachelor,Married,Employed,52278.0,Bell Ville,Córdoba,Argentina,,victorialopez@example.net,AutoInsurance"
 CLI-02688,Bautista,Villalba,1968-10-04,M,College,Single,Employed,33124.0,Paraná,Entre Ríos,Argentina,+54 9 3222 0659,gonzalezvictoria@example.com,AutoInsurance
 CLI-04391,Agustina,Paz,1963-08-14,F,High School or Below,Divorced,Employed,45302.0,Charata,Chaco,Argentina,+54 9 3526 3228,juan-ignacio33@example.com,AutoInsurance
 CLI-06799,Mateo Agustin,Barrios,1995-08-02,M,High School or Below,Married,Employed,,Oberá,Misiones,Argentina,+54 9 3501 0676,milagros05@example.com,AutoInsurance
@@ -6375,7 +6375,7 @@ CLI-07749,Valentina,Martin,1991-11-05,F,High School or Below,Married,Unemployed,
 CLI-07597,Alma,Ramirez,1951-06-09,F,Bachelor,Single,Retired,23904.0,Resistencia,Chaco,Argentina,+54 15 2230 0374,elopez@example.org,AutoInsurance
 CLI-07059,Benicio,Gonzalez,1961-12-15,M,College,Married,Employed,56480.0,Orán,Salta,Argentina,+54 15 2703 7400,moraperez@example.com,AutoInsurance
 CLI-05474,Alma,Ayala,1999-04-27,F,Bachelor,Married,Medical Leave,23675.0,Rosario,CABA,Argentina,+54 15 2502 1465,ortizbautista-benjamin@example.org,AutoInsurance
-CLI-00946,Ignacio,Toledo	,1957-05-24,M,Bachelor,Single,Unemployed,979812.0,San Rafael,Mendoza,Argentina,+54 9 3533 1857,leivabenjamin@example.com,AutoInsurance
+"CLI-00946,Ignacio,Toledo	,1957-05-24,M,Bachelor,Single,Unemployed,979812.0,San Rafael,Mendoza,Argentina,+54 9 3533 1857,leivabenjamin@example.com,AutoInsurance"
 CLI-07433,Benicio,Suarez,1955-06-18,M,High School or Below,Single,Employed,44385.0,,Mendoza,Argentina,,rosariopaz@example.com,AutoInsurance
 CLI-08533,Emilia,Aguirre,1981-11-05,F,High School or Below,Married,Employed,73137.0,Córdoba,Córdoba,Argentina,+54 9 3569 7033,alma02@example.org,AutoInsurance
 CLI-05098,Antonia,Torres,1962-10-04,F,Master,married,Disabled,22886.0,Villa Carlos Paz,Córdoba,Argentina,+54 15 2875 9458,figueroadelfina@example.org,AutoInsurance
@@ -6417,7 +6417,7 @@ CLI-09503,Manuel,Nuñez,,M,Bachelor,Single,Self-Employed,1385104.0,Alta Gracia,C
 CLI-09629,manuel,perez,2005-04-25,M,Doctor,Single,Employed,1942354.0,Mendoza,Mendoza,Argentina,TE: +54 9 3622 4143,nahiara-jazmin05@example.com,HealthInsurance
 CLI-09496,Lucas,Perez,1991-04-29,M,Master,Married,Retired,1446586.0,Belgrano,CABA,Argentina,,salvadorfernandez@example.org,HealthInsurance
 CLI-03090,Guillermina,Lopez,1979-12-03,F,High School or Below,Single,Employed,98680.0,Concepción,Tucumán,Argentina,+54 15 2813 7244,faustomedina@example.net,AutoInsurance
-CLI-08279,gUADALUPE,sANCHEZ	,1962-04-05,M,College,Single,Employed,74770.0,Río Cuarto,Córdoba,Argentina,+54 9 3703 5008,bsanchez@example.org,AutoInsurance
+"CLI-08279,gUADALUPE,sANCHEZ	,1962-04-05,M,College,Single,Employed,74770.0,Río Cuarto,Córdoba,Argentina,+54 9 3703 5008,bsanchez@example.org,AutoInsurance"
 CLI-00485,Sofia,Medina,1962-05-05,F,Master,Married,Employed,33288.0,Santa Fe,Santa Fe,Argentina,+54 15 2652 0456,garciajulia@example.org,AutoInsurance
 CLI-07551,Valentina,Fernandez,1950-07-09,F,High School or Below,Married,Disabled,11432.0,Salta,Salta,Argentina,+54 15 2174 6122,nrodriguez@example.org,AutoInsurance
 CLI-00597,Mia Valentina,Fernandez,1993-04-30,F,College,Married,Employed,35895.0,San Rafael,Mendoza,Argentina,+54 15 2488 0653,martinromero@example.net,AutoInsurance
@@ -6455,7 +6455,7 @@ CLI-02855,Maria Paz,Perez,1972-09-04,F,Master,Divorced,Employed,79487.0,Villa Ca
 CLI-04410,Sofia,Gonzalez,1963-08-16,F,High School or Below,Single,Unemployed,631659.0,Flores,CABA,Argentina,+54 15 2208 1039,gomezjulieta@example.com,AutoInsurance
 CLI-01201,Victoria,Gonzalez,,F,Master,Divorced,Employed,22705.0,Maipú,Mendoza,Argentina,+54 9 3128 8605,emma66@example.com,AutoInsurance
 CLI-06122,Josefina,Martin,1968-11-06,FEMENINO,Master,Divorced,Employed,67248.0,Barranqueras,Chaco,Argentina,TE: +54 9 3179 4912,lopezguadalupe@example.net,AutoInsurance
-CLI-04718,Thiago Benjamin,Godoy	,1962-07-05,M,Master,Married,Employed,72433.0,Quilmes,Buenos Aires,Argentina,+54 9 3938 3968,lola69@example.com,AutoInsurance
+"CLI-04718,Thiago Benjamin,Godoy	,1962-07-05,M,Master,Married,Employed,72433.0,Quilmes,Buenos Aires,Argentina,+54 9 3938 3968,lola69@example.com,AutoInsurance"
 CLI-10219,Camila,Martinez,1964-05-05,F,Doctor,Single,Employed,1049237.0,Rafaela,Santa Fe,Argentina,+54 9 3148 1118,martinagutierrez@example.org,HealthInsurance
 CLI-07648,Bautista,Pereyra,1968-04-23,M,Bachelor,Divorced,Employed,75007.0,Tafí Viejo,Tucumán,Argentina,+54 15 2441 9753,lautaro-benjaminpaz@example.com,AutoInsurance
 CLI-00567,Santino,Diaz,1962-03-06,M,College,Single,Employed,66839.0,Palermo,CABA,Argentina,+54 9 3702 8519,gomezfranco@example.org,AutoInsurance
@@ -6491,7 +6491,7 @@ CLI-08331,Victoria,Martinez,1999-01-07,F,High School or Below,Single,Employed,37
 CLI-09394,Dante,Ruiz,2007-04-25,M,High School,Divorced,Unemployed,502796.0,Posadas,Misiones,Argentina,+54 9 3461 6864,gonzalezmaite@example.com,HealthInsurance
 CLI-00645,Vicente,Blanco,1952-10-31,M,High School or Below,Divorced,Employed,55561.0,Reconquista,Santa Fe,Argentina,+54 15 2719 5243,benjamin27@example.org,AutoInsurance
 CLI-10066,Luz Maria,Alvarez,1987-04-30,F,Doctor,Divorced,Self-Employed,1355117.0,Belgrano,CABA,Argentina,+54 9 3497 1675,juan-manuel47@example.net,HealthInsurance
-CLI-05104,Matilda	,Olivera,1988-04-20,F,College,Married,Employed,32116.0,Bell Ville,Córdoba,Argentina,+54 15 2648 0896,agomez@example.net,AutoInsurance
+"CLI-05104,Matilda	,Olivera,1988-04-20,F,College,Married,Employed,32116.0,Bell Ville,Córdoba,Argentina,+54 15 2648 0896,agomez@example.net,AutoInsurance"
 CLI-05461,Felipe,Silva,07-02-1961,M,College,Married,Employed,,Colón,Entre Ríos,Argentina,+54 15 2640 1939,vegabianca@example.com,AutoInsurance
 CLI-01638,Emma,Diaz,1968-09-13,F,Master,Divorced,Employed,999999999.0,Apóstoles,Misiones,Argentina,+54 15 2229 9865,luna02@example.com,AutoInsurance
 CLI-00121,Salvador,Benitez,1981-09-24,M,College,divorciado,Unemployed,1374160.0,Flores,CABA,Argentina,+54 15 2113 5569,agostinaduarte@example.com,AutoInsurance
@@ -6638,7 +6638,7 @@ CLI-06125,Thiago Nahuel,Gonzalez,1963-01-27,M,College,Divorced,Medical Leave,291
 CLI-04121,Delfina,Torres,1985-10-07,F,Bachelor,Married,Employed,86595.0,Barranqueras,Chaco,Argentina,+54 9 3279 1776,ngonzalez@example.org,AutoInsurance
 CLI-08573,Milagros,Gomez,1967-10-20,F,Bachelor,Married,Employed,99617.0,Alta Gracia,Córdoba,Argentina,+54 9 3433 9314,enzo98@example.org,AutoInsurance
 CLI-00610,Bianca,Rodriguez,1978-01-21,F,Bachelor,Married,Employed,32051.0,Tafí Viejo,Tucumán,Argentina,,ignacioperalta@example.com,AutoInsurance
-CLI-02916,Nicolas,Lopez,1965-08-01,M,Bachelor,Married,Unemployed,1442836.0,Recoleta	,CABA,Argentina,+54 9 3727 6223,catalinalopez@example.com,AutoInsurance
+"CLI-02916,Nicolas,Lopez,1965-08-01,M,Bachelor,Married,Unemployed,1442836.0,Recoleta	,CABA,Argentina,+54 9 3727 6223,catalinalopez@example.com,AutoInsurance"
 CLI-01814,Valentino,Lucero,1999-01-08,M,College,Married,Employed,63143.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3966 5353,ofernandez@example.net,AutoInsurance
 CLI-01272,Isabella,Fernandez,1980-09-30,F,Bachelor,Married,Unemployed,583504.0,San Miguel de Tucumán,Tucumán,Argentina,+54 15 2813 2176,isabellajuarez@example.net,AutoInsurance
 CLI-06867,Josefina,Gonzalez,1992-05-09,F,College,Divorced,Employed,61108.0,Oberá,Misiones,Argentina,,santino80@example.net,AutoInsurance
@@ -6667,12 +6667,12 @@ CLI-09015,Santino,Rios,1984-12-10,M,College,Single,Unemployed,440928.0,Famailla,
 CLI-05254,Salvador,Rodriguez,1999-05-13,M,Licenciatura,Married,RETIRED,1335201.0,Mendoza,Mendoza,Argentina,TE: +54 15 2664 9036,hrodriguez@example.net,AutoInsurance
 CLI-10278,Tobias,Fernandez,1899-01-01,M,Doctor,Single,Employed,1633456.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 9 3278 5900,ignacioledesma@example.org,HealthInsurance
 CLI-05534,LUCIO,GONZALEZ,1954-11-30,M,ph.d,Single,Medical Leave,29735.0,Villa Ángela,Chaco,Argentina,+54 9 3377 2797,riosvalentino@example.com,AutoInsurance
-CLI-02415,Joaquin,Cordoba,,M,High School or Below,Married,Unemployed,803900.0,Venado Tuerto,Santa Fe	,Argentina,+54 15 2646 9544,mailto:maldonadobenjamin@example.net,AutoInsurance
+"CLI-02415,Joaquin,Cordoba,,M,High School or Below,Married,Unemployed,803900.0,Venado Tuerto,Santa Fe	,Argentina,+54 15 2646 9544,mailto:maldonadobenjamin@example.net,AutoInsurance"
 CLI-03555,Juan Cruz,Fernandez,1966-10-22,M,High School or Below,Single,Unemployed,896580.0,Alta Gracia,Córdoba,Argentina,+54 9 3371 1558,santino-agustincastro@example.net,AutoInsurance
 CLI-04692,Francesca,Sanchez,1992-02-05,F,Bachelor,Married,Employed,41252.0,Río Cuarto,Córdoba,Argentina,+54 9 3682 7719,duartejuan-ignacio@example.net,AutoInsurance
 CLI-04499,Benjamin,Avila,1972-04-27,M,College,Single,Employed,29318.0,Reconquista,Santa Fe,Argentina,+54 9 3973 2586,maximo06@example.org,AutoInsurance
 CLI-02196,Sofía,Lopez,1995-11-23,F,Doctor,Single,Employed,97785.0,Resistencia,Chaco,Argentina,+54 15 2744 4155,ogarcia@example.org,AutoInsurance
-CLI-05046,Valentino	,Gutierrez,1956-11-29,M,College,Divorced,Unemployed,341310.0,Rosario,Santa Fe,Argentina,+54 9 3812 9938,sofia07@example.com,AutoInsurance
+"CLI-05046,Valentino	,Gutierrez,1956-11-29,M,College,Divorced,Unemployed,341310.0,Rosario,Santa Fe,Argentina,+54 9 3812 9938,sofia07@example.com,AutoInsurance"
 CLI-02601,Maximo,Martinez,1993-12-02,M,College,Married,Employed,37748.0,,Entre Ríos,Argentina,+54 9 3338 5670,ponceciro-benjamin@example.org,AutoInsurance
 CLI-06164,Valentina,Gomez,1993-07-16,F,Bachelor,Married,Employed,74001.0,,Misiones,Argentina,+54 9 3450 8105,valentino16@example.org,AutoInsurance
 CLI-06374,Angelina,Diaz,1956-05-16,F,Bachelor,Single,Employed,47593.0,Córdoba,Córdoba,Argentina,+54 9 3679 9450,santino-nicolas95@example.org,AutoInsurance
@@ -6731,7 +6731,7 @@ CLI-03766,Victoria,Chavez,1994-05-27,F,Bachelor,Married,Employed,34986.0,San Raf
 CLI-07972,Ignacio,Lopez,1961-11-13,M,College,Divorced,Unemployed,1240311.0,Quilmes,Buenos Aires,Argentina,+54 15 2131 5078,coronelcamila@example.com,AutoInsurance
 CLI-06837,Emma,Vazquez,1998-02-15,F,College,Married,Employed,80807.0,Rosario de la Frontera,Salta,Argentina,+54 15 2561 7984,thiagobarrios@example.com,AutoInsurance
 CLI-06433,Julieta,Leiva,1984-03-17,F,College,Single,Employed,21542.0,Yerba Buena,Tucumán,Argentina,+54 9 3546 7665,isabellajuarez@example.com,AutoInsurance
-CLI-09945,Felicitas,Fernandez,1980-05-01,F,Bachelor,Married,Unemployed,1679999.0,Famailla	,Tucumán,Argentina,+54 9 3337 6050,emilia93@example.org,HealthInsurance
+"CLI-09945,Felicitas,Fernandez,1980-05-01,F,Bachelor,Married,Unemployed,1679999.0,Famailla	,Tucumán,Argentina,+54 9 3337 6050,emilia93@example.org,HealthInsurance"
 CLI-07199,Alfonsina,Medina,1979-02-19,F,Doctor,Divorced,Employed,87455.0,San Rafael,Mendoza,Argentina,+54 9 3734 7474,benjamin30@example.com,AutoInsurance
 CLI-00299,Benjamin,Mendoza,1987-03-24,M,College,Married,Employed,41770.0,Godoy Cruz,Mendoza,Argentina,+54 15 2958 1128,moralessofia@example.net,AutoInsurance
 CLI-01474,Guillermina,Toledo,1960-07-17,F,Bachelor,Divorced,Employed,97899.0,Posadas,Misiones,Argentina,+54 9 3501 9185,alvarezconstantino@example.org,AutoInsurance
@@ -6833,7 +6833,7 @@ CLI-01539,Lola,Cardozo,1970-07-25,F,Bachelor,Divorced,Employed,34133.0,Quilmes,S
 CLI-02293,Augusto,Fernandez,1960-12-17,M,Master,Married,Employed,35754.0,Caballito,CABA,Argentina,+54 15 2860 5962,antonella19@example.org,AutoInsurance
 CLI-02528,Antonia,Vega,1989-04-22,F,Bachelor,Single,Unemployed,686755.0,Famailla,Tucumán,Argentina,+54 15 2702 4264,lucia51@example.net,AutoInsurance
 CLI-01364,Emma,Molina,1997-08-05,F,High School or Below,Single,Unemployed,1195847.0,  Charata  ,Chaco,Argentina,54933488384,juan64@example.com,AutoInsurance
-CLI-08086,Joaquina,Pereyra,,F,High School or Below,Married,Employed,57248.0,Posadas	,Misiones,Argentina,+54 15 2123 3703,isabella80@example.net,AutoInsurance
+"CLI-08086,Joaquina,Pereyra,,F,High School or Below,Married,Employed,57248.0,Posadas	,Misiones,Argentina,+54 15 2123 3703,isabella80@example.net,AutoInsurance"
 CLI-09954,Juliana,Figueroa,1993-04-28,F,High School,Married,Unemployed,1279822.0,Orán,Salta,Argentina,+54 9 3394 6335,mateo-joaquin43@example.org,HealthInsurance
 CLI-05261,Mateo,Avila,1953-10-25,M,Master,Married,Unemployed,,Gualeguaychú,Entre Ríos,Argentina,+54 9 3148 3041,maximo58@example.net,AutoInsurance
 CLI-10005,Guadalupe,Castro,1976-05-02,M,High School,Divorced,Employed,1261531.0,Villa Ángela,Chaco,Argentina,+54 15 2356 3576,villalbamaximiliano@example.net,HealthInsurance
@@ -6897,7 +6897,7 @@ CLI-07655,Ludmila,Rodriguez,1977-02-19,F,High School or Below,Divorced,Employed,
 CLI-08334,Thiago Benjamin,Sanchez,1985-04-26,M,Bachelor,Married,Retired,27681.0,Recoleta,CABA,Argentina,+54 9 3999 5259,lgarcia@example.net,AutoInsurance
 CLI-03600,JAZMIN,GONZALEZ,1977-11-17,F,Master,Married,Employed,41275.0,San Rafael,Mendoza,Argentina,+54 9 3822 0112,ojedavalentino@example.net,AutoInsurance
 CLI-03623,Candela,Ortiz,1995-10-30,F,Bachelor,Married,Employed,75845.0,Palermo,CABA,Argentina,+54 9 3274 2860,sramos@@example.net,AutoInsurance
-CLI-03812,Agustin,Vazquez,,M,College,Single,Unemployed,250187.0,Mar del Plata,Buenos Aires	,Argentina,+54 15 2756 2739,sofia31@example.com,AutoInsurance
+"CLI-03812,Agustin,Vazquez,,M,College,Single,Unemployed,250187.0,Mar del Plata,Buenos Aires	,Argentina,+54 15 2756 2739,sofia31@example.com,AutoInsurance"
 CLI-06006,Mateo,Cruz,1959-05-21,M,College,Married,Employed,28432.0,Oberá,Misiones,Argentina,+54 9 3796 2743,juan-pablo07@example.org,AutoInsurance
 CLI-03451,Santino,Vargas,,M,High School or Below,Married,Medical Leave,13908.0,Oberá,Misiones,Argentina,+541523863270,santinoperez@example.org,AutoInsurance
 CLI-04592,Pilar,Castro,1972-01-19,F,High School or Below,Married,Employed,75490.0,Recoleta,CABA,Argentina,(+54) 9 3306 4144,thiago-valentin09@example.net,AutoInsurance
@@ -6916,7 +6916,7 @@ CLI-01989,Martina,Ledesma,,MASCULINO,College,Married,Disabled,19589.0,Villa Áng
 CLI-03241,Mateo,Perez,1953-12-04,M,College,Married,Employed,28727.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2627 7708,mia-jazmin26@example.net,AutoInsurance
 CLI-02799,Jazmin,Rodriguez,1967/08/23,F,Bachelor,DIVORCED,Employed,33201.0,Concepción,Tucumán,Argentina,+54 9 3790 3666,francescamunoz@example.net,AutoInsurance
 CLI-04516,Valentina Jazmin,Sosa,1983-08-18,F,College,Single,Unemployed,345519.0,Mar del Plata,Buenos Aires,Argentina,+54 9 3873 8156,hmoreno@example.org,AutoInsurance
-CLI-05631,Felipe	,Vega,1990-02-16,M,College,Married,Unemployed,419993.0,Eldorado,Misiones,Argentina,+54 9 3856 5824,scastro@example.net,AutoInsurance
+"CLI-05631,Felipe	,Vega,1990-02-16,M,College,Married,Unemployed,419993.0,Eldorado,Misiones,Argentina,+54 9 3856 5824,scastro@example.net,AutoInsurance"
 CLI-08760,Mia Valentina,Paz,1962-09-27,F,College,Single,Employed,60097.0,Eldorado,Misiones,Argentina,+54 9 3694 1814,guillerminaojeda@example.net,AutoInsurance
 CLI-03110,Bianca,Toledo,1978-01-21,F,Master,Married,Retired,10337.0,Salta,Salta,Argentina,,martinalopez@example.org,AutoInsurance
 CLI-04940,Benjamin,Franco,1992-11-28,M,High School or Below,Married,Unemployed,1203978.0,Concordia,Entre Ríos,Argentina,+54 9 3766 6050,maidanaalfonsina@example.com,AutoInsurance
@@ -6951,7 +6951,7 @@ CLI-02925,Julieta,Toledo,1989-08-07,F,Bachelor,Divorced,Employed,88613.0,Concepc
 CLI-00279,Bruno,Ortiz,1964-06-05,M,College,Single,Unemployed,891648.0,Flores,CABA,Argentina,+54 9 3888 9163,antonella62@example.net,AutoInsurance
 CLI-06772,Ciro,Rios,1955-02-12,male,Bachelor,Married,Employed,94527.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2917 4561,bautista05@example.com,AutoInsurance
 CLI-03253,Juan Martin,Torres,1984-07-29,M,High School or Below,Married,Employed,24414.0,Tartagal,Salta,Argentina,+54 15 2376 4451,gabriel22@example.org,AutoInsurance
-CLI-07884,Clara,Ortiz	,1999-12-16,F,College,Divorced,Employed,38713.0,Luján de Cuyo,Mendoza,Argentina,+54 15 2346 2760,castillosantiago@example.net,AutoInsurance
+"CLI-07884,Clara,Ortiz	,1999-12-16,F,College,Divorced,Employed,38713.0,Luján de Cuyo,Mendoza,Argentina,+54 15 2346 2760,castillosantiago@example.net,AutoInsurance"
 CLI-02481,Emiliano,Bravo,1997-04-21,M,High School or Below,Married,Unemployed,1300329.0,Paraná,Entre Ríos,Argentina,+54 15 2179 9154,thiago-ezequieldiaz@example.org,HealthInsurance
 CLI-00290,  Mateo Benjamin  ,Leiva,1964-03-17,M,College,Married,Employed,72672.0,Rafaela,Santa Fe,Argentina,+54 9 3184 6081,qfernandezexample.org,AutoInsurance
 CLI-07052,Malena,Martinez,1986-04-23,F,College,Married,Employed,80969.0,Rafaela,Santa Fe,Argentina,+54 15 2397 5683,emaldonado@@example.org,AutoInsurance
@@ -7063,7 +7063,7 @@ CLI-09948,Tomàs,Alvarez,1998-04-27,M,Master,Divorced,Self-Employed,1853938.0,Qu
 CLI-03319,Julian,Rodriguez,1950-10-05,M,Bachelor,Single,Unemployed,947947.0,Godoy Cruz,Mendoza,Argentina,+54 15 2380 4471,oliverasofia@example.com,AutoInsurance
 CLI-07350,Guillermina,Rojas,1958-11-01,F,College,Divorced,Unemployed,915896.0,Eldorado,Misiones,Argentina,+54 15 2611 3278,bautistablanco@example.org,AutoInsurance
 CLI-02788,Victoria,Godoy,1991-09-28,F,Doctor,SINGLE,Employed,25581.0,Lanús,Buenos Aires,Argentina,+54 9 3295 5161,sofiaromero@example.org,AutoInsurance
-CLI-04106,Lautaro,Caceres,1980-12-26,f,Bachelor,Single,RETIRED,16097.0,Maipú	,Mendoza,Argentina,+54 15 2894 1626,thiago-benjamingimenez@example.com,AutoInsurance
+"CLI-04106,Lautaro,Caceres,1980-12-26,f,Bachelor,Single,RETIRED,16097.0,Maipú	,Mendoza,Argentina,+54 15 2894 1626,thiago-benjamingimenez@example.com,AutoInsurance"
 CLI-07366,Julian,Morales,1976-08-07,M,Maestría,Single,Unemployed,352873.0,Gualeguaychú,Entre Ríos,Argentina,+54 15 2508 1332,maldonadojuan-cruz@example.net,AutoInsurance
 CLI-01677,Camilo,Lopez,1969-10-20,M,Bachelor,Casada,Employed,22853.0,Famailla,Tucumán,Argentina,+54 9 3966 2080,maitemartinez@example.org,AutoInsurance
 CLI-03948,Tomàs,Maldonado,1992-07-06,M,Master,Divorced,Employed,71737.0,Posadas,Misiones,Argentina,+54 9 3966 8685,delfina16@example.org,AutoInsurance
@@ -7125,7 +7125,7 @@ CLI-07696,Josefina,Sosa,1979-04-03,F,Bachelor,Married,Employed,45892.0,Reconquis
 CLI-09917,Benjamin,Vega,1975-05-03,M,Doctor,Single,Retired,903149.0,Lanús,Buenos Aires,Argentina,+54 15 2135 5926,alvaro13@example.com,HealthInsurance
 CLI-08291,Juan Francisco,Lucero,20/10/1972,M,High School or Below,Single,Unemployed,903668.0,Villa Ángela,Chaco,Argentina,+54 15 2708 6872,juan-ignacio41@example.net,AutoInsurance
 CLI-05510,Thiago,Gomez,1997-01-20,M,High School or Below,Soltero,Unemployed,753193.0,Rafaela,Santa Fe,Argentina,+54 9 3472 9926,tomasbarrios@example.org,AutoInsurance
-CLI-06298,Valentino,Paz	,1985-03-23,M,Bachelor,Married,Employed,53988.0,Lomas de Zamora,Buenos Aires,Argentina,+54 9 3996 6242,sofiabenitez@example.org,AutoInsurance
+"CLI-06298,Valentino,Paz	,1985-03-23,M,Bachelor,Married,Employed,53988.0,Lomas de Zamora,Buenos Aires,Argentina,+54 9 3996 6242,sofiabenitez@example.org,AutoInsurance"
 CLI-02002,Juan Cruz,Fernandez,1989-01-01,M,College,Divorced,Employed,50234.0,Posadas,Misiones,Argentina,,lfloresexample.net,AutoInsurance
 CLI-00886,Catalina,Flores,1997-05-06,F,College,Married,Employed,999999999.0,Gualeguaychú,Entre ​Ríos,Argentina,+54 9 3396 9028,angelina83@example.net,AutoInsurance
 CLI-00870,Julian,Sosa,1981-04-01,M,Bachelor,Married,sin trabajo,0.0,Paraná,Entre Ríos,Argentina,+54 9 3381 9324,fcastro@example.net,AutoInsurance
@@ -7166,7 +7166,7 @@ CLI-09429,Valentino,Vargas,2001-04-26,M,Doctor,Divorced,Employed,662520.0,Concep
 CLI-06147,Guadalupe,Ortiz,1984-12-25,F,HIGH SCHOOL,Married,Employed,30004.0,San ​Ramón ​de ​la ​Nueva ​Orán,Salta,Argentina,+54 9 3738 7565,mirandamateo-ezequiel@example.org,AutoInsurance
 CLI-03534,Pilar,Acosta,1969-01-09,F,High School or Below,Single,Unemployed,515873.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3850 0535,pvera@example.org,AutoInsurance
 CLI-09430,Francisco,Garcia,2008-04-24,M,Doctor,Single,Retired,1233778.0,Resistencia,Chaco,Argentina,+54 15 2609 3043,constanzadiaz@example.com,HealthInsurance
-CLI-03892,Thiago Leonel,Rivero,1998-01-22,M,Bachelor,Single,Unemployed,1029478.0,Villa Carlos Paz,Córdoba	,Argentina,+54 9 3147 1927,valentina74@example.net,AutoInsurance
+"CLI-03892,Thiago Leonel,Rivero,1998-01-22,M,Bachelor,Single,Unemployed,1029478.0,Villa Carlos Paz,Córdoba	,Argentina,+54 9 3147 1927,valentina74@example.net,AutoInsurance"
 CLI-08834,Luisana,Benitez,1953-11-29,F,Bachelor,Married,Employed,31168.0,San Miguel de Tucumán,Tucumán,Argentina,+54 15 2721 4940,lautarogonzalez@example.net,AutoInsurance
 CLI-06858,Mateo,Martinez,1969-02-04,M,Bachelor,Divorced,Employed,20705.0,La Plata,Buenos Aires,Argentina,+54 9 3919 4687,pcastillo@example.net,AutoInsurance
 CLI-09248,Alma Jazmin,Martinez,2005-04-25,F,High School,Single,Employed,1280055.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 15 2654 8414,lautaro-benjamin88@example.net,HealthInsurance
@@ -7222,7 +7222,7 @@ CLI-00026,Augusto,Martinez,1955-01-07 00:00:00,M,College,Married,Employed,97541.
 CLI-03513,Tiziano,Diaz,1958-03-28,M,Bachelor,Divorced,Retired,25905.0,Rafaela,Santa Fe,Argentina,+54 15 2657 5229,veravalentina@example.net,AutoInsurance
 CLI-02410,Salvador,Lopez,2045-01-01,M,Master,Divorced,Disabled,20075.0,Mendoza,Mendoza,Argentina,+54 15 2286 0181,morena-jazminvega@example.org,AutoInsurance
 CLI-03271,Valentina ,Paez,1984-07-17,F,College,Single,Unemployed,939474.0,Río Cuarto,Córdoba,Argentina,+54 9 3733 3501,ciroromero@example.org,AutoInsurance
-CLI-05210,Josefina	,Ramos,1982-06-05,F,Bachelor,Married,Unemployed,404691.0,Río Cuarto,Córdoba,Argentina,+54 15 2528 4038,agueronicolas@example.net,AutoInsurance
+"CLI-05210,Josefina	,Ramos,1982-06-05,F,Bachelor,Married,Unemployed,404691.0,Río Cuarto,Córdoba,Argentina,+54 15 2528 4038,agueronicolas@example.net,AutoInsurance"
 CLI-09358,Maximo,Godoy,2007-04-25,M,Master,Divorced,Employed,1828846.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3372 7600,martinaojeda@example.com,HealthInsurance
 CLI-01553,Luca,Nuñez,1984-01-16,M,College,Married,Employed,32435.0,Reconquista,  Santa Fe  ,Argentina,+54 9 3477 2690,ciromorales@example.com.ar.com.net,AutoInsurance
 CLI-09881,Lucas,Pereyra,1992-04-28,M,Doctor,Married,Employed,1759321.0,Villa Ángela,Chaco,Argentina,+54 9 3450 3445,waguero@example.net,HealthInsurance
@@ -7298,7 +7298,7 @@ CLI-03765,Simon,Fernandez,1973-02-23,M,Bachelor,Married,Employed,26790.0,Río Cu
 CLI-03867,Mia Valentina,Martinez,1970-10-21,m,High School or Below,Married,Disabled,17950.0,Godoy Cruz,Mendoza,Argentina,+54 9 3497 9339,juan-bautistamunoz@example.net,AutoInsurance
 CLI-07439,Guadalupe,Rodriguez,1984-10-10,F,High School or Below,Married,Employed,,Mar del Plata,CABA,Argentina,+54 9 3725 1948,yromero@example.net,AutoInsurance
 CLI-09303,Isabella,Diaz,04/25/2007,Fem.,Bachelor,Single,Retired,876074.0,Concepción,Tucumán,Argentina,+54 15 2905 1344,juliafernandez@example.com,HealthInsurance
-CLI-09604,Sofia	,Ojeda,2008-04-24,F,Bachelor,Single,Self-Employed,1874227.0,Orán,Salta,Argentina,+54 9 3922 9577,luciano-benjamin91@example.org,HealthInsurance
+"CLI-09604,Sofia	,Ojeda,2008-04-24,F,Bachelor,Single,Self-Employed,1874227.0,Orán,Salta,Argentina,+54 9 3922 9577,luciano-benjamin91@example.org,HealthInsurance"
 CLI-07738,Santiago Benjamin,Alvarez,1990-06-16,M,College,Single,Employed,62977.0,Colón,Entre Ríos,Argentina,+54 15 2498 4086,ponceconstanza@example.net,AutoInsurance
 CLI-02513,Alejo,Fernandez,1992-04-19,M,High School or Below,Married,Retired,27972.0,Paraná,Entre Ríos,Argentina,+54 9 3476 4494,kavila@example.com,AutoInsurance
 CLI-03759,Valentino,Bustos,1989-10-25,M,High School or Below,Single,Unemployed,1170403.0,Córdoba,Córdoba,Argentina,+54 9 3161 7479,luciana52@example.org,AutoInsurance
@@ -7582,7 +7582,7 @@ CLI-07552,Tiziana,Suarez,1951-11-28,F,College,Married,Employed,39017.0,Rosario d
 CLI-05038,Matilda,Guzman,1963-05-16,F,High School or Below,Married,Employed,23031.0,Gualeguaychú,Entre Ríos,Argentina,+54 15 2926 1422,guillermina69@example.com,AutoInsurance
 CLI-04898,Alma,Gimenez,1971-08-28,F,College,Married,retired,62271.0,Famailla,Tucumán,Argentina,+54 9 3937 4788,juanacastillo@example.org,AutoInsurance
 CLI-03337,Alma Mia,Lucero,1994-10-05,F,Bachelor,Divorced,Employed,25820.0,Palermo,CABA,Argentina,+54 9 3190 2293,juana12@example.org,AutoInsurance
-CLI-03607,Abril,Juarez,1989-03-13,F,College,Married,Employed,34612.0,Salta	,Salta,Argentina,+54 15 2744 3793,dflores@example.com,AutoInsurance
+"CLI-03607,Abril,Juarez,1989-03-13,F,College,Married,Employed,34612.0,Salta	,Salta,Argentina,+54 15 2744 3793,dflores@example.com,AutoInsurance"
 CLI-03176,Santiago,Luna,1972-02-27,M,College,Married,Employed,58842.0,Orán,Salta,Argentina,+54 9 3343 3178,zmartinez@@example.org,AutoInsurance
 CLI-06847,Lucía,Quiroga,1966-01-27,f,Bachelor,Divorced,Employed,33806.0,Eldorado,Misiones,Argentina,+54 15 2534 3659,jgonzalez@example.org,AutoInsurance
 CLI-02242,Renata,Peralta,1960-06-16,F,High School or Below,Single,Employed,43860.0,Belgrano,CABA,Argentina,+54 15 2428 9899,castillomateo-valentin@example.com,AutoInsurance
@@ -7779,12 +7779,12 @@ CLI-02722,CAMILA,MARTINEZ,1950-12-14,F,College,Divorced,Unemployed,1150872.0,Vil
 CLI-01933,Camila,Molina,12/07/1965,F,College,Married,Unemployed,363356.0,Reconquista,Santa Fe,Argentina,+54 9 3558 3483,antonellablanco@example.net,autoinsurance
 CLI-02353,Lautaro Ezequiel,Quiroga,1973-12-12,M,High School or Below,Married,Unemployed,801976.0,Tartagal,Salta,Argentina,+54 9 3162 7528,gomeznahiara@example.net,AutoInsurance
 CLI-07657,Nicolas,Gonzalez,1987-07-20,M,Bachelor,Divorced,Employed,50165.0,Yerba Buena,Tucumán,Argentina,+54 15 2667 8073,jgodoy@exampleorg,AutoInsurance
-CLI-03237,Thiago Valentin	,Garcia,1990-10-28,M,College,Married,Retired,26802.0,Venado Tuerto,Santa Fe,Argentina,+54 15 2967 0805,lautaro-benjamin40@example.com,AutoInsurance
+"CLI-03237,Thiago Valentin	,Garcia,1990-10-28,M,College,Married,Retired,26802.0,Venado Tuerto,Santa Fe,Argentina,+54 15 2967 0805,lautaro-benjamin40@example.com,AutoInsurance"
 CLI-03141,Mateo Benjamin,Farias,1992-03-24,M,Bachelor,Married,Employed,88708.0,Venado Tuerto,Santa Fe,Argentina,+54 15 2112 2562,renatavillalba@example.net,AutoInsurance
 CLI-04164,Benicio,Sosa,1992-05-03,M,High School or Below,Divorced,Employed,82189.0,Resistencia,Chaco,Argentina,+54 15 2644 2031,fnunez@example.org,AutoInsurance
 CLI-09984,Juan,Moyano,1971-05-04,M,Bachelor,Married,Employed,1407696.0,Orán,Salta,Argentina,+54 9 3325 0786,biancadiaz@example.net,HealthInsurance
 CLI-08901,Valentino,Gonzalez,,M,Bachelor,Single,Employed,97361.0,Concordia,Entre Ríos,Argentina,+54 15 2984 6744,juan-martin41@example.org,AutoInsurance
-CLI-03808,Antonia,Lopez	,1994-05-03,F,High School or Below,Single,Employed,59207.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3363 7731,mateo58@example.net,AutoInsurance
+"CLI-03808,Antonia,Lopez	,1994-05-03,F,High School or Below,Single,Employed,59207.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3363 7731,mateo58@example.net,AutoInsurance"
 CLI-10179,Thiago Agustin,Castillo,1971-05-04,M,High School,Single,Unemployed,850833.0,Apóstoles,Misiones,Argentina,+54 15 2581 5994,clara29@example.org,HealthInsurance
 CLI-08089,Morena Jazmin,Nuñez,1957-10-03,F,Master,Single,Employed,29462.0,Rafaela,Santa Fe,Argentina,+54 15 2637 5521,mailto:isabella27@example.com,AutoInsurance
 CLI-09567,Tobias,Castro,1984-04-30,M,Master,Single,Employed,1833899.0,Rosario,Santa Fe,Argentina,+54 15 2514 3066,francosanchez@example.org,HealthInsurance
@@ -7968,7 +7968,7 @@ CLI-02703,Lautaro,Sanchez,1978-05-16,M,Bachelor,Married,Unemployed,210819.0,Conc
 CLI-07923,Valentino,Hernandez,1973-09-02,M,High School or Below,Single,Unemployed,1373495.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 9 3227 8629,luciano-benjamin81@example.com,AutoInsurance
 CLI-03450,Bautista,Cardozo,1998-01-31,M,Bachelor,Married,Unemployed,248314.0,Lanús,Buenos Aires,Argentina,03355 7116,nperez@example.com,AutoInsurance
 CLI-00332,Sol,Silva,1976-11-02,F,High School or Below,casada,Unemployed,1089840.0,Concepción,Tucumán,Argentina,+54 9 3869 7357,suarezvalentina@example.com,AutoInsurance
-CLI-03809,Alma Valentina,Cordoba	,1990-09-26,F,College,Single,Unemployed,232531.0,Villa Carlos Paz,Córdoba,Argentina,+54 15 2231 1175,nmartinez@example.com,AutoInsurance
+"CLI-03809,Alma Valentina,Cordoba	,1990-09-26,F,College,Single,Unemployed,232531.0,Villa Carlos Paz,Córdoba,Argentina,+54 15 2231 1175,nmartinez@example.com,AutoInsurance"
 CLI-09627,Valentina ,Morales,2008-04-24,F,High School,MARRIED,Employed,1467272.0,Barranqueras,Chaco,Argentina,,nahuel15@example.net,HealthInsurance
 CLI-08880,Malena,Ramos,1954-08-03,F,High School or Below,Divorced,Employed,46587.0,Lomas de Zamora,Buenos Aires,Argentina,+54 9 3101 7241,ludmilagimenez@example.com,AutoInsurance
 CLI-00936,Catalina,Martinez,1969-07-17,F,High School or Below,Married,Employed,24516.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3688 4021,florencia73@example.org,AutoInsurance
@@ -8341,7 +8341,7 @@ CLI-10337,Ezequiel,Acosta,2004-04-25,M,Doctor,Single,Employed,1785840.0,,Salta,A
 CLI-02275,Valentina ,Vargas,1957-05-19,F,High School or Below,Single,Employed,22236.0,Quilmes,Buenos Aires,Argentina,+54 9 3871 5207,munozisabella@example.com,AutoInsurance
 CLI-01578,Valentino,Acuña,1981-11-10,M,Doctor,Married,Employed,57709.0,Godoy Cruz,Mendoza,Argentina,TE: +54 15 2927 2670,tfarias@example.com,AutoInsurance
 CLI-07265,Maximo,Figueroa,1998-03-01,M,College,Married,Unemployed,248652.0,San Ramón de la Nueva Orán,Salta,Argentina,,lisandrogonzalez@example.net,AutoInsurance
-CLI-03971,Benjamin Ezequiel,Ramirez,1992-04-26,M,College,Married,Employed,27961.0,Orán	,Salta,Argentina,+54 9 3954 3676,bcabrera@example.com,AutoInsurance
+"CLI-03971,Benjamin Ezequiel,Ramirez,1992-04-26,M,College,Married,Employed,27961.0,Orán	,Salta,Argentina,+54 9 3954 3676,bcabrera@example.com,AutoInsurance"
 CLI-05880,Camila,Gonzalez,1955-06-16,F,High School or Below,Single,Employed,52440.0,Yerba Buena,Tucumán,Argentina,+54 9 3979 0013,dante87@example.org,AutoInsurance
 CLI-09044,Enzo,Cabrera,1970-10-03,M,Bachelor,Married,Employed,,Posadas,Misiones,Argentina,+54 15 2494 2165,torresagustin@example.org,AutoInsurance
 CLI-10016,Benicio,Flores,,M,doctor,Married,unemployed,1033016.0,Famailla,Tucumán,Argentina,+54 9 3188 2021,julieta41@example.org,HealthInsurance
@@ -8384,7 +8384,7 @@ CLI-00598,Malena,Ledesma,1976-09-07,F,College,Married,Employed,40864.0,San Ramó
 CLI-06634,Lautaro Benjamin,Bustos,14-10-1973,M,College,Single,Unemployed,1052654.0,Villa Carlos Paz,Córdoba,Argentina,+54 9 3604 6281,ginovazquez@example.com,AutoInsurance
 CLI-07876,Santiago Benjamin,Vazquez,1970-10-01,M,College,Married,jubilado,36261.0,San Miguel de Tucumán,Tucumán,Argentina,+54 9 3775 2515,lucia18@example.org,AutoInsurance
 CLI-07346,Pedro,Gomez,1962-04-11,M,Master,Divorced,Employed,85950.0,Recoleta,CABA,Argentina,+54 15 2330 6121,qgimenez@example.org,AutoInsurance
-CLI-06305,Catalina	,Vargas,,F,College,Married,Employed,59782.0,Recoleta,CABA,Argentina,+54 9 3568 0963,moc.elpmaxe@oremorataner,AutoInsurance
+"CLI-06305,Catalina	,Vargas,,F,College,Married,Employed,59782.0,Recoleta,CABA,Argentina,+54 9 3568 0963,moc.elpmaxe@oremorataner,AutoInsurance"
 CLI-10135,Julian,Vargas,1996-04-27,M,Bachelor,Divorced,Self-Employed,368406.0,Gualeguaychú,Entre Ríos,Argentina,+54 15 2503 5174,luciano-benjamin16@example.net,HealthInsurance
 CLI-05977,Emilia,Maldonado,1995-01-08,F,High School or Below,Single,Unemployed,678050.0,Leandro N. Alem,Misiones,Argentina,+54 9 3457 9727,figueroaalvaro@example.net,AutoInsurance
 CLI-01939,Maria Luz,Gonzalez,1994-05-07,F,High School or Below,Married,Unemployed,328937.0,San Miguel de Tucumán,Tucumán,Argentina,+541522814353,nahuelluna@example.net,AutoInsurance
@@ -8408,9 +8408,9 @@ CLI-10041,Santino Benjamin,Chavez,1999-04-27,M,Doctor,Single,Employed,1282963.0,
 CLI-08704,Bautista Benjamin,Mendez,1983-04-14,M,College,Married,Unemployed,328408.0,Belgrano,CABA,Argentina,+54 9 3813 0666,lopezcamilo@example.com,AutoInsurance
 CLI-09843,Maria Victoria,Sanchez,1995-04-28,F,Master,Single,Unemployed,1229847.0,Yerba Buena,Tucumán,Argentina,+54 9 3132 3989,simon25@example.com,HealthInsurance
 CLI-00875,Thiago Valentin,Gomez,1965-08-26,M,High School or Below,Married,Employed,43259.0,Leandro N. Alem,Misiones,Argentina,+54 9 3105 1843,luana52@example.net,AutoInsurance
-CLI-02298,Milena	,Figueroa,1963-09-14,F,Bachelor,Married,Unemployed,834918.0,Famailla,Tucumán,Argentina,+54 15 2921 3807,lautaro-benjaminsuarez@example.org,AutoInsurance
+"CLI-02298,Milena	,Figueroa,1963-09-14,F,Bachelor,Married,Unemployed,834918.0,Famailla,Tucumán,Argentina,+54 15 2921 3807,lautaro-benjaminsuarez@example.org,AutoInsurance"
 CLI-09991,Luciana,Ferreyra,1978-05-02,F,Master,Divorced,Unemployed,1191935.0,Rosario,Santa Fe,Argentina,+54 9 3341 6084,avilasantino-ezequiel@example.org,HealthInsurance
-CLI-02644,Guillermina,Gomez	,1952-06-09 00:00:00,F,College,Married,Medical Leave,20943.0,Córdoba,Córdoba,Argentina,+54 15 2104 3845,mia-morena21@example.com,AutoInsurance
+"CLI-02644,Guillermina,Gomez	,1952-06-09 00:00:00,F,College,Married,Medical Leave,20943.0,Córdoba,Córdoba,Argentina,+54 15 2104 3845,mia-morena21@example.com,AutoInsurance"
 CLI-05348,Sofía,Lucero,1999-11-28,F,Bachelor,Married,Employed,33588.0,Concordia,Entre Ríos,Argentina,+54 15 2967 8358,alma90@example.net,AutoInsurance
 CLI-02987,LAUTARO,Benitez,1951-06-29,M,High School or Below,Single,Unemployed,955405.0,San Miguel de Tucumán,Tucumán,Argentina,+54 15 2140 4750,hernandezjosefina_2@example.net,AutoInsurance
 CLI-00582,Candela,Fernandez,1999-06-18,F,High School or Below,Married,Unemployed,1432676.0,Villa Carlos Paz,Córdoba,Argentina,+54 15 2997 0026,icoronel@example.org,AutoInsurance
@@ -8436,7 +8436,7 @@ CLI-03385,Santiago,Godoy,1990/04/24,M,Doctor,Divorced,Employed,90334.0,Bell Vill
 CLI-10270,Tiziana,Ledesma,1976-05-02,F,Doctor,Married,Self-Employed,351530.0,Mar del Plata,  Buenos Aires  ,Argentina,,agustingarcia@example.com,HealthInsurance
 CLI-08743,Mateo,Coronel,1963-08-01,M,High School or Below,Single,Retired,10738.0,San Ramón de la Nueva Orán,Salta,Argentina,,francesca54@example.org,AutoInsurance
 CLI-08960,Renata,Rodriguez,1970-07-05,F,College,Married,Employed,91541.0,Colón,Entre Ríos,Argentina,+54 15 2993 3831,emiliapereyra@example.com,AutoInsurance
-CLI-07463,Emma,Ferreyra,1970-04-19,F,High School or Below,Divorced,Unemployed,908092.0,Presidencia Roque Sáenz Peña	,Chaco,Argentina,+54 15 2795 9274,floresbenjamin@example.com,AutoInsurance
+"CLI-07463,Emma,Ferreyra,1970-04-19,F,High School or Below,Divorced,Unemployed,908092.0,Presidencia Roque Sáenz Peña	,Chaco,Argentina,+54 15 2795 9274,floresbenjamin@example.com,AutoInsurance"
 CLI-03332,Isabella,Ruiz,1988-08-28,F,Doctor,Married,Employed,57664.0,San Miguel de Tucumán,Tucumán,Argentina,+54 15 2466 1615,benitezlola@example.net,AutoInsurance
 CLI-06405,Zoe Valentina,Aguirre,1958-10-20,F,High School or Below,Married,Employed,31365.0,Colón,Entre Ríos,Argentina,+54 9 3878 4265,francisco20@example.org,AutoInsurance
 CLI-02097,Alma Valentina,Godoy,1954-09-15,F,High School or Below,Single,Employed,81850.0,Recoleta,CABA,Argentina,+54 15 2917 2048,qcastro@example.com,AutoInsurance
@@ -8492,7 +8492,7 @@ CLI-02564,Dante,Rodriguez,1996-05-31,M,High School or Below,Married,Employed,681
 CLI-05037,Juan Cruz,Rodriguez,1997-02-14,M,High School or Below,Single,Employed,89096.0,Caballito,CABA,Argentina,+54 9 3666 2569,moc.elpmaxe@ogaihtzednanref,AutoInsurance
 CLI-01081,Lucia,Alvarez,1994-02-28,F,High School or Below,Single,Unemployed,1336917.0,Rafaela,Santa Fe,Argentina,+54 9 3908 0184,sancheznina@example.com,AutoInsurance
 CLI-05892,Lorenzo,Paez.,1972-10-07,M,College,Married,Unemployed,1240552.0,Resistencia,Chaco,Argentina,+54 9 3967 9936,blancobenicio@example.org,
-CLI-04967,Martina,Gonzalez,1971-06-25,F,High School or Below,Married,Employed,96357.0,Famailla,Tucumán	,Argentina,+54 15 2395 5471,gonzalezfrancisco@example.org,AutoInsurance
+"CLI-04967,Martina,Gonzalez,1971-06-25,F,High School or Below,Married,Employed,96357.0,Famailla,Tucumán	,Argentina,+54 15 2395 5471,gonzalezfrancisco@example.org,AutoInsurance"
 CLI-02024,Tiziano,Moreno,1964-07-13,M,High School or Below,Married,Employed,32807.0,Mendoza,Mendoza,Argentina,+54 9 3704 7966,palomagonzalez@example.com,AutoInsurance
 CLI-09655,Francesca,Gimenez,,F,Master,Divorced,Unemployed,1283733.0,Resistencia,Chaco,Argentina,+54 9 3489 2227,fernandezthiago-nicolas@example.org,HealthInsurance
 CLI-07910,Lautaro Benjamin,Martinez,1966-01-30,M,maestria,casada,Employed,89030.0,Río Cuarto,Córdoba,Argentina,+54 15 2777 3584,ssuarez@example.com,AutoInsurance
@@ -8607,7 +8607,7 @@ CLI-05511,Maria Victoria,Gomez,1960-05-23,F,Bachelor,Married,Employed,59578.0,Ma
 CLI-05331,Camila,Rios,1953/12/08,F,Bachelor,Married,Employed,39669.0,Tartagal,Salta,Argentina,+54 9 3647 2724,vicente69@example.net,AutoInsurance
 CLI-04532,Agustin,Guzman,1966-11-24,M,Master,Married,Employed,68370.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 15 2721 3050,juan-martinperez@example.net,AutoInsurance
 CLI-00366,Bautista,Rios,1982-12-15,M,Bachelor,Divorced,Employed,53984.0,Recoleta,CABA,Argentina,+54 15 2214 1381,julialopez@example.net,AutoInsurance
-CLI-09874,BENJAMIN,Fernandez,1997-04-27,M,Doctor,Married,Retired,1614400.0,Presidencia Roque Sáenz Peña,Chaco	,Argentina,+54 15 2121 3795,guillermina29_2@example.net,HealthInsurance
+"CLI-09874,BENJAMIN,Fernandez,1997-04-27,M,Doctor,Married,Retired,1614400.0,Presidencia Roque Sáenz Peña,Chaco	,Argentina,+54 15 2121 3795,guillermina29_2@example.net,HealthInsurance"
 CLI-00148,Maria Victoria,Soria,1988-07-26,F,Bachelor,Divorced,Employed,28859.0,Reconquista,Santa Fe,Argentina,+54 9 3947 8872,zperez@example.org,AutoInsurance
 CLI-01669,Juana,Gonzalez,1994-08-21,F,Master,Divorced,Employed,42526.0,Leandro N. Alem,Misiones,Argentina,+54 15 2213 5490,benicio99@example.com,AutoInsurance
 CLI-09599,Lautaro Benjamin,Torres,2007-04-25,M,High School,Single,Unemployed,1594158.0,La Plata,Buenos Aires,Argentina,+54 9 3388 3861,mruiz@example.org,HealthInsurance
@@ -8746,7 +8746,7 @@ CLI-09523,Mia Morena,Ojeda,2000-04-26,F,Bachelor,Single,Unemployed,748822.0,Rosa
 CLI-09988,Lara,Blanco,1973-05-03,F,Doctor,Divorced,Unemployed,385683.0,San Rafael,Mendoza,Argentina,+54 15 2289 5493,moyanofausto@example.com,HealthInsurance
 CLI-06722,Camila,Cardozo,1994-09-05,F,Bachelor,Single,Employed,57882.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 15 2991 0312,acostalucia@example.net,AutoInsurance
 CLI-07843,Zoe,Morales,1990-10,Femenino,High School or Below,Single,Unemployed,533305.0,San Rafael,Mendoza,Argentina,+54 9 3145 0784,abrilrios@example.com,AutoInsurance
-CLI-08265,Juan Cruz,Gonzalez,1973-08-15,M,Bachelor,Single,Unemployed,575821.0,Tafí Viejo,Tucumán	,Argentina,+54 9 3308 6044,nruiz@example.com,AutoInsurance
+"CLI-08265,Juan Cruz,Gonzalez,1973-08-15,M,Bachelor,Single,Unemployed,575821.0,Tafí Viejo,Tucumán	,Argentina,+54 9 3308 6044,nruiz@example.com,AutoInsurance"
 CLI-09420,Juan Ignacio,Gutierrez,1980-05-01,Masc.,Doctor,Single,Self-Employed,565391.0,Córdoba,Córdoba,Argentina,541528379443,yflores@example.net,HealthInsurance
 CLI-03139,Ignacio,Acosta,1961-02-10,M,Bachelor,Single,Medical Leave,,San Ramón de la Nueva Orán,Salta,Argentina,+54 15 2759 7833,rbustos@@example.net,AutoInsurance
 CLI-08326,Tiziano,Rojas,1979-06-23,M,Bachelor,Married,Employed,57177.0,Leandro N. Alem,Misiones,Argentina,+54 15 2550 5786,gonzalezsofia@example.com,AutoInsurance
@@ -8872,7 +8872,7 @@ CLI-09823,Nina,Vera,1979-05-02,F,High School,Married,Retired,274167.0,Resistenci
 CLI-04617,Ciro,Luna,,M,High School or Below,Married,Employed,95697.0,Tafí Viejo,Tucumán,Argentina,+54 15 2445 5097,santiagogonzalez@example.net,AutoInsurance
 CLI-03098,Emilia,Sosa,1899-01-01,F,High School or Below,Divorced,Employed,57693.0,Belgrano,CABA,Argentina,+54 9 3670 2501,luisina49@example.com,AutoInsurance
 CLI-06870,bENJAMIN,pAZ,1954-04-09,M,College,Married,Unemployed,684287.0,Caballito,CABA,Argentina,+54 9 3580 8312,psoria@example.com,AutoInsurance
-CLI-01301,Isabella	,Fernandez,1990/12/06,F,Bachelor,Married,Employed,60420.0,Rafaela,Santa Fe,Argentina,+54 9 3994 2968,malenacardozo@example.net,AutoInsurance
+"CLI-01301,Isabella	,Fernandez,1990/12/06,F,Bachelor,Married,Employed,60420.0,Rafaela,Santa Fe,Argentina,+54 9 3994 2968,malenacardozo@example.net,AutoInsurance"
 CLI-07286,Juan Ignacio,Herrera,1995-07-08,M,High School or Below,Single,Unemployed,741842.0,La Plata,Buenos Aires,Argentina,,facundo38@example.org,AutoInsurance
 CLI-06285,Emilia,Luna,01/19/1981,masculino,College,Divorced,Employed,,Tafí Viejo,Tucumán,Argentina,+54 9 3416 8551,lopezjuan-manuel@example.com,AutoInsurance
 CLI-05496,Lucia,Fernandez,1985-06-25,F,High School or Below,Married,Employed,41701.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 15 2120 3736,gomezjuan-cruz@example.org,AutoInsurance
@@ -9329,7 +9329,7 @@ CLI-01641,Alma,Blanco,1972-09-22,F,Doctor,Married,Unemployed,1209211.0,Caballito
 CLI-01291,Mateo Benjamin,Navarro,,M,Bachelor,Married,Employed,54710.0,xxx,Tucumán,Argentina,+54 15 2507 9771,gonzalezambar@example.net,AutoInsurance
 CLI-01381,Sofía,Gonzalez,1956-04-27,F,Master,Single,Employed,42142.0,Luján de Cuyo,Mendoza,Argentina,+54 9 3675 9887,catalinaluna@example.net,AutoInsurance
 CLI-01934,Bianca,Flores,1960-04-04,F,Master,Married,Employed,97131.0,Colón,Entre Ríos,Argentina,+54 15 2967 3664,emma07@example.com,desconocido
-CLI-04676,Catalina,Diaz	,1975-04-08,F,Bachelor,Single,Unemployed,759252.0,Paraná,Entre Ríos,Argentina,+54 9 3750 3559,mmartinez@example.net,AutoInsurance
+"CLI-04676,Catalina,Diaz	,1975-04-08,F,Bachelor,Single,Unemployed,759252.0,Paraná,Entre Ríos,Argentina,+54 9 3750 3559,mmartinez@example.net,AutoInsurance"
 CLI-00893,Pilar,Gomez,1966-06-04,F,High School or Below,Single,Unemployed,982879.0,Belgrano,CABA,Argentina,+54 15 2351 6025,acastillo@example.com,AutoInsurance
 CLI-07288,Juan Bautista,Suarez,1979-06-27,M,Master,Married,Employed,-999.0,Eldorado,Misiones,Argentina,+54 15 2848 0606,antoniovega@example.net,AutoInsurance
 CLI-04877,ambar,toledo,1971-09-12,Masc.,Bachelor,Single,Employed,28743.0,Maipú,Mendoza,Argentina,+54 9 3471 6315,lunalola@example.net,AutoInsurance
@@ -9350,7 +9350,7 @@ CLI-06403,Maia,Vega,1963-07-29,F,Bachelor,Married,Employed,69024.0,Mendoza,Mendo
 CLI-00937,Thiago Benjamin,Martinez,,M,Bachelor,Married,Employed,61063.0,Rafaela,Santa Fe,Argentina,+54 9 3353 4490,morenopedro@example.com,AutoInsurance
 CLI-02266,Matilda,Paez,1969-03-14,F,College,Married,Disabled,17453.0,Recoleta,CABA,Argentina,+54 15 2106 3228,chavezmateo@example.net,AutoInsurance
 CLI-00825,Antonia,Silva,1981-10-02,F,High School or Below,Married,EMPLOYED,51179.0,Recoleta,CABA,Argentina,+54 15 2683 0440,juarezlautaro@example.org,AutoInsurance
-CLI-07275,Thiago Leonel,Martinez	,1954-09-29,M,Bachelor,N/A,Employed,79528.0,Salta,Salta,Argentina,+54 9 3822 3982,gonzalezpedro@example.net,AutoInsurance
+"CLI-07275,Thiago Leonel,Martinez	,1954-09-29,M,Bachelor,N/A,Employed,79528.0,Salta,Salta,Argentina,+54 9 3822 3982,gonzalezpedro@example.net,AutoInsurance"
 CLI-01390,julia,vega,,F,High School or Below,Married,Employed,64125.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 15 2520 2030,delfinafernandez@example.net,AutoInsurance
 CLI-03565,Facundo,Muñoz,1977-04-30,M,College,Married,Medical Leave,19065.0,Caballito,CABA,Argentina,+54 15 2699 0150,nahiara-jazmin76@example.org,AutoInsurance
 CLI-09077,Felicitas,Lopez,1987-03-07,F,Bachelor,Divorced,Employed,70829.0,Córdoba,Córdoba,Argentina,+54 9 3272 3232,ivillalba@example.com,AutoInsurance
@@ -9367,7 +9367,7 @@ CLI-09483,Julieta,Ponce,1990-04-29,F,High School,Married,Employed,240655.0,Eldor
 CLI-09830,Clara,Soto,2000-04-26,F,Bachelor,Married,jub.,1482621.0,Resistencia,Chaco,Argentina,+54 9 3853 3251,bautistaarias@example.com,HealthInsurance
 CLI-09156,Carmela,Sosa,1996-04-27,F,High School,Married,Unemployed,628243.0,Concepción,Tucumán,Argentina,+54 15 2931 6048,qquiroga@example.com,HealthInsurance
 CLI-07512,Emilia,Garcia,1965-04-07,F,BACHELOR,Married,Employed,20954.0,Reconquista,Santa Fe,Argentina,+54 15 2748 6890,facundoruiz@example.org,AutoInsurance
-CLI-08057,Juan Pablo,Rodriguez,1978-07-05,M,HIGH SCHOOL,Single,Unemployed,,Maipú,Mendoza	,Argentina,+54 15 2151 4593,gimenezemiliano@example.net,AutoInsurance
+"CLI-08057,Juan Pablo,Rodriguez,1978-07-05,M,HIGH SCHOOL,Single,Unemployed,,Maipú,Mendoza	,Argentina,+54 15 2151 4593,gimenezemiliano@example.net,AutoInsurance"
 CLI-04495,Valentina,Mansilla,1998-05-31,F,Bachelor,Single,Unemployed,,Río Cuarto,Córdoba,Argentina,+54 9 3783 7476,morenaojeda@example.org,AutoInsurance
 CLI-02633,Morena,Diaz,1997-11-13,F,College,Married,Employed,48990.0,Recoleta,CABA,Argentina,+54 9 3192 1510,oliviaaguirre@example.org,AutoInsurance
 CLI-09563,Delfina,Fernandez,,F,Master,Married,Employed,1022779.0,Yerba Buena,Tucumán,Argentina,+54 9 3412 0302,victoriamolina@example.net,HealthInsurance
@@ -9523,13 +9523,13 @@ CLI-05942,Guadalupe,Chavez,1970-12-01,F,College,Married,Employed,94903.0,Leandro
 CLI-03068,Bautista,Martinez,1997-12-01,M,Bachelor,Married,Employed,35322.0,Maipú,Mendoza,Argentina,+54 9 3162 4554,amendez@example.org,AutoInsurance
 CLI-09729,Thiago Benjamin,Romero,1985-04-30 00:00:00,M,bachelor,Casada,Retired,668024.0,Oberá,Misiones,Argentina,+54 15 2989 0045,salvadornunez@example.com,HealthInsurance
 CLI-03630,Sofía,Ramirez,1972-03-06,F,Bachelor,Single,Unemployed,628434.0,Palermo,CABA,Argentina,,wmaldonado@example.com,AutoInsurance
-CLI-10155,Valentino	,Silva,1975/05/03,M,High School,Married,retired,210671.0,Rosario,Santa Fe,Argentina,+54 15 2933 4916,santiago82@example.net,HealthInsurance
+"CLI-10155,Valentino	,Silva,1975/05/03,M,High School,Married,retired,210671.0,Rosario,Santa Fe,Argentina,+54 15 2933 4916,santiago82@example.net,HealthInsurance"
 CLI-09615,Felipe,Rodriguez,1963-05-06,Masc.,High School,Married,Employed,1283352.0,Tafí Viejo,Tucumán,Argentina,03910 4726,francisco13@example.org,HealthInsurance
 CLI-03029,Olivia,Maidana,05/10/1997,F,High School or Below,Single,Unemployed,793577.0,Caballito,CABA,Argentina,+54 15 2316 1408,santinorodriguez@example.org,AutoInsurance
 CLI-02970,Thiago Benjamin,Barrios,1980-09-11,M,College,Divorced,unemployed,72834.0,Palermo,CABA,Argentina,+54 15 2796 2821,pereyralucas@example.net,AutoInsurance
 CLI-08647,Thiago Nahuel,Valdez,1987-08-14,M,maestria,Married,Employed,34665.0,Concepción,Tucumán,Argentina,+54 9 3878 2061,florencia98@example.com,AutoInsurance
 CLI-06137,Paulina.,Perez,1995-10-14,F,Master,Married,Retired,19614.0,Resistencia,Chaco,Argentina,+54 9 3150 3163,pduarte@example.org,AutoInsurance
-CLI-08802,Juan Martin,Suarez,1959-04-26,M,High School or Below,Divorced,Employed,59762.0,Lomas de Zamora	,Buenos Aires,Argentina,+54 15 2499 6131,xrodriguez@example.net,AutoInsurance
+"CLI-08802,Juan Martin,Suarez,1959-04-26,M,High School or Below,Divorced,Employed,59762.0,Lomas de Zamora	,Buenos Aires,Argentina,+54 15 2499 6131,xrodriguez@example.net,AutoInsurance"
 CLI-04264,emma,flores,1962-07-22,F,College,Married,Disabled,26056.0,Yerba Buena,Tucumán,Argentina,+54 9 3943 7282,martina12@example.com,AutoInsurance
 CLI-00646,Santino,Ramos,1967-02-12,M,Bachelor,Single,Unemployed,239714.0,Flores,CABA,Argentina,,federicodiaz@example.org,AutoInsurance
 CLI-10367,Clara,Acosta,1972-05-03,F,Doctor,Married,Retired,624011.0,Charata,Chaco,Argentina,+54 9 3710 9069,prodriguez@example.org,HealthInsurance
@@ -9646,7 +9646,7 @@ CLI-01760,Nina,Fernandez,1978-04-20,F,Bachelor,Married,Medical Leave,18064.0,Flo
 CLI-04423,Franco,Perez,,M,Bachelor,Married,Employed,26790.0,null,Entre Ríos,Argentina,+54 9 3859 9250 int.2,oaguero@example.com,AutoInsurance
 CLI-06705,Agustín,Fernandez,1965-10-21,M,Bachelor,Married,Jubilada,90892.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 9 3675 2262,juana31@example.com,AutoInsurance
 CLI-05183,Catalina,Roldan,1997-06-08,F,Bachelor,Married,Unemployed,1438342.0,Rosario de la Frontera,Salta,Argentina,+54 15 2306 4558,gonzalezfranco@example.org,AutoInsurance
-CLI-08534,Lorenzo,Carrizo,1960-11-12,M,College,Married,Unemployed,683662.0,Reconquista	,Santa Fe,Argentina,+54 9 3228 2180,felipe97@example.net,AutoInsurance
+"CLI-08534,Lorenzo,Carrizo,1960-11-12,M,College,Married,Unemployed,683662.0,Reconquista	,Santa Fe,Argentina,+54 9 3228 2180,felipe97@example.net,AutoInsurance"
 CLI-03702,Milagros,Suarez,1957-03-25,F,College,Married,Unemployed,1356422.0,Villa Ángela,Chaco,Argentina,+54 15 2751 8650,xjuarez@example.net,AutoInsurance
 CLI-04244,Mora,Rodriguez,1960-01-01,F,High School or Below,Married,Employed,35654.0,Concordia,Entre Ríos,Argentina,+54 15 2280 3543,simondiaz@example.org,AutoInsurance
 CLI-00689,Valentino,Diaz,1992-11-01,M,Bachelor,Married,Employed,93210.0,Río Cuarto,Córdoba,Argentina,+54 9 3341 6787,gonzalo68@example.net,AutoInsurance
@@ -9690,7 +9690,7 @@ CLI-04663,Juan Ignacio,Ayala,1993-12-04,Masculino,High School or Below,Single,Un
 CLI-04022,CIRO,OJEDA,1976-06-17,M,Bachelor,Single,Unemployed,743904.0,Alta Gracia,Córdoba,Argentina,+54 9 3472 3627,isabelladominguez@example.org,AutoInsurance
 CLI-01855,Delfina,Sanchez,1981-09-30 00:00:00,F,MASTER,n/a,Employed,61108.0,Barranqueras,Chaco,Argentina,+54 15 2204 1724,alma69@example.org,AutoInsurance
 CLI-10119,JUAN FRANCISCO,SOSA,2006-04-25,M,High School,Single,Self-Employed,1898510.0,Santa Fe,Santa Fe,Argentina,+54 15 2106 6330,lunalara@example.org,HealthInsurance
-CLI-02873,Mateo Agustin,Medina,1989-10-31,M,High School or Below,Married,Unemployed,309922.0,Luján de Cuyo,Mendoza	,Argentina,+54 15 2894 5659,ymartinez@example.org,AutoInsurance
+"CLI-02873,Mateo Agustin,Medina,1989-10-31,M,High School or Below,Married,Unemployed,309922.0,Luján de Cuyo,Mendoza	,Argentina,+54 15 2894 5659,ymartinez@example.org,AutoInsurance"
 CLI-03031,Benjamin,Mansilla,1979-01-06,M,Master,Married,Employed,49311.0,Bell Ville,Córdoba,Argentina,+54 9 3467 3526,matias17@example.com,AutoInsurance
 CLI-09398,Joaquin,Sanchez,2007-04-25,M,Master,Divorced,Self-Employed,615920.0,Belgrano,CABA,Argentina,+54 15 2837 9245,maria-victoria92@example.org,HealthInsurance
 CLI-01646,Valentino,Fernandez,1950-10-20,M,Master,Married,Employed,48015.0,Rosario,Santa Fe,Argentina,+54 9 3111 9360,hsoto@example.org,AutoInsurance
@@ -9908,7 +9908,7 @@ CLI-05871,Sebastian,Garcia,1996-02-17,M,High School or Below,Married,Employed,92
 CLI-06507,Luna,Coronel,1951-07-08,F,High School or Below,Casada,Employed,67436.0,Posadas,Misiones,Argentina,+54 15 2887 1319,luz-mariagimenez@example.net,AutoInsurance
 CLI-02798,Martina,Mansilla,1953-06-08,F,Bachelor,Married,Unemployed,1345099.0,Tafí Viejo,Tucumán,Argentina,+54 9 3486 2185,vegacatalina@example.org,autoinsurance
 CLI-00919,Joaquin,Muñoz,1964-11-21,M,Master,Single,Employed,50450.0,Rosario de la Frontera,Salta,Argentina,+54 9 3979 2529,bruno67@example.net,AutoInsurance
-CLI-01647,Pedro,Dominguez,1992-08-21,M,College,Married,Unemployed,1450347.0,Barranqueras	,Chaco,Argentina,,zaguero@example.com,AutoInsurance
+"CLI-01647,Pedro,Dominguez,1992-08-21,M,College,Married,Unemployed,1450347.0,Barranqueras	,Chaco,Argentina,,zaguero@example.com,AutoInsurance"
 CLI-05123,Isabella,Gomez,1979-09-19,F,High School or Below,Single,retired,827225.0,Resistencia,Chaco,Argentina,+54 15 2108 7033,victoriasuarez@example.com,AutoInsurance
 CLI-05127,Benjamin,Martinez,01-03-1987,M,Master,Married,Employed,71499.0,Alta Gracia,Córdoba,Argentina,+54 9 3570 5833,emma74@example.com,AutoInsurance
 CLI-04622,Mia Valentina,Romero,1962-09-06,F,High School or Below,Married,Employed,65538.0,San Ramón de la Nueva Orán,Salta,Argentina,+54 15 2825 4945,diazvalentin@example.net,AutoInsurance
@@ -9986,7 +9986,7 @@ CLI-09989,Maria Paz,Sosa,1977-05-02,F,Bachelor,Married,Unemployed,,Rosario,Santa
 CLI-07649,Benjamin,Leiva,1958-02-11,f,Bachelor,Married,Employed,79271.0,Concepción del Uruguay,Entre Ríos,Argentina,+54 9 3423 5033,aromero@example.com,AutoInsurance
 CLI-04262,Camilo,Aguirre,1985-04-22,M,Bachelor,Married,Employed,29638.0,Villa Ángela,Chaco,Argentina,+54 15 2291 2812,tiziano-valentindiaz@example.net,AutoInsurance
 CLI-01332,Bautista Benjamin,Guzman,1951-02-23,M,Bachelor,Single,Unemployed,1296244.0,Salta,Salta,Argentina,+54 15 2581 6778,mansillalautaro@example.org,AutoInsurance
-CLI-07003,Juan Cruz,Sanchez,1998-11-08,M,High School or Below,Married,Medical Leave,19066.0,Concepción,Tucumán	,Argentina,+54 9 3292 3183,micaela56@example.org,AutoInsurance
+"CLI-07003,Juan Cruz,Sanchez,1998-11-08,M,High School or Below,Married,Medical Leave,19066.0,Concepción,Tucumán	,Argentina,+54 9 3292 3183,micaela56@example.org,AutoInsurance"
 CLI-09551,Santiago,Avila,1974-05-03,M,High School,Divorced,Unemployed,600298.0,Maipú,Mendoza,Argentina,TE: +54 15 2822 0112,peraltamora@example.com,HealthInsurance
 CLI-06942,Maria Victoria,Rodriguez,1973-01-19,F,Bachelor,Single,Unemployed,988677.0,Villa Ángela,NA,Argentina,+54 9 3707 7230,gsilva@example.com,AutoInsurance
 CLI-08018,Luciana,Avila,1955-04-29,F,Bachelor,Married,Employed,24149.0,Leandro N. Alem,Misiones,Argentina,,luciafernandez@@example.org,AutoInsurance
@@ -10308,7 +10308,7 @@ CLI-00560,Luciana,Mendoza,1962-05-09,F,College,Married,Unemployed,1310357.0,Caba
 CLI-05238,Ciro,Rodriguez,1960-09-29,M,Bachelor,Married,Disabled,18375.0,Famailla,Tucumán,Argentina,+54 9 3475 4750,francoantonio@example.net,AutoInsurance
 CLI-07806,Lautaro,Aguero,1974-05-03,M,Bachelor,Married,Unemployed,1498461.0,Maipú,Mendoza,Argentina,+54 15 2584 4068,sofia10@example.net,autoinsurance
 CLI-00513,Joaquin,Fernandez,1950-06-22,M,College,Single,Employed,90330.0,Resistencia,Chaco,Argentina,+54 15 2734 7786,diazvictoria@example.org,AutoInsurance
-CLI-01082,Gael,Guzman	,1993-12-31,M,High School or Below,Married,Employed,99144.0,Córdoba,Córdoba,Argentina,+54 15 2337 7731,ocastro@example.net,AutoInsurance
+"CLI-01082,Gael,Guzman	,1993-12-31,M,High School or Below,Married,Employed,99144.0,Córdoba,Córdoba,Argentina,+54 15 2337 7731,ocastro@example.net,AutoInsurance"
 CLI-01665,Thiago Benjamin,Gonzalez,1950-01-24,M,High School or Below,Married,Employed,43461.0,Colón,Entre Ríos,Argentina,+54 9 3592 2170,wcoronel@example.org,AutoInsurance
 CLI-09205,Luciana,Gomez,1999-04-27,Masculino,High School,Single,Employed,1397422.0,Presidencia Roque Sáenz Peña,Chaco,Argentina,+54 9 3100 1818,julian07@example.org,HealthInsurance
 CLI-01932,Isabella,Alvarez,1980-09-13,F,HIGH SCHOOL,Single,Employed,40153.0,Rosario de la Frontera,Salta,Argentina,+54 9 3535 4453,lisandro46@example.net,AutoInsurance
@@ -10482,10 +10482,10 @@ CLI-03109,Lucas,Barrios,1977-05-19,M,College,Single,Unemployed,382331.0,Rafaela,
 CLI-04549,Emma,Lopez,1977-03-06,F,College,Married,Unemployed,1007196.0,Mar del Plata,Buenos Aires,Argentina,+54 15 2543 1938,vargasjuan@example.org,AutoInsurance
 CLI-05424,Tiziano Benjamin,Dominguez,1960-12-25,M,Bachelor,Single,Unemployed,1021405.0,Quilmes,Buenos Aires,Argentina,+54 9 3859 7118,emiliagutierrez@example.org,AutoInsurance
 CLI-02050,santiago,navarro,1982-03-26,M,Master,Divorced,Unemployed,1220271.0,Palermo,CABA,Argentina,+54 15 2499 0380,juan-ignacio48@example.net,AutoInsurance
-CLI-09209,Santiago	,Perez,1982-05-01,male,Bachelor,Married,Self-Employed,620027.0,Tafí Viejo,Tucumán,Argentina,+54 9 3177 8392,thiago-agustin93@example.org,HealthInsurance
+"CLI-09209,Santiago	,Perez,1982-05-01,male,Bachelor,Married,Self-Employed,620027.0,Tafí Viejo,Tucumán,Argentina,+54 9 3177 8392,thiago-agustin93@example.org,HealthInsurance"
 CLI-08816,Francesca,Herrera,1998-03-31,F,College,Married,Employed,29932.0,Leandro N. Alem,Misiones,Argentina,+54 9 3227 4351,laragomez@example.net,AutoInsurance
 CLI-07171,Valentino,Maidana,1993-01-24,M,Bachelor,Married,Employed,72786.0,Orán,Salta,Argentina,+54 9 3205 0866,paezsantino@example.net,AutoInsurance
-CLI-00263,Lucia	,Sanchez,1998-11-09,F,College,Divorced,Medical Leave,21708.0,Belgrano,CABA,Argentina,+54 9 3854 9471,agueromaria-victoria@example.net,AutoInsurance
+"CLI-00263,Lucia	,Sanchez,1998-11-09,F,College,Divorced,Medical Leave,21708.0,Belgrano,CABA,Argentina,+54 9 3854 9471,agueromaria-victoria@example.net,AutoInsurance"
 CLI-04062,Bautista,Fernandez,,Masculino,Bachelor,Married,Employed,21835.0,Paraná,Entre Ríos,Argentina,+54 9 3821 0238,alexandergutierrez@example.net,AutoInsurance
 CLI-05535,Jeremias,Rodriguez,1952-01-23,M,High School or Below,Single,Unemployed,1370019.0,Villa Ángela,Chaco,Argentina,+54 15 2804 6408,moyanoemma@example.org,AutoInsurance
 CLI-06617,Ana Paula,Morales,1959-07-27,F,College,Married,Employed,69693.0,Tafí Viejo,Tucumán,Argentina,+54 9 3298 8235,bsoto@example.net,AutoInsurance
@@ -10525,7 +10525,7 @@ CLI-02328,Juan Bautista,Moreno,1978-05-25,M,High School or Below,Married,Employe
 CLI-04390,Santino Benjamin,Dominguez,1981-10-02,M,licenciado,Divorced,Employed,69114.0,Reconquista,Santa Fe,Argentina,+54 15 2870 4204,giulianapaez@@example.com,AutoInsurance
 CLI-08959,Ana Paula,Navarro,1957-06-25,F,High School or Below,Single,Unemployed,312355.0,Charata,Chaco,Argentina,+54 9 3194 6801,lorenzo74@example.com,AutoInsurance
 CLI-04219,Maite,Lopez,1955-01-09,F,High School or Below,Single,Employed,46379.0,Flores,CABA,Argentina,+54 15 2321 2458,ian70@example.net,AutoInsurance
-CLI-00203,Josefina,Gonzalez	,1977-12-27,F,High School or Below,divorciado,desempleado,65351.0,Lanús,Buenos Aires,Argentina,+54 15 2775 1863,morenasanchez@example.com,AutoInsurance
+"CLI-00203,Josefina,Gonzalez	,1977-12-27,F,High School or Below,divorciado,desempleado,65351.0,Lanús,Buenos Aires,Argentina,+54 15 2775 1863,morenasanchez@example.com,AutoInsurance"
 CLI-03511,Santino,Mendoza,,M,High School or Below,Single,Employed,29875.0,Villa Ángela,Chaco,Argentina,+54 9 3598 3678,martinezluana@example.org.ar.com.net,AutoInsurance
 CLI-04932,Benicio,Leiva,1953-07-26,M,High School or Below,Single,Unemployed,687059.0,Oberá,Misiones,Argentina,+54 9 3620 3073,lucaspereyra@example.net,AutoInsurance
 CLI-05536,Pilar,Bravo,1985-09-15,F,High School or Below,casado,Employed,97460.0,Córdoba,Córdoba,Argentina,+54 9 3275 2452,kgarcia@example.net,AutoInsurance

@@ -2,6 +2,7 @@ import pandas as pd
 import logging
 from config import engine_staging, engine_dw
 from sqlalchemy import text
+import hashlib
  
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -24,19 +25,18 @@ def cargar_dim_agente():
     # 4. Insertar en dim_agente
     #    if_exists="append" para no destruir registros existentes.
     #    index=False porque la SK la genera MySQL con AUTO_INCREMENT.
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_agente"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim.to_sql(
-        name="dim_agente",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # 4. Identificar nuevos e Insertar
+    try:
+        existentes = pd.read_sql("SELECT id_agente FROM dim_agente", engine_dw)["id_agente"].tolist()
+    except Exception:
+        existentes = []
+        
+    df_dim = df_dim[~df_dim["id_agente"].isin(existentes)]
+
+    if not df_dim.empty:
+        df_dim.to_sql(name="dim_agente", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_agente cargada: {len(df_dim)} registros de {total} validados")
+    log.info(f"  ✔ dim_agente: {len(df_dim)} registros nuevos (de {total} validados)")
  
 def cargar_dim_tiempo():
     log.info("═══ Cargando dim_tiempo ═══")
@@ -60,19 +60,18 @@ def cargar_dim_tiempo():
     })
  
     # 3. Insertar en dim_tiempo
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_tiempo"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim.to_sql(
-        name="dim_tiempo",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # 3. Insertar en dim_tiempo (Solo nuevas fechas)
+    try:
+        existentes = pd.read_sql("SELECT id_tiempo FROM dim_tiempo", engine_dw)["id_tiempo"].tolist()
+    except Exception:
+        existentes = []
+        
+    df_dim = df_dim[~df_dim["id_tiempo"].isin(existentes)]
+
+    if not df_dim.empty:
+        df_dim.to_sql(name="dim_tiempo", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_tiempo cargada: {len(df_dim)} días ({fecha_inicio.date()} → {fecha_fin.date()})")
+    log.info(f"  ✔ dim_tiempo: {len(df_dim)} fechas nuevas ({fecha_inicio.date()} → {fecha_fin.date()})")
 
 def cargar_dim_perito():
     log.info("═══ Cargando dim_perito ═══")
@@ -86,19 +85,18 @@ def cargar_dim_perito():
     df_dim = df_dim.rename(columns={"nombre_completo": "Nombre_Perito"})
  
     # 3. Insertar en dim_perito
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_perito"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim.to_sql(
-        name="dim_perito",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # 3. Identificar e Insertar en dim_perito
+    try:
+        existentes = pd.read_sql("SELECT id_perito FROM dim_perito", engine_dw)["id_perito"].tolist()
+    except Exception:
+        existentes = []
+        
+    df_dim = df_dim[~df_dim["id_perito"].isin(existentes)]
+
+    if not df_dim.empty:
+        df_dim.to_sql(name="dim_perito", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_perito cargada: {len(df_dim)} registros de {total} validados") 
+    log.info(f"  ✔ dim_perito: {len(df_dim)} registros nuevos (de {total} validados)")
 
 
 def cargar_dim_objeto():
@@ -113,19 +111,18 @@ def cargar_dim_objeto():
     df_dim = df_dim.rename(columns={"valor_asegurado": "valor_objeto"})
  
     # 3. Insertar en dim_objeto
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_objeto"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim.to_sql(
-        name="dim_objeto",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # 3. Insertar en dim_objeto
+    try:
+        existentes = pd.read_sql("SELECT id_objeto FROM dim_objeto", engine_dw)["id_objeto"].tolist()
+    except Exception:
+        existentes = []
+        
+    df_dim = df_dim[~df_dim["id_objeto"].isin(existentes)]
+
+    if not df_dim.empty:
+        df_dim.to_sql(name="dim_objeto", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_objeto cargada: {len(df_dim)} registros de {total} validados")
+    log.info(f"  ✔ dim_objeto: {len(df_dim)} registros nuevos (de {total} validados)")
 
 def cargar_dim_tipo_seguro():
     log.info("═══ Cargando dim_tipo_seguro ═══")
@@ -145,19 +142,18 @@ def cargar_dim_tipo_seguro():
     df_dim = df[['categoria_plan']].dropna().copy()
  
     # 3. Insertar en dim_tipo_seguro
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_tipo_seguro"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim.to_sql(
-        name="dim_tipo_seguro",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # 3. Insertar en dim_tipo_seguro
+    try:
+        existentes = pd.read_sql("SELECT categoria_plan FROM dim_tipo_seguro", engine_dw)["categoria_plan"].tolist()
+    except Exception:
+        existentes = []
+        
+    df_dim = df_dim[~df_dim["categoria_plan"].isin(existentes)]
+
+    if not df_dim.empty:
+        df_dim.to_sql(name="dim_tipo_seguro", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_tipo_seguro cargada: {len(df_dim)} registros únicos de planes")
+    log.info(f"  ✔ dim_tipo_seguro: {len(df_dim)} registros nuevos")
 
 def cargar_dim_tiposiniestro():
     log.info("═══ Cargando dim_tiposiniestro ═══")
@@ -177,19 +173,18 @@ def cargar_dim_tiposiniestro():
  
     # 3. Insertar en dim_tiposiniestro
     #    id_tipo_siniestro_sk lo genera MySQL con AUTO_INCREMENT
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_tiposiniestro"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim.to_sql(
-        name="dim_tiposiniestro",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # 3. Insertar en dim_tiposiniestro
+    try:
+        existentes = pd.read_sql("SELECT Nombre_Siniestro FROM dim_tiposiniestro", engine_dw)["Nombre_Siniestro"].tolist()
+    except Exception:
+        existentes = []
+        
+    df_dim = df_dim[~df_dim["Nombre_Siniestro"].isin(existentes)]
+
+    if not df_dim.empty:
+        df_dim.to_sql(name="dim_tiposiniestro", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_tiposiniestro cargada: {len(df_dim)} tipos únicos")
+    log.info(f"  ✔ dim_tiposiniestro: {len(df_dim)} tipos nuevos")
 
 
 
@@ -325,22 +320,63 @@ def cargar_dim_personas():
         terceros["es_actual"]        = 1
         
         # --- 3. UNIFICAR ---
+    if not terceros.empty:
         df_dim_final = pd.concat([df_dim, terceros], ignore_index=True)
     else:
         df_dim_final = df_dim
 
-    # --- 4. INSERTAR EN LA BASE DE DATOS ---
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_personas"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim_final.to_sql(
-        name="dim_personas",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # --- 4. APLICAR SCD TIPO 2 (CARGA INCREMENTAL) ---
+    def calc_hash(row):
+        s = f"{row.get('ocupacion','')}|{row.get('segmento_persona','')}|{row.get('sexo','')}|{row.get('id_ubicacion_fk','')}"
+        return hashlib.md5(s.encode('utf-8')).hexdigest()
+        
+    df_dim_final['hash_val'] = df_dim_final.apply(calc_hash, axis=1)
 
-    log.info(f"  ✔ dim_personas cargada: {len(df_dim)} clientes y {len(terceros) if not terceros.empty else 0} terceros ({len(df_dim_final)} total)")
+    try:
+        df_db = pd.read_sql("SELECT id_persona_sk, id_persona, ocupacion, segmento_persona, sexo, id_ubicacion_fk FROM dim_personas WHERE es_actual = 1", engine_dw)
+        df_db['hash_db'] = df_db.apply(calc_hash, axis=1)
+        dict_hash_db = dict(zip(df_db['id_persona'], df_db['hash_db']))
+        dict_sk_db = dict(zip(df_db['id_persona'], df_db['id_persona_sk']))
+    except Exception:
+        dict_hash_db = {}
+        dict_sk_db = {}
+        
+    nuevos = []
+    modificados = []
+    
+    for _, row in df_dim_final.iterrows():
+        id_pers = row['id_persona']
+        h_val = row['hash_val']
+        
+        # Si NO está en la BD (o es la primera corrida), es nuevo
+        if id_pers not in dict_hash_db:
+            nuevos.append(row)
+        # Si está en la BD pero el hash es distinto, se modificó
+        elif dict_hash_db[id_pers] != h_val:
+            modificados.append(row)
+            
+    df_nuevos = pd.DataFrame(nuevos)
+    df_modificados = pd.DataFrame(modificados)
+    
+    if not df_nuevos.empty:
+        df_nuevos = df_nuevos.drop(columns=['hash_val'])
+        df_nuevos.to_sql(name="dim_personas", con=engine_dw, if_exists="append", index=False)
+        
+    if not df_modificados.empty:
+        df_modificados = df_modificados.drop(columns=['hash_val'])
+        # 1. Desactivar registros viejos
+        hoy = pd.Timestamp.today().strftime('%Y-%m-%d')
+        ids_a_desactivar = [str(dict_sk_db[r['id_persona']]) for _, r in df_modificados.iterrows()]
+        
+        if ids_a_desactivar:
+            ids_str = ",".join(ids_a_desactivar)
+            sql_update = f"UPDATE dim_personas SET es_actual = 0, fecha_hasta = '{hoy}' WHERE id_persona_sk IN ({ids_str})"
+            with engine_dw.connect() as conn:
+                conn.execute(text(sql_update))
+                conn.commit()
+                
+        # 2. Insertar nuevas versiones
+        df_modificados.to_sql(name="dim_personas", con=engine_dw, if_exists="append", index=False)
+        
+    log.info(f"  ✔ dim_personas: {len(df_nuevos)} nuevos, {len(df_modificados)} modificados (total evaluados: {len(df_dim_final)})")
 
