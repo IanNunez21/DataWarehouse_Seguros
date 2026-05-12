@@ -50,6 +50,9 @@ def ejecutar_etl_inicial():
             etl_logger.registrar(f"Transformación: {nombre}", t0, estado="ERROR", mensaje=str(e))
             log.error(f"❌ Error en la transformación de {nombre}: {e}")
 
+    # Crear índices en staging para acelerar los lookups de carga al DW
+    staging.crear_indices_staging()
+
     # ── PASO 3: Carga al DW (dimensiones) ────────────────────────────────────
     tareas_dimensiones = [
         ("dim_agente",       carga_dimensiones.cargar_dim_agente),
