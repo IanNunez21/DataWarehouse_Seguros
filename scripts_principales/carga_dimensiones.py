@@ -44,7 +44,7 @@ def cargar_dim_agente():
                 ), {"nombre": row["nombre_agente_new"], "id": row["id_agente"]})
             conn.commit()
 
-    log.info(f"  ✔ dim_agente: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
+    log.info(f"  dim_agente: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
  
 def cargar_dim_tiempo():
  
@@ -78,7 +78,7 @@ def cargar_dim_tiempo():
     if not df_dim.empty:
         df_dim.to_sql(name="dim_tiempo", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_tiempo: {len(df_dim)} fechas nuevas ({fecha_inicio.date()} → {fecha_fin.date()})")
+    log.info(f"  dim_tiempo: {len(df_dim)} fechas nuevas ({fecha_inicio.date()} -> {fecha_fin.date()})")
 
 def cargar_dim_perito():
 
@@ -116,7 +116,7 @@ def cargar_dim_perito():
                 ), {"nombre": row["Nombre_Perito_new"], "id": row["id_perito"]})
             conn.commit()
 
-    log.info(f"  ✔ dim_perito: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
+    log.info(f"  dim_perito: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
 
 
 def cargar_dim_objeto():
@@ -158,7 +158,7 @@ def cargar_dim_objeto():
                 ), {"tipo": row["tipo_objeto_new"], "valor": row["valor_objeto_new"], "id": row["id_objeto"]})
             conn.commit()
 
-    log.info(f"  ✔ dim_objeto: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
+    log.info(f"  dim_objeto: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
 
 def cargar_dim_tipo_seguro():
  
@@ -188,7 +188,7 @@ def cargar_dim_tipo_seguro():
     if not df_dim.empty:
         df_dim.to_sql(name="dim_tipo_seguro", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_tipo_seguro: {len(df_dim)} registros nuevos")
+    log.info(f"  dim_tipo_seguro: {len(df_dim)} registros nuevos")
 
 def cargar_dim_tiposiniestro():
  
@@ -218,7 +218,7 @@ def cargar_dim_tiposiniestro():
     if not df_dim.empty:
         df_dim.to_sql(name="dim_tiposiniestro", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  ✔ dim_tiposiniestro: {len(df_dim)} tipos nuevos")
+    log.info(f"  dim_tiposiniestro: {len(df_dim)} tipos nuevos")
 
 
 
@@ -287,7 +287,7 @@ def cargar_dim_ubicacion():
         index=False,
     )
 
-    log.info(f"  ✔ dim_ubicacion cargada: {len(df_dim)} filas únicas")
+    log.info(f"  dim_ubicacion: {len(df_dim)} filas unicas cargadas")
 
 
 def cargar_dim_personas():
@@ -410,10 +410,10 @@ def cargar_dim_personas():
         # 2. Insertar nuevas versiones
         df_modificados.to_sql(name="dim_personas", con=engine_dw, if_exists="append", index=False)
         
-    log.info(f"  ✔ dim_personas: {len(df_nuevos)} nuevos, {len(df_modificados)} modificados (total evaluados: {len(df_dim_final)})")
+    log.info(f"  dim_personas: {len(df_nuevos)} nuevos, {len(df_modificados)} modificados (SCD T2)")
 
 def asegurar_registros_desconocidos():
-    log.info("--- Insertando/Verificando registros Desconocidos (SK = -1) en Dimensiones ---")
+    log.info("Verificando registros desconocidos (SK=-1)")
     
     queries = [
         "INSERT IGNORE INTO dim_agente (id_agente_sk, id_agente, nombre_agente) VALUES (-1, 'N/A', 'Desconocido');",
@@ -427,7 +427,7 @@ def asegurar_registros_desconocidos():
     ]
     
     with engine_dw.connect() as conn:
-        # Desactivamos checks de foreign keys para poder meter la FK de ubicacion en dim_personas si fuera necesario
+        # Se desactiva checks de foreign keys para poder meter la FK de ubicacion en dim_personas si fuera necesario
         conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
         for query in queries:
             try:
@@ -437,4 +437,4 @@ def asegurar_registros_desconocidos():
         conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
         conn.commit()
     
-    log.info("  ✔ Registros -1 asegurados en todas las dimensiones")
+    log.info("  Dimensiones: registros SK=-1 verificados")

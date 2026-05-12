@@ -69,7 +69,7 @@ def limpiar_y_transformar_clientes():
         lambda e: 'Joven' if e < 35 else ('Mayor' if e >= 60 else 'Adulto')
     )
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 8. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_clientes_validados")
@@ -97,7 +97,7 @@ def limpiar_y_transformar_polizas():
         # Filtrado todo en uno
         df = df[df['id_cliente'].isin(val_clientes['id_cliente']) & df['id_agente'].isin(val_agentes['id_agente'])]
     except Exception as e:
-        log.warning(f"  ⚠ No se pudo validar la integridad referencial con Clientes o Agentes: {e}")
+        log.debug(f"  Integridad referencial polizas omitida: {e}")
 
     # 5. Conversión de Fechas
     df = convertir_fechas(df, ['fecha_alta', 'vigencia_desde', 'vigencia_hasta'])
@@ -106,7 +106,7 @@ def limpiar_y_transformar_polizas():
     columnas_numericas = ['prima_mensual', 'prima_total', 'customer_lifetime_value', 'numero_polizas_cliente', 'meses_desde_inicio']
     df = limpiar_numericos(df, columnas_numericas)
     
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 7. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_polizas_validadas")
@@ -145,7 +145,7 @@ def limpiar_y_transformar_evaluaciones():
     except Exception as e:
         log.warning(f"  ⚠ No se pudo validar la integridad referencial con Partes o Peritos: {e}")
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 8. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_evaluaciones_validadas")
@@ -166,7 +166,7 @@ def limpiar_y_transformar_peritos():
     # Seleccionar columnas de interés
     df = df[['id_perito', 'nombre', 'apellido', 'nombre_completo', 'zona_cobertura']]
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 4. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_peritos_validados")
@@ -206,7 +206,7 @@ def limpiar_y_transformar_pagos():
     except Exception as e:
         log.warning(f"  ⚠ No se pudo validar la integridad referencial con Partes o Clientes: {e}")
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 6. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_pagos_validados")
@@ -234,7 +234,7 @@ def limpiar_y_transformar_objetos():
     except Exception as e:
         log.warning(f"  ⚠ No se pudo cruzar con val_polizas_validadas para integridad referencial: {e}")
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 6. Volcado a Staging y Exportación CSV
     return guardar_datos_curados(df, "val_objetos_validados")
@@ -267,7 +267,7 @@ def limpiar_y_transformar_agentes():
     # 7. Crear nombre completo para la dimensión
     df = crear_nombre_completo(df)
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 9. Guardar tabla validada en staging y Exportación CSV
     return guardar_datos_curados(df, "val_agentes_validados")
@@ -332,7 +332,7 @@ def limpiar_y_transformar_partes():
     except Exception as e:
         log.warning(f"  ⚠ Advertencia en validación referencial de Partes: {e}")
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 9. Guardar tabla validada en staging y Exportación CSV
     return guardar_datos_curados(df, "val_partes_validados")
@@ -368,7 +368,7 @@ def limpiar_y_transformar_garantias():
         log.warning(f"  ⚠ Atención: Hay {len(invalidos)} garantías con suma <= 0. Serán omitidas.")
         df = df[df['suma_garantizada'] > 0]
 
-    log.info(f"  ✔ Registros procesados correctamente: {len(df)} de {total_inicial}")
+    log.info(f"  Procesados: {len(df)} de {total_inicial}")
     
     # 5. Guardar tabla validada en Staging
     return guardar_datos_curados(df, "val_garantias_validadas")
