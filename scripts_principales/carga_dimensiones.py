@@ -161,7 +161,6 @@ def cargar_dim_objeto():
     log.info(f"  dim_objeto: {len(df_nuevos)} nuevos, {len(df_modificados)} actualizados (de {total} validados)")
 
 def cargar_dim_tipo_seguro():
- 
     # 1. Leer los valores únicos desde staging
     df = pd.read_sql("SELECT DISTINCT cobertura FROM val_polizas_validadas", engine_staging)
  
@@ -176,19 +175,19 @@ def cargar_dim_tipo_seguro():
     # Nos quedamos solo con la columna objetivo
     df_dim = df[['categoria_plan']].dropna().copy()
  
-    # 3. Insertar en dim_tipo_seguro
-    # 3. Insertar en dim_tipo_seguro
+    # 3. SCD T1: INSERT nuevos, no hay atributos adicionales que actualizar
+    #    (categoria_plan es tanto la clave natural como el único atributo descriptivo)
     try:
         existentes = pd.read_sql("SELECT categoria_plan FROM dim_tipo_seguro", engine_dw)["categoria_plan"].tolist()
     except Exception:
         existentes = []
         
-    df_dim = df_dim[~df_dim["categoria_plan"].isin(existentes)]
+    df_nuevos = df_dim[~df_dim["categoria_plan"].isin(existentes)]
 
-    if not df_dim.empty:
-        df_dim.to_sql(name="dim_tipo_seguro", con=engine_dw, if_exists="append", index=False)
+    if not df_nuevos.empty:
+        df_nuevos.to_sql(name="dim_tipo_seguro", con=engine_dw, if_exists="append", index=False)
  
-    log.info(f"  dim_tipo_seguro: {len(df_dim)} registros nuevos")
+    log.info(f"  dim_tipo_seguro: {len(df_nuevos)} nuevos, 0 actualizados (de {len(df_dim)} únicos en staging)")
 
 def cargar_dim_tiposiniestro():
  
@@ -242,7 +241,6 @@ def _limpiar(serie: pd.Series) -> pd.Series:
 
 
 def cargar_dim_ubicacion():
-
     # 1. Leer las dos fuentes con datos completos de ubicación.
     #    Los peritos solo tienen zona_cobertura (provincia sin ciudad ni país),
     #    no se incluyen porque generarían filas incompletas que no sirven como FK.
@@ -251,9 +249,9 @@ def cargar_dim_ubicacion():
 
     # 2. Normalizar ANTES del concat para que "  Buenos Aires  " y "Buenos Aires"
     #    no generen dos filas distintas (el CSV de clientes tiene espacios extra).
-    for df in [clientes, objetos]:
-        for col in df.columns:
-            df[col] = _limpiar(df[col])
+    for df_src in [clientes, objetos]:
+        for col in df_src.columns:
+            df_src[col] = _limpiar(df_src[col])
 
     # 3. Renombrar al esquema de dim_ubicacion y completar columnas faltantes
     ub_clientes = clientes.rename(columns={"localidad": "ciudad"})
@@ -274,20 +272,43 @@ def cargar_dim_ubicacion():
         .reset_index(drop=True)
     )
 
-    # 5. Insertar en dim_ubicacion
-    with engine_dw.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        conn.execute(text("TRUNCATE TABLE dim_ubicacion"))
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
-        conn.commit()
-    df_dim.to_sql(
-        name="dim_ubicacion",
-        con=engine_dw,
-        if_exists="append",
-        index=False,
-    )
+    # 5. SCD T1: leer registros existentes del DW
+    try:
+        df_db = pd.read_sql(
+            "SELECT id_ubicacion_sk, pais, provincia, ciudad FROM dim_ubicacion WHERE id_ubicacion_sk != -1",
+            engine_dw
+        )
+    except Exception:
+        df_db = pd.DataFrame(columns=["id_ubicacion_sk", "pais", "provincia", "ciudad"])
 
-    log.info(f"  dim_ubicacion: {len(df_dim)} filas unicas cargadas")
+    # Clave natural compuesta para identificar cada ubicación
+    def _key(df_):
+        return (
+            df_["pais"].astype(str).str.upper().str.strip() + "|"
+            + df_["provincia"].astype(str).str.upper().str.strip() + "|"
+            + df_["ciudad"].astype(str).str.upper().str.strip()
+        )
+
+    df_dim["_key"] = _key(df_dim)
+    df_db["_key"]  = _key(df_db)
+
+    existentes_keys = set(df_db["_key"])
+
+    # 5a. INSERT: combinaciones que no existen todavía
+    df_nuevos = df_dim[~df_dim["_key"].isin(existentes_keys)].drop(columns=["_key"])
+    if not df_nuevos.empty:
+        df_nuevos.to_sql(name="dim_ubicacion", con=engine_dw, if_exists="append", index=False)
+
+    # 5b. SCD T1 UPDATE: combinaciones existentes donde algún campo cambió
+    #     (ej: corrección tipográfica de ciudad). La clave natural es (pais, provincia, ciudad)
+    #     así que aquí no aplica update de esos campos — son el identificador.
+    #     Si en el futuro la tabla tuviera atributos extra (barrio, cp, etc.) se actualizarían aquí.
+    n_actualizados = 0  # reservado para cuando haya atributos extra que actualizar
+
+    log.info(
+        f"  dim_ubicacion: {len(df_nuevos)} nuevas, "
+        f"{n_actualizados} actualizadas (de {len(df_dim)} combinaciones únicas en staging)"
+    )
 
 
 def cargar_dim_personas():
@@ -410,7 +431,7 @@ def cargar_dim_personas():
         # 2. Insertar nuevas versiones
         df_modificados.to_sql(name="dim_personas", con=engine_dw, if_exists="append", index=False)
         
-    log.info(f"  dim_personas: {len(df_nuevos)} nuevos, {len(df_modificados)} modificados (SCD T2)")
+    log.info(f"  dim_personas: {len(df_nuevos)} nuevos, {len(df_modificados)} modificados")
 
 def asegurar_registros_desconocidos():
     log.info("---Verificando registros desconocidos (SK=-1)---")

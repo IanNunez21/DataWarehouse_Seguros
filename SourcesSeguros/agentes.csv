@@ -1,5 +1,5 @@
 id_agente,nombre,apellido,canal,sucursal,zona,fecha_ingreso,activo,email
-AGE-0001,Benjamin Ezequiel,Carrizo,Sucursal,Sucursal Misiones,Tucumán,2010-06-27,True,cgodoy@villalba.com.ar
+AGE-0001,Benjamin Ezequiel,Gomez,Sucursal,Sucursal Misiones,Tucumán,2010-06-27,True,cgodoy@villalba.com.ar
 AGE-0002,Abril,Gomez,Call Center,Sucursal Tucumán,Mendoza,2018-02-07,True,fgutierrez@pereyra-mendez.com.ar
 AGE-0003,Olivia,Torres,Sucursal,Sucursal Salta,Tucumán,2019-08-14,True,valdezjazmin@gonzalez.com.ar
 AGE-0004,Mia Valentina,Lopez,Sucursal,Sucursal Misiones,Tucumán,2013-08-23,True,ignaciomunoz@correa-bustos.ar
