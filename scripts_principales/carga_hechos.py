@@ -305,11 +305,9 @@ def cargar_fact_siniestro():
         if nulos > 0:
             log.warning(f"  ⚠ {col} tiene {nulos} nulos — revisar lookup de dimensión")
  
-    # Partes sin pago registrado → 0 (NOT NULL en MySQL, semánticamente correcto)
-    # partes_sin_pago = df_fact["monto_pagado"].isna().sum()
-    # if partes_sin_pago > 0:
-    #     log.warning(f"  ⚠ {partes_sin_pago} partes sin pago registrado — monto_pagado se fija en 0")
-    #     df_fact["monto_pagado"] = df_fact["monto_pagado"].fillna(0)
+    # Partes sin evaluación o pago registrado → 0 (NOT NULL en MySQL, siniestros abiertos)
+    df_fact["monto_evaluado"] = df_fact["monto_evaluado"].fillna(0)
+    df_fact["monto_pagado"]   = df_fact["monto_pagado"].fillna(0)
  
     # ── 8. VALIDACIÓN DE NEGOCIO: monto_pagado vs suma_garantizada ───────────
     # Si el pago supera la cobertura garantizada, es anómalo.
@@ -344,7 +342,7 @@ def cargar_fact_siniestro():
     #     # Marcar como fraude en lugar de descartar
     #     df_fact.loc[mask_excede, "fraude_flag"] = True
  
-    # df_fact = df_fact.drop(columns=["suma_garantizada"])
+    df_fact = df_fact.drop(columns=["suma_garantizada"])
     # log.info(
     #     f"     ✔ Total fraude_flag=True tras validación: {df_fact['fraude_flag'].sum()} "
     #     f"({cantidad_excedidos} por exceso de pago, resto por indicadores)"
