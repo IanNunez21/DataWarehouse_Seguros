@@ -149,7 +149,7 @@ def cargar_fact_poliza():
 def cargar_fact_siniestro():
  
     # ── 1. TABLA BASE: partes ────────────────────────────────────────────────
-    log.info("  → Leyendo val_partes_validados...")
+    #log.info("  → Leyendo val_partes_validados...")
     df = pd.read_sql(
         """
         SELECT id_parte, id_poliza, id_perito, id_receptor_pago,
@@ -160,28 +160,28 @@ def cargar_fact_siniestro():
         engine_staging,
     )
     total = len(df)
-    log.info(f"     Total partes: {total}")
+    #log.info(f"     Total partes: {total}")
  
     # ── 2. INCORPORAR monto_evaluado (evaluaciones agregadas por parte) ──────
-    log.info("  → Leyendo val_evaluaciones_validadas...")
+    #log.info("  → Leyendo val_evaluaciones_validadas...")
     df_eval = pd.read_sql(
         "SELECT id_parte, SUM(monto_estimado_dano) AS monto_evaluado FROM val_evaluaciones_validadas GROUP BY id_parte",
         engine_staging,
     )
     df = df.merge(df_eval, on="id_parte", how="left")
-    log.info(f"     Partes sin evaluación (monto_evaluado nulo): {df['monto_evaluado'].isna().sum()}")
+    #log.info(f"     Partes sin evaluación (monto_evaluado nulo): {df['monto_evaluado'].isna().sum()}")
  
     # ── 3. INCORPORAR monto_pagado (pagos agregados por parte) ───────────────
-    log.info("  → Leyendo val_pagos_validados...")
+    #log.info("  → Leyendo val_pagos_validados...")
     df_pag = pd.read_sql(
         "SELECT id_parte, SUM(monto_pagado) AS monto_pagado FROM val_pagos_validados GROUP BY id_parte",
         engine_staging,
     )
     df = df.merge(df_pag, on="id_parte", how="left")
-    log.info(f"     Partes sin pago (monto_pagado nulo): {df['monto_pagado'].isna().sum()}")
+    #log.info(f"     Partes sin pago (monto_pagado nulo): {df['monto_pagado'].isna().sum()}")
  
     # ── 4. INCORPORAR fraude_flag ────────────────────────────────────────────
-    log.info("  → Leyendo val_indicadores_fraude_validados...")
+    #log.info("  → Leyendo val_indicadores_fraude_validados...")
     df_fraude = pd.read_sql(
         "SELECT id_parte, fraude_flag FROM val_indicadores_fraude_validados",
         engine_staging,
@@ -189,44 +189,44 @@ def cargar_fact_siniestro():
     df = df.merge(df_fraude, on="id_parte", how="left")
     # Partes sin indicador → fraude_flag = False
     df["fraude_flag"] = df["fraude_flag"].fillna(False).astype(bool)
-    log.info(f"     Partes con fraude_flag=True: {df['fraude_flag'].sum()}")
+    #log.info(f"     Partes con fraude_flag=True: {df['fraude_flag'].sum()}")
  
     # ── 5. LOOKUPS DE SURROGATE KEYS ─────────────────────────────────────────
  
     # --- id_poliza_sk (desde fact_poliza ya cargada en el DW) ---
-    log.info("  → Lookup id_poliza_sk...")
+    #log.info("  → Lookup id_poliza_sk...")
     dim_poliza = pd.read_sql("SELECT id_poliza_sk, id_poliza FROM fact_poliza", engine_dw)
     dim_poliza = dim_poliza.drop_duplicates(subset=["id_poliza"])
     lookup_poliza = dict(zip(dim_poliza["id_poliza"], dim_poliza["id_poliza_sk"]))
     df["id_poliza_sk"] = df["id_poliza"].map(lookup_poliza).fillna(-1)
-    log.info(f"     ✔ id_poliza_sk | nulos: {df['id_poliza_sk'].isna().sum()}")
+    #log.info(f"     ✔ id_poliza_sk | nulos: {df['id_poliza_sk'].isna().sum()}")
  
     # --- PeritoKey (desde dim_perito) ---
-    log.info("  → Lookup PeritoKey...")
+    #log.info("  → Lookup PeritoKey...")
     dim_perito = pd.read_sql("SELECT id_perito_sk, id_perito FROM dim_perito", engine_dw)
     dim_perito = dim_perito.drop_duplicates(subset=["id_perito"])
     lookup_perito = dict(zip(dim_perito["id_perito"], dim_perito["id_perito_sk"]))
     df["PeritoKey"] = df["id_perito"].map(lookup_perito).fillna(-1)
-    log.info(f"     ✔ PeritoKey | nulos: {df['PeritoKey'].isna().sum()}")
+    #log.info(f"     ✔ PeritoKey | nulos: {df['PeritoKey'].isna().sum()}")
  
     # --- CobradorKey (desde dim_personas por id_receptor_pago) ---
-    log.info("  → Lookup CobradorKey...")
+    #log.info("  → Lookup CobradorKey...")
     dim_personas = pd.read_sql("SELECT id_persona_sk, id_persona FROM dim_personas", engine_dw)
     dim_personas = dim_personas.drop_duplicates(subset=["id_persona"])
     lookup_personas = dict(zip(dim_personas["id_persona"], dim_personas["id_persona_sk"]))
     df["CobradorKey"] = df["id_receptor_pago"].map(lookup_personas).fillna(-1)
-    log.info(f"     ✔ CobradorKey | nulos: {df['CobradorKey'].isna().sum()}")
+    #log.info(f"     ✔ CobradorKey | nulos: {df['CobradorKey'].isna().sum()}")
  
     # --- TipoSiniestroKey (desde dim_tiposiniestro) ---
-    log.info("  → Lookup TipoSiniestroKey...")
+    #log.info("  → Lookup TipoSiniestroKey...")
     dim_tipo = pd.read_sql("SELECT id_tipo_siniestro_sk, Nombre_Siniestro FROM dim_tiposiniestro", engine_dw)
     dim_tipo = dim_tipo.drop_duplicates(subset=["Nombre_Siniestro"])
     lookup_tipo = dict(zip(dim_tipo["Nombre_Siniestro"], dim_tipo["id_tipo_siniestro_sk"]))
     df["TipoSiniestroKey"] = df["tipo_siniestro"].map(lookup_tipo).fillna(-1)
-    log.info(f"     ✔ TipoSiniestroKey | nulos: {df['TipoSiniestroKey'].isna().sum()}")
+    #log.info(f"     ✔ TipoSiniestroKey | nulos: {df['TipoSiniestroKey'].isna().sum()}")
  
     # --- UbicacionKey (via id_objeto_asegurado → val_objetos → dim_ubicacion) ---
-    log.info("  → Lookup UbicacionKey...")
+    #log.info("  → Lookup UbicacionKey...")
     obj_ub = pd.read_sql(
         "SELECT id_objeto, provincia, localidad FROM val_objetos_validados",
         engine_staging,
@@ -248,10 +248,10 @@ def cargar_fact_siniestro():
     obj_ub["id_ubicacion_sk"] = obj_ub["lookup_key"].map(lookup_ub)
     lookup_obj_ub = dict(zip(obj_ub["id_objeto"], obj_ub["id_ubicacion_sk"]))
     df["UbicacionKey"] = df["id_objeto_asegurado"].map(lookup_obj_ub).fillna(-1)
-    log.info(f"     ✔ UbicacionKey | nulos: {df['UbicacionKey'].isna().sum()}")
+    #log.info(f"     ✔ UbicacionKey | nulos: {df['UbicacionKey'].isna().sum()}")
  
     # --- FechaAperturaKey y FechaCierreKey (desde dim_tiempo) ---
-    log.info("  → Lookup FechaAperturaKey y FechaCierreKey...")
+    #log.info("  → Lookup FechaAperturaKey y FechaCierreKey...")
     dim_tiempo = pd.read_sql("SELECT id_tiempo_sk, id_tiempo FROM dim_tiempo", engine_dw)
     dim_tiempo = dim_tiempo.drop_duplicates(subset=["id_tiempo"])
     lookup_tiempo = dict(zip(dim_tiempo["id_tiempo"], dim_tiempo["id_tiempo_sk"]))
@@ -270,8 +270,8 @@ def cargar_fact_siniestro():
         .astype("Int64", errors="ignore")
         .map(lookup_tiempo)
     )
-    log.info(f"     ✔ FechaAperturaKey | nulos: {df['FechaAperturaKey'].isna().sum()}")
-    log.info(f"     ✔ FechaCierreKey   | nulos: {df['FechaCierreKey'].isna().sum()} (esperado: partes abiertos)")
+    # log.info(f"     ✔ FechaAperturaKey | nulos: {df['FechaAperturaKey'].isna().sum()}")
+    # log.info(f"     ✔ FechaCierreKey   | nulos: {df['FechaCierreKey'].isna().sum()} (esperado: partes abiertos)")
  
     # ── 6. ARMAR LA TABLA FINAL ──────────────────────────────────────────────
     df_fact = df[[
@@ -306,16 +306,16 @@ def cargar_fact_siniestro():
             log.warning(f"  ⚠ {col} tiene {nulos} nulos — revisar lookup de dimensión")
  
     # Partes sin pago registrado → 0 (NOT NULL en MySQL, semánticamente correcto)
-    partes_sin_pago = df_fact["monto_pagado"].isna().sum()
-    if partes_sin_pago > 0:
-        log.warning(f"  ⚠ {partes_sin_pago} partes sin pago registrado — monto_pagado se fija en 0")
-        df_fact["monto_pagado"] = df_fact["monto_pagado"].fillna(0)
+    # partes_sin_pago = df_fact["monto_pagado"].isna().sum()
+    # if partes_sin_pago > 0:
+    #     log.warning(f"  ⚠ {partes_sin_pago} partes sin pago registrado — monto_pagado se fija en 0")
+    #     df_fact["monto_pagado"] = df_fact["monto_pagado"].fillna(0)
  
     # ── 8. VALIDACIÓN DE NEGOCIO: monto_pagado vs suma_garantizada ───────────
     # Si el pago supera la cobertura garantizada, es anómalo.
     # No se descarta: se conserva el registro pero se eleva fraude_flag a True
     # para que quede marcado para revisión manual.
-    log.info("  → Validando monto_pagado vs suma_garantizada de la póliza...")
+    #log.info("  → Validando monto_pagado vs suma_garantizada de la póliza...")
     df_garantia = pd.read_sql(
         "SELECT id_poliza_sk, suma_garantizada FROM fact_poliza", engine_dw
     )
@@ -329,26 +329,26 @@ def cargar_fact_siniestro():
     )
  
     cantidad_excedidos = mask_excede.sum()
-    if cantidad_excedidos > 0:
-        log.warning(
-            f"  ⚠ REGLA DE NEGOCIO: {cantidad_excedidos} siniestros con monto_pagado "
-            f"mayor a suma_garantizada — se marcan con fraude_flag=True"
-        )
-        # Detalle de los primeros 5 para trazabilidad
-        for _, row in df_fact[mask_excede].head(5).iterrows():
-            log.warning(
-                f"     {row['id_siniestro']} | "
-                f"pagado={row['monto_pagado']:,.2f} | "
-                f"garantizado={row['suma_garantizada']:,.2f}"
-            )
-        # Marcar como fraude en lugar de descartar
-        df_fact.loc[mask_excede, "fraude_flag"] = True
+    # if cantidad_excedidos > 0:
+    #     log.warning(
+    #         f"  ⚠ REGLA DE NEGOCIO: {cantidad_excedidos} siniestros con monto_pagado "
+    #         f"mayor a suma_garantizada — se marcan con fraude_flag=True"
+    #     )
+    #     # Detalle de los primeros 5 para trazabilidad
+    #     for _, row in df_fact[mask_excede].head(5).iterrows():
+    #         log.warning(
+    #             f"     {row['id_siniestro']} | "
+    #             f"pagado={row['monto_pagado']:,.2f} | "
+    #             f"garantizado={row['suma_garantizada']:,.2f}"
+    #         )
+    #     # Marcar como fraude en lugar de descartar
+    #     df_fact.loc[mask_excede, "fraude_flag"] = True
  
-    df_fact = df_fact.drop(columns=["suma_garantizada"])
-    log.info(
-        f"     ✔ Total fraude_flag=True tras validación: {df_fact['fraude_flag'].sum()} "
-        f"({cantidad_excedidos} por exceso de pago, resto por indicadores)"
-    )
+    # df_fact = df_fact.drop(columns=["suma_garantizada"])
+    # log.info(
+    #     f"     ✔ Total fraude_flag=True tras validación: {df_fact['fraude_flag'].sum()} "
+    #     f"({cantidad_excedidos} por exceso de pago, resto por indicadores)"
+    # )
  
     # ── 9. INSERTAR EN fact_siniestro ────────────────────────────────────────
     # SiniestroKey → AUTO_INCREMENT en MySQL, no se inserta

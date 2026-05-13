@@ -11,12 +11,11 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)-8s | %(message)s")
 log = logging.getLogger(__name__)
 
 def ejecutar_etl_inicial():
-    log.info("PIPELINE ETL SEGUROS - INICIO")
-
+    log.info("\nPIPELINE ETL SEGUROS - INICIO\n")
+    log.info("PASO 1: STAGING AREA\n")
     etl_logger.asegurar_tabla_log()
     inicio_total = datetime.now()
 
-    # PASO 1: Staging
     t0 = datetime.now()
     try:
         staging.cargar_staging_area()
@@ -25,7 +24,7 @@ def ejecutar_etl_inicial():
         etl_logger.registrar("Staging", t0, estado="ERROR", mensaje=str(e))
         log.error(f"Error en Staging: {e}")
 
-    # PASO 2: Transformacion
+    log.info("\nPASO 2: TRANSFORMACION\n")
     tareas_transformacion = [
         ("Clientes",           transformacion.limpiar_y_transformar_clientes),
         ("Agentes",            transformacion.limpiar_y_transformar_agentes),
@@ -51,7 +50,7 @@ def ejecutar_etl_inicial():
 
     staging.crear_indices_staging()
 
-    # PASO 3: Carga Dimensiones
+    log.info("\nPASO 3: CARGA DE DIMENSIONES\n")
     tareas_dimensiones = [
         ("dim_agente",       carga_dimensiones.cargar_dim_agente),
         ("dim_tiempo",       carga_dimensiones.cargar_dim_tiempo),
@@ -63,6 +62,7 @@ def ejecutar_etl_inicial():
         ("dim_personas",     carga_dimensiones.cargar_dim_personas),
     ]
     
+    log.info('CARGA DE TABLAS DE DIMENSIONES\n')
     for nombre, funcion in tareas_dimensiones:
         t0 = datetime.now()
         try:
@@ -75,7 +75,7 @@ def ejecutar_etl_inicial():
 
     carga_dimensiones.asegurar_registros_desconocidos()
 
-    # PASO 4: Carga Hechos
+    log.info("\nPASO 4: CARGA DE TABLAS DE HECHOS\n")
     tareas_hechos = [
         ("fact_poliza",    carga_hechos.cargar_fact_poliza),
         ("fact_siniestro", carga_hechos.cargar_fact_siniestro)
@@ -92,7 +92,7 @@ def ejecutar_etl_inicial():
             log.error(f"Error en hechos {nombre}: {e}")
 
     etl_logger.registrar("PIPELINE COMPLETO", inicio_total, estado="OK", mensaje="Exito")
-    log.info("PIPELINE ETL SEGUROS - FINALIZADO")
+    log.info("\nPIPELINE ETL SEGUROS - FINALIZADO\n")
 
 if __name__ == "__main__":
     ejecutar_etl_inicial()

@@ -413,7 +413,7 @@ def cargar_dim_personas():
     log.info(f"  dim_personas: {len(df_nuevos)} nuevos, {len(df_modificados)} modificados (SCD T2)")
 
 def asegurar_registros_desconocidos():
-    log.info("Verificando registros desconocidos (SK=-1)")
+    log.info("---Verificando registros desconocidos (SK=-1)---")
     
     queries = [
         "INSERT IGNORE INTO dim_agente (id_agente_sk, id_agente, nombre_agente) VALUES (-1, 'N/A', 'Desconocido');",
@@ -437,4 +437,4 @@ def asegurar_registros_desconocidos():
         conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
         conn.commit()
     
-    log.info("  Dimensiones: registros SK=-1 verificados")
+    log.info("Dimensiones: registros SK=-1 verificados")

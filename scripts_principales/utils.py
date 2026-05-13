@@ -133,9 +133,6 @@ def limpiar_numericos(df, columnas, valor_defecto=0.0):
     return df
 
 def guardar_datos_curados(df, nombre_tabla):
-    """
-    Guarda el DataFrame transformado en la base de datos Staging.
-    """
-    log.info(f"📥 Guardando tabla curada ({nombre_tabla}) en Staging...")
+    # Guarda el DataFrame transformado en la base de datos Staging.
     df.to_sql(name=nombre_tabla, con=engine_staging, if_exists="replace", index=False)
     return df

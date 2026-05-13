@@ -9,8 +9,6 @@ log = logging.getLogger(__name__)
 CSV_DIR = "./SourcesSeguros"
 
 def cargar_staging_area():
-    log.info("PASO 1: Staging Area")
-    
     fuentes = {
         "clientes":       "clientes.csv",
         "agentes":        "agentes.csv",
@@ -41,10 +39,7 @@ def cargar_staging_area():
 
 
 def crear_indices_staging():
-    """
-    Crea índices sobre las columnas de clave natural en las tablas curadas (val_*).
-    Acelera los lookups y JOINs que hace carga_hechos.py.
-    """
+    #Crea índices sobre las columnas de clave natural en las tablas curadas (val_*). Acelera los lookups y JOINs que hace carga_hechos.py.
     indices = [
         ("val_clientes_validados",   "id_cliente"),
         ("val_agentes_validados",    "id_agente"),
@@ -68,5 +63,5 @@ def crear_indices_staging():
                 pass
         conn.commit()
 
-    log.info("  Indices de staging verificados")
+    log.info("---Indices de staging verificados---")
 
