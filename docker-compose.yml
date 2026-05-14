@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  # Servicio de Metabase
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase_seguros
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./metabase-data:/metabase.db  # Esto guarda tus dashboards en tu carpeta local
+    environment:
+      - MB_DB_TYPE=h2
