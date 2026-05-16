@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 
 # Credenciales centralizadas
 USER = "root"
-PASSWORD = "Denito02."
+PASSWORD = "root"
 HOST = "localhost"
 
 # Motores de conexión que exportamos a los demás scripts

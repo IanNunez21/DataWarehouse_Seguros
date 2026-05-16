@@ -276,11 +276,11 @@ def limpiar_y_transformar_objetos():
     df = limpiar_numericos(df, ['año_fabricacion', 'año_construccion'], valor_defecto=0)
 
     # 5. Integridad Referencial: Solo objetos asociados a pólizas validadas
-    try:
-        val_polizas = pd.read_sql("SELECT id_objeto_asegurado FROM val_polizas_validadas", engine_staging)
-        df = df[df['id_objeto'].isin(val_polizas['id_objeto_asegurado'])]
-    except Exception as e:
-        pass
+    #try:
+    #    val_polizas = pd.read_sql("SELECT id_objeto_asegurado FROM val_polizas_validadas", engine_staging)
+    #    df = df[df['id_objeto'].isin(val_polizas['id_objeto_asegurado'])]
+    #except Exception as e:
+    #    pass
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
