@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS dw_staging;
 CREATE DATABASE IF NOT EXISTS data_warehouse_seguros;
 USE data_warehouse_seguros;
 
