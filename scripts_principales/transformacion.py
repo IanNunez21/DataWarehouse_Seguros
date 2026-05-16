@@ -2,7 +2,7 @@ import pandas as pd
 import logging
 import os
 from config import engine_staging
-from utils import normalizar_texto, guardar_datos_curados, convertir_fechas, normalizar_columnas_texto, validar_geografia, limpiar_numericos, crear_nombre_completo, limpiar_ids
+from utils import normalizar_texto, guardar_datos_curados, convertir_fechas, normalizar_columnas_texto, validar_geografia, limpiar_numericos, crear_nombre_completo, limpiar_ids, registrar_rechazados
 
 # Configuración de Logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -13,6 +13,8 @@ def limpiar_y_transformar_clientes():
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM clientes", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
 
     # 2. Integridad de ID y Duplicados
     df = limpiar_ids(df, columnas_id='id_cliente', id_principal='id_cliente')
@@ -69,6 +71,13 @@ def limpiar_y_transformar_clientes():
         lambda e: 'Joven' if e < 35 else ('Mayor' if e >= 60 else 'Adulto')
     )
 
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'clientes', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
+
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 8. Volcado a Staging y Exportación CSV
@@ -79,6 +88,8 @@ def limpiar_y_transformar_polizas():
     # 1. Extracción desde Staging (Datos Crudos)
     df = pd.read_sql("SELECT * FROM polizas", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
     
     # 2. Integridad de ID y Duplicados
     df = limpiar_ids(df, columnas_id=['id_poliza', 'id_cliente'], id_principal='id_poliza')
@@ -97,7 +108,7 @@ def limpiar_y_transformar_polizas():
         # Filtrado todo en uno
         df = df[df['id_cliente'].isin(val_clientes['id_cliente']) & df['id_agente'].isin(val_agentes['id_agente'])]
     except Exception as e:
-        log.debug(f"  Integridad referencial polizas omitida: {e}")
+        pass
 
     # 5. Conversión de Fechas
     df = convertir_fechas(df, ['fecha_alta', 'vigencia_desde', 'vigencia_hasta'])
@@ -106,6 +117,13 @@ def limpiar_y_transformar_polizas():
     columnas_numericas = ['prima_mensual', 'prima_total', 'customer_lifetime_value', 'numero_polizas_cliente', 'meses_desde_inicio']
     df = limpiar_numericos(df, columnas_numericas)
     
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'polizas', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
+
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 7. Volcado a Staging y Exportación CSV
@@ -117,6 +135,8 @@ def limpiar_y_transformar_evaluaciones():
     # 1. Extracción desde Staging (Datos Crudos)
     df = pd.read_sql("SELECT * FROM evaluaciones", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
     
     # 2. Integridad de IDs y Duplicados
     columnas_id = ['id_evaluacion', 'id_parte', 'id_perito']
@@ -143,7 +163,14 @@ def limpiar_y_transformar_evaluaciones():
         
         df = df[df['id_parte'].isin(val_partes['id_parte']) & df['id_perito'].isin(val_peritos['id_perito'])]
     except Exception as e:
-        log.warning(f"  ⚠ No se pudo validar la integridad referencial con Partes o Peritos: {e}")
+        pass
+
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'evaluaciones', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
 
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
@@ -155,6 +182,8 @@ def limpiar_y_transformar_peritos():
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM peritos", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
 
     # 2. Integridad de ID
     df = limpiar_ids(df, columnas_id='id_perito', id_principal='id_perito')
@@ -164,7 +193,14 @@ def limpiar_y_transformar_peritos():
     df = crear_nombre_completo(df)
     
     # Seleccionar columnas de interés
-    df = df[['id_perito', 'nombre', 'apellido', 'nombre_completo', 'zona_cobertura']]
+    df = df[['id_perito', 'nombre', 'apellido', 'nombre_completo', 'zona_cobertura', '_original_index']]
+
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'peritos', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
 
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
@@ -176,6 +212,8 @@ def limpiar_y_transformar_pagos():
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM pagos", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
 
     # 2. Integridad de IDs y Duplicados
     columnas_id = ['id_pago', 'id_parte', 'id_receptor']
@@ -192,7 +230,8 @@ def limpiar_y_transformar_pagos():
             'id_parte',
             'id_receptor',
             'monto_pagado',
-            'fecha_pago'
+            'fecha_pago',
+            '_original_index'
         ]
     ]
 
@@ -204,7 +243,14 @@ def limpiar_y_transformar_pagos():
         
         df = df[df['id_parte'].isin(val_partes['id_parte']) & df['id_receptor'].isin(val_clientes['id_cliente']) & df['id_receptor'].isin(val_receptor['id_asegurado'])]
     except Exception as e:
-        log.warning(f"  ⚠ No se pudo validar la integridad referencial con Partes o Clientes: {e}")
+        pass
+
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'pagos', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
 
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
@@ -216,6 +262,8 @@ def limpiar_y_transformar_objetos():
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM objetos", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
 
     # 2. Integridad de ID y Duplicados
     df = limpiar_ids(df, columnas_id='id_objeto', id_principal='id_objeto')
@@ -232,7 +280,14 @@ def limpiar_y_transformar_objetos():
         val_polizas = pd.read_sql("SELECT id_objeto_asegurado FROM val_polizas_validadas", engine_staging)
         df = df[df['id_objeto'].isin(val_polizas['id_objeto_asegurado'])]
     except Exception as e:
-        log.warning(f"  ⚠ No se pudo cruzar con val_polizas_validadas para integridad referencial: {e}")
+        pass
+
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'objetos', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
 
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
@@ -244,6 +299,8 @@ def limpiar_y_transformar_agentes():
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM agentes", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
 
     # 2. Integridad de ID y Duplicados
     df = limpiar_ids(df, columnas_id='id_agente', id_principal='id_agente')
@@ -267,6 +324,13 @@ def limpiar_y_transformar_agentes():
     # 7. Crear nombre completo para la dimensión
     df = crear_nombre_completo(df)
 
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'agentes', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
+
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
     # 9. Guardar tabla validada en staging y Exportación CSV
@@ -277,6 +341,8 @@ def limpiar_y_transformar_partes():
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM partes", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
 
     # 2. Integridad de IDs y Duplicados
     columnas_id = [
@@ -330,7 +396,14 @@ def limpiar_y_transformar_partes():
         df = df[df['id_objeto_asegurado'].isin(df_objetos['id_objeto']) | df['id_objeto_asegurado'].isin(nulos_str)]
 
     except Exception as e:
-        log.warning(f"  ⚠ Advertencia en validación referencial de Partes: {e}")
+        pass
+
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'partes', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
 
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
 
@@ -342,6 +415,8 @@ def limpiar_y_transformar_garantias():
     # 1. Extracción desde Staging
     df = pd.read_sql("SELECT * FROM garantias", engine_staging)
     total_inicial = len(df)
+    df['_original_index'] = df.index
+    df_original = df.copy()
 
     # 2. Limpieza de datos (Filtros y Nulos)
     df = df[df['activa'].astype(str).str.strip().str.lower().isin(['true', '1'])].copy()
@@ -360,13 +435,19 @@ def limpiar_y_transformar_garantias():
         nulos_str = ['nan', 'None', '', '<NA>', 'NaN']
         df = df[df['id_poliza'].isin(df_polizas['id_poliza']) | df['id_poliza'].isin(nulos_str)]
     except Exception as e:
-        log.warning(f"  ⚠ Advertencia en validación referencial de Garantías: {e}")
+        pass
 
     # 4. Verificación de constraints (suma_garantizada > 0)
     invalidos = df[df['suma_garantizada'] <= 0]
     if len(invalidos) > 0:
-        log.warning(f"  ⚠ Atención: Hay {len(invalidos)} garantías con suma <= 0. Serán omitidas.")
         df = df[df['suma_garantizada'] > 0]
+
+    df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
+    df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
+    registrar_rechazados(df_rechazados, 'garantias', 'Rechazados en limpieza o transformación')
+    
+    if '_original_index' in df.columns:
+        df = df.drop(columns=['_original_index'])
 
     log.info(f"  Procesados: {len(df)} de {total_inicial}")
     
@@ -378,6 +459,7 @@ def limpiar_y_transformar_indicadores_fraude():
     # 1. Extracción
     df = pd.read_sql("SELECT id_parte, confirmado_fraude FROM indicadores", engine_staging)
     total_inicial = len(df)
+    df_original = df.copy()
 
     # 2. Conversión necesaria para que 'any' funcione
     # Convertimos a booleano real: True si es '1' o 'true'
@@ -395,9 +477,12 @@ def limpiar_y_transformar_indicadores_fraude():
         val_partes = pd.read_sql("SELECT id_parte FROM val_partes_validados", engine_staging)
         df_consolidado = df_consolidado[df_consolidado['id_parte'].isin(val_partes['id_parte'])]
     except Exception as e:
-        log.warning(f"  ⚠ No se pudo cruzar con val_partes_validados para integridad referencial: {e}")
+        pass
 
     # 5. Log solicitado
+    df_rechazados = df_original[~df_original['id_parte'].isin(df_consolidado['id_parte'])].copy()
+    registrar_rechazados(df_rechazados, 'indicadores_fraude', 'Rechazados en limpieza o transformación')
+
     log.info(f"  ✔ Registros procesados correctamente: {len(df_consolidado)} de {total_inicial}")
 
     # 6. Volcado a MySQL

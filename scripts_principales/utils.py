@@ -103,6 +103,27 @@ def limpiar_ids(df, columnas_id, columnas_dropna=None, id_principal=None):
         
     return df
 
+def registrar_rechazados(df_rechazados, tabla_origen, motivo):
+    """
+    Guarda los registros rechazados (cuarentena) en la base de datos de Staging.
+    """
+    if df_rechazados is None or df_rechazados.empty:
+        return
+        
+    try:
+        # Convertir a json cada fila para mayor flexibilidad
+        registros_json = df_rechazados.apply(lambda row: row.to_json(default_handler=str), axis=1)
+        
+        df_insert = pd.DataFrame({
+            'tabla_origen': tabla_origen,
+            'motivo_rechazo': motivo,
+            'datos_registro': registros_json
+        })
+        
+        df_insert.to_sql('registros_rechazados', con=engine_staging, if_exists='append', index=False)
+    except Exception as e:
+        log.error(f"  ❌ Error al guardar registros rechazados: {e}")
+
 def convertir_fechas(df, columnas, formato=None):
     """
     Convierte una o más columnas a formato datetime.
