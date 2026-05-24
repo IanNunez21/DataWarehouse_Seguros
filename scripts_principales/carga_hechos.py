@@ -34,9 +34,12 @@ def cargar_fact_poliza():
     mapeo_cobertura = {
         'EXTENDIDA': 'Estandar',
         'BASICA':    'Basico',
+        'BA¡SICA':   'Basico',
         'PREMIUM':   'Premium',
     }
-    df['categoria_plan'] = df['cobertura'].str.upper().map(mapeo_cobertura)
+    # Limpiamos caracteres residuales de codificación (como '¡') para máxima robustez
+    df['cobertura_limpia'] = df['cobertura'].str.upper().str.replace('¡', '', regex=False).str.strip()
+    df['categoria_plan'] = df['cobertura_limpia'].map(mapeo_cobertura)
     dim_tipo_seguro = pd.read_sql("SELECT id_tipo_seguro_sk, categoria_plan FROM dim_tipo_seguro", engine_dw)
     dim_tipo_seguro = dim_tipo_seguro.drop_duplicates(subset=['categoria_plan'])
     df = df.merge(dim_tipo_seguro, on="categoria_plan", how="left")
