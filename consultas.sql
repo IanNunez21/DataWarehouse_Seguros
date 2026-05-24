@@ -2,7 +2,7 @@
 -- Sub-objetivo 1 — Analizar rentabilidad por tipo de seguro
 -- ==============================================================================
 
--- Q1: Volumen total de ventas (primas) desglosado por tipo de seguro y zona geográfica en el último año.
+-- Q1: Volumen total de ventas (primas) desglosado por tipo de seguro y zona geografica.
 SELECT 
     t.categoria_plan, 
     u.provincia, 
@@ -16,44 +16,112 @@ GROUP BY t.categoria_plan, u.provincia
 ORDER BY volumen_ventas DESC;
 
 
--- Q2 y Q3: Tipos de seguros que aportan mayores beneficios netos y los que generan pérdidas netas.
--- NOTA: monto_prima es mensual; se multiplica x12 para obtener el ingreso anual por póliza.
--- Se filtra por año de venta de la póliza y año de apertura del siniestro para comparar el mismo período.
--- Ajustar el valor de Anio según el período que se quiera analizar (ej: 2023).
-SELECT 
+-- DIAGNOSTICO: rango real de fechas en Fact_Poliza
+-- Ejecutar para saber que anios tiene el dataset cargado.
+SELECT
+    MIN(dt.Anio)           AS anio_min_vigencia_desde,
+    MAX(dt.Anio)           AS anio_max_vigencia_desde,
+    MIN(dt2.Anio)          AS anio_min_vigencia_hasta,
+    MAX(dt2.Anio)          AS anio_max_vigencia_hasta,
+    COUNT(fp.id_poliza_sk) AS total_polizas
+FROM Fact_Poliza fp
+JOIN      Dim_Tiempo dt  ON fp.id_vigencia_desde_sk = dt.id_tiempo_sk
+LEFT JOIN Dim_Tiempo dt2 ON fp.id_vigencia_hasta_sk = dt2.id_tiempo_sk;
+
+-- Distribucion de polizas por anio de inicio
+SELECT
+    dt.Anio                AS anio_vigencia_desde,
+    COUNT(fp.id_poliza_sk) AS cantidad_polizas,
+    MIN(dt2.Anio)          AS vigencia_hasta_min,
+    MAX(dt2.Anio)          AS vigencia_hasta_max
+FROM Fact_Poliza fp
+JOIN      Dim_Tiempo dt  ON fp.id_vigencia_desde_sk = dt.id_tiempo_sk
+LEFT JOIN Dim_Tiempo dt2 ON fp.id_vigencia_hasta_sk = dt2.id_tiempo_sk
+GROUP BY dt.Anio
+ORDER BY dt.Anio;
+
+
+-- Q2 y Q3: Rentabilidad neta por tipo de seguro — comparativo 2023 / 2024 / 2025
+-- Resultado: una fila por (categoria_plan, anio).
+-- Ingresos  = meses reales de vigencia dentro de cada anio x cuota mensual.
+-- Egresos   = suma de monto_pagado de siniestros abiertos ese anio.
+-- Para agregar/quitar anios: modificar los dos CROSS JOIN de la tabla de periodos.
+SELECT
     t.categoria_plan,
-    COALESCE(p.total_primas_anuales, 0)  AS ingresos_primas_anuales,
-    COALESCE(s.total_siniestros, 0)       AS egresos_siniestros,
-    (COALESCE(p.total_primas_anuales, 0) - COALESCE(s.total_siniestros, 0)) AS beneficio_neto
+    y.anio,
+    COALESCE(p.total_primas,     0) AS ingresos_primas,
+    COALESCE(s.total_siniestros, 0) AS egresos_siniestros,
+    (COALESCE(p.total_primas, 0) - COALESCE(s.total_siniestros, 0)) AS beneficio_neto
 FROM Dim_Tipo_Seguro t
 
--- Ingresos: suma de (prima mensual × 12) de todas las pólizas vendidas en el año analizado
-LEFT JOIN (
-    SELECT 
-        fp.id_tipo_seguro_sk,
-        SUM(fp.monto_prima * 12) AS total_primas_anuales
-    FROM Fact_Poliza fp
-    JOIN Dim_Tiempo dt ON fp.id_vigencia_desde_sk = dt.id_tiempo_sk
-    -- WHERE dt.Anio = 2023   -- descomentar para filtrar un año específico
-    GROUP BY fp.id_tipo_seguro_sk
-) p ON t.id_tipo_seguro_sk = p.id_tipo_seguro_sk
+-- Tabla de periodos a analizar
+CROSS JOIN (
+    SELECT 2023 AS anio, '2023-01-01' AS periodo_inicio, '2024-01-01' AS periodo_fin
+    UNION ALL SELECT 2024, '2024-01-01', '2025-01-01'
+    UNION ALL SELECT 2025, '2025-01-01', '2026-01-01'
+) y
 
--- Egresos: suma de montos pagados en siniestros abiertos en el mismo año
+-- INGRESOS: meses reales de solapamiento (vigencia de poliza) x (periodo del anio)
 LEFT JOIN (
-    SELECT 
+    SELECT
         fp.id_tipo_seguro_sk,
+        y2.anio,
+        SUM(
+            fp.monto_prima *
+            GREATEST(
+                TIMESTAMPDIFF(
+                    MONTH,
+                    GREATEST(
+                        STR_TO_DATE(CAST(dt_desde.id_tiempo AS CHAR), '%Y%m%d'),
+                        y2.periodo_inicio
+                    ),
+                    LEAST(
+                        IFNULL(
+                            STR_TO_DATE(CAST(dt_hasta.id_tiempo AS CHAR), '%Y%m%d'),
+                            '9999-12-31'
+                        ),
+                        y2.periodo_fin
+                    )
+                ),
+                0
+            )
+        ) AS total_primas
+    FROM Fact_Poliza fp
+    JOIN      Dim_Tiempo dt_desde ON fp.id_vigencia_desde_sk = dt_desde.id_tiempo_sk
+    LEFT JOIN Dim_Tiempo dt_hasta ON fp.id_vigencia_hasta_sk = dt_hasta.id_tiempo_sk
+    CROSS JOIN (
+        SELECT 2023 AS anio, '2023-01-01' AS periodo_inicio, '2024-01-01' AS periodo_fin
+        UNION ALL SELECT 2024, '2024-01-01', '2025-01-01'
+        UNION ALL SELECT 2025, '2025-01-01', '2026-01-01'
+    ) y2
+    WHERE
+        STR_TO_DATE(CAST(dt_desde.id_tiempo AS CHAR), '%Y%m%d') < y2.periodo_fin
+        AND IFNULL(
+                STR_TO_DATE(CAST(dt_hasta.id_tiempo AS CHAR), '%Y%m%d'),
+                '9999-12-31'
+            ) > y2.periodo_inicio
+    GROUP BY fp.id_tipo_seguro_sk, y2.anio
+) p ON t.id_tipo_seguro_sk = p.id_tipo_seguro_sk
+     AND y.anio = p.anio
+
+-- EGRESOS: siniestros abiertos en cada uno de los anios
+LEFT JOIN (
+    SELECT
+        fp.id_tipo_seguro_sk,
+        dt.Anio,
         SUM(fs.monto_pagado) AS total_siniestros
     FROM Fact_Siniestro fs
-    JOIN Fact_Poliza fp  ON fs.id_poliza_sk    = fp.id_poliza_sk
-    JOIN Dim_Tiempo  dt  ON fs.FechaAperturaKey = dt.id_tiempo_sk
-    -- WHERE dt.Anio = 2023   -- descomentar para filtrar el mismo año
-    GROUP BY fp.id_tipo_seguro_sk
+    JOIN Fact_Poliza fp ON fs.id_poliza_sk    = fp.id_poliza_sk
+    JOIN Dim_Tiempo  dt ON fs.FechaAperturaKey = dt.id_tiempo_sk
+    WHERE dt.Anio IN (2023, 2024, 2025)
+    GROUP BY fp.id_tipo_seguro_sk, dt.Anio
 ) s ON t.id_tipo_seguro_sk = s.id_tipo_seguro_sk
+     AND y.anio = s.Anio
 
-ORDER BY beneficio_neto DESC;
+ORDER BY y.anio ASC, beneficio_neto DESC;
 
 
--- Q4: Categorías de plan con menor tasa de siniestralidad (Cantidad siniestros / Cantidad pólizas).
+-- Q4: Categorias de plan con menor tasa de siniestralidad (Cantidad siniestros / Cantidad polizas).
 SELECT 
     t.categoria_plan,
     COALESCE(s.cant_siniestros, 0) AS cantidad_siniestros,
@@ -78,7 +146,7 @@ ORDER BY tasa_siniestralidad ASC;
 -- Sub-objetivo 2 — Evaluar riesgo por perfil de cliente
 -- ==============================================================================
 
--- Q1: Segmento demográfico con mayor cantidad de seguros Premium.
+-- Q1: Segmento demografico con mayor cantidad de seguros Premium.
 SELECT 
     pe.ocupacion,
     pe.segmento_persona,
@@ -125,10 +193,10 @@ LIMIT 10;
 
 
 -- ==============================================================================
--- Sub-objetivo 3 — Analizar frecuencia y costo de siniestros por región
+-- Sub-objetivo 3 — Analizar frecuencia y costo de siniestros por region
 -- ==============================================================================
 
--- Q1: Los 5 tipos de siniestros más frecuentes por mes y en qué zonas geográficas se concentran.
+-- Q1: Los 5 tipos de siniestros mas frecuentes por mes y en que zonas geograficas se concentran.
 SELECT 
     t.Anio,
     t.Mes,
@@ -143,8 +211,7 @@ GROUP BY t.Anio, t.Mes, ts.Nombre_Siniestro, u.provincia
 ORDER BY t.Anio DESC, t.Mes DESC, frecuencia DESC;
 
 
--- Q2: Zonas geográficas con mayor promedio de siniestros por tipo de accidente.
--- (Compara la cantidad de siniestros de cada provincia contra el promedio nacional para ese accidente)
+-- Q2: Zonas geograficas con mayor promedio de siniestros por tipo de accidente.
 SELECT 
     u.provincia,
     ts.Nombre_Siniestro,
@@ -165,17 +232,17 @@ ORDER BY ts.Nombre_Siniestro, cantidad_siniestros_provincia DESC;
 
 
 -- ==============================================================================
--- Sub-objetivo 4 — Desempeño de agentes de venta y peritos
+-- Sub-objetivo 4 — Desempeno de agentes de venta y peritos
 -- ==============================================================================
 
--- Q1: Volumen de pólizas emitidas por agente y prima promedio por póliza.
+-- Q1: Volumen de polizas emitidas por agente y prima promedio por poliza.
 SELECT 
     a.nombre_agente,
     COUNT(p.id_poliza_sk) AS volumen_polizas,
     AVG(p.monto_prima) AS prima_promedio
 FROM Fact_Poliza p
 JOIN Dim_Agente a ON p.id_agente_sk = a.id_agente_sk
-JOIN Dim_Tiempo t ON p.id_fecha_venta_sk = t.id_tiempo_sk
+JOIN Dim_Tiempo t ON p.id_vigencia_desde_sk = t.id_tiempo_sk
 -- Opcional: WHERE t.Anio = 2023
 GROUP BY a.nombre_agente
 ORDER BY volumen_polizas DESC
@@ -207,7 +274,7 @@ GROUP BY u.provincia
 ORDER BY tasa_fraude DESC;
 
 
--- Q4: Porcentaje del monto reclamado ajustado a la baja por peritos según el tipo de siniestro.
+-- Q4: Porcentaje del monto reclamado ajustado a la baja por peritos segun el tipo de siniestro.
 SELECT 
     ts.Nombre_Siniestro,
     SUM(s.monto_declarado) AS total_reclamado,
