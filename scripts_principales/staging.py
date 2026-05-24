@@ -34,8 +34,15 @@ def cargar_staging_area():
         df = pd.read_csv(ruta, low_memory=False, encoding='latin-1')
         df.columns = [c.strip().lower().replace(" ", "_").replace(".", "") for c in df.columns]
 
-        df.to_sql(nombre_tabla, engine_staging, if_exists="replace", index=False)
-        log.info(f"  {nombre_tabla:<18}: {len(df):>6,} filas")
+        try:
+            # Cada tabla en su propia transacción: si falla, solo ella hace rollback
+            # y la conexión queda limpia para la siguiente iteración.
+            with engine_staging.begin() as conn:
+                df.to_sql(nombre_tabla, conn, if_exists="replace", index=False)
+            log.info(f"  {nombre_tabla:<18}: {len(df):>6,} filas")
+        except Exception as e:
+            log.error(f"  {nombre_tabla:<18}: ERROR al cargar — {e}")
+            engine_staging.dispose()  # libera conexiones sucias del pool
 
 
 def crear_indices_staging():

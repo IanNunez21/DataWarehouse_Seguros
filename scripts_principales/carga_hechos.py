@@ -207,8 +207,10 @@ def cargar_fact_siniestro():
     #log.info("  → Lookup id_poliza_sk...")
     dim_poliza = pd.read_sql("SELECT id_poliza_sk, id_poliza FROM fact_poliza", engine_dw)
     dim_poliza = dim_poliza.drop_duplicates(subset=["id_poliza"])
+    # Normalizar tipo para evitar mismatch float64 vs object en el map
+    dim_poliza["id_poliza_sk"] = pd.to_numeric(dim_poliza["id_poliza_sk"], errors="coerce")
     lookup_poliza = dict(zip(dim_poliza["id_poliza"], dim_poliza["id_poliza_sk"]))
-    df["id_poliza_sk"] = df["id_poliza"].map(lookup_poliza).fillna(-1)
+    df["id_poliza_sk"] = df["id_poliza"].map(lookup_poliza).fillna(-1).astype("int64")
     #log.info(f"     ✔ id_poliza_sk | nulos: {df['id_poliza_sk'].isna().sum()}")
  
     # --- PeritoKey (desde dim_perito) ---
@@ -328,6 +330,9 @@ def cargar_fact_siniestro():
         "SELECT id_poliza_sk, suma_garantizada FROM fact_poliza", engine_dw
     )
     df_garantia = df_garantia.drop_duplicates(subset=["id_poliza_sk"])
+    # Normalizar tipo para que el merge no falle por float64 vs object / int64
+    df_garantia["id_poliza_sk"] = pd.to_numeric(df_garantia["id_poliza_sk"], errors="coerce").fillna(-1).astype("int64")
+    df_fact["id_poliza_sk"]    = pd.to_numeric(df_fact["id_poliza_sk"],    errors="coerce").fillna(-1).astype("int64")
     df_fact = df_fact.merge(df_garantia, on="id_poliza_sk", how="left")
  
     mask_excede = (
