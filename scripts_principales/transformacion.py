@@ -25,7 +25,11 @@ def limpiar_y_transformar_clientes():
     df = crear_nombre_completo(df)
 
     # 4. VALIDACIÓN GEOGRÁFICA: Cruce contra el Maestro CSV
-    df = validar_geografia(df)
+    df, df_rechazados_geo = validar_geografia(df)
+    if not df_rechazados_geo.empty:
+        df_rechazados_geo.drop(columns=['_original_index'], inplace=True, errors='ignore')
+        registrar_rechazados(df_rechazados_geo, 'clientes', 'Combinación provincia-localidad no encontrada en maestro geográfico')
+        log.info(f"  ⚠ {len(df_rechazados_geo)} clientes rechazados por validación geográfica")
     # 5. Conversión de Fechas y Cálculo de Edad
     # Nos aseguramos de que sea datetime ANTES de calcular
     df = convertir_fechas(df, 'fecha_nacimiento')

@@ -19,7 +19,12 @@ def validar_geografia(df, ruta_maestro=None):
     """
     Realiza la validación geográfica cruzando el DataFrame contra el maestro de Provincias/Localidades.
     Si no se proporciona ruta_maestro, la calcula automáticamente.
+    Retorna una tupla (df_validos, df_rechazados_geo):
+      - df_validos: registros que hicieron match o tenían geografía nula.
+      - df_rechazados_geo: registros con datos geográficos que no matchearon contra el maestro.
     """
+    df_rechazados_geo = pd.DataFrame()
+
     if ruta_maestro is None:
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         ruta_maestro = os.path.join(BASE_DIR, "scripts_adicionales", "SourcesAdicionales", "provincias_localidades.csv")
@@ -37,8 +42,18 @@ def validar_geografia(df, ruta_maestro=None):
         
         # Solo normalizamos y cruzamos los que sí tienen datos geográficos
         if not df_no_nulos.empty:
-            df_no_nulos = normalizar_columnas_texto(df_no_nulos, ['provincia', 'localidad'])
-            df_no_nulos = df_no_nulos.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
+            df_no_nulos_norm = normalizar_columnas_texto(df_no_nulos.copy(), ['provincia', 'localidad'])
+            df_matched = df_no_nulos_norm.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
+            
+            # Detectar rechazados: registros con datos geográficos que no hicieron match
+            indices_matched = set(df_matched['_original_index']) if '_original_index' in df_matched.columns else set(df_matched.index)
+            col_idx = '_original_index' if '_original_index' in df_no_nulos.columns else None
+            if col_idx:
+                df_rechazados_geo = df_no_nulos[~df_no_nulos[col_idx].isin(indices_matched)].copy()
+            else:
+                df_rechazados_geo = df_no_nulos[~df_no_nulos.index.isin(indices_matched)].copy()
+            
+            df_no_nulos = df_matched
             
         # Unimos los que hicieron match con los que originalmente eran nulos
         df = pd.concat([df_no_nulos, df_nulos], ignore_index=True)
@@ -48,7 +63,7 @@ def validar_geografia(df, ruta_maestro=None):
         if 'pais' in df.columns:
             df = df[df['pais'].astype(str).str.upper().str.strip() == 'ARGENTINA']
             
-    return df
+    return df, df_rechazados_geo
 
 def normalizar_columnas_texto(df, columnas):
     """
