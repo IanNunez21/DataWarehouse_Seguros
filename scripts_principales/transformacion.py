@@ -29,7 +29,6 @@ def limpiar_y_transformar_clientes():
     if not df_rechazados_geo.empty:
         df_rechazados_geo.drop(columns=['_original_index'], inplace=True, errors='ignore')
         registrar_auditoria_calidad(df_rechazados_geo, 'clientes', 'Combinación provincia-localidad no encontrada en maestro geográfico', tipo_evento='SANEADO')
-        log.info(f"  ⚠ {len(df_rechazados_geo)} clientes rechazados por validación geográfica")
     # 5. Conversión de Fechas y Cálculo de Edad
     # Nos aseguramos de que sea datetime ANTES de calcular
     df = convertir_fechas(df, 'fecha_nacimiento')
