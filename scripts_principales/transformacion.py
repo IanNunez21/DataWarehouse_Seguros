@@ -2,7 +2,7 @@ import pandas as pd
 import logging
 import os
 from config import engine_staging
-from utils import normalizar_texto, guardar_datos_curados, convertir_fechas, normalizar_columnas_texto, validar_geografia, limpiar_numericos, crear_nombre_completo, limpiar_ids, registrar_rechazados
+from utils import normalizar_texto, guardar_datos_curados, convertir_fechas, normalizar_columnas_texto, validar_geografia, limpiar_numericos, crear_nombre_completo, limpiar_ids, registrar_auditoria_calidad
 
 # Configuración de Logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -28,7 +28,7 @@ def limpiar_y_transformar_clientes():
     df, df_rechazados_geo = validar_geografia(df)
     if not df_rechazados_geo.empty:
         df_rechazados_geo.drop(columns=['_original_index'], inplace=True, errors='ignore')
-        registrar_rechazados(df_rechazados_geo, 'clientes', 'Combinación provincia-localidad no encontrada en maestro geográfico')
+        registrar_auditoria_calidad(df_rechazados_geo, 'clientes', 'Combinación provincia-localidad no encontrada en maestro geográfico', tipo_evento='SANEADO')
         log.info(f"  ⚠ {len(df_rechazados_geo)} clientes rechazados por validación geográfica")
     # 5. Conversión de Fechas y Cálculo de Edad
     # Nos aseguramos de que sea datetime ANTES de calcular
@@ -77,7 +77,7 @@ def limpiar_y_transformar_clientes():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'clientes', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'clientes', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -123,7 +123,7 @@ def limpiar_y_transformar_polizas():
     
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'polizas', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'polizas', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -171,7 +171,7 @@ def limpiar_y_transformar_evaluaciones():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'evaluaciones', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'evaluaciones', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -201,7 +201,7 @@ def limpiar_y_transformar_peritos():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'peritos', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'peritos', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -251,7 +251,7 @@ def limpiar_y_transformar_pagos():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'pagos', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'pagos', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -288,7 +288,7 @@ def limpiar_y_transformar_objetos():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'objetos', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'objetos', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -330,7 +330,7 @@ def limpiar_y_transformar_agentes():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'agentes', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'agentes', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -404,7 +404,7 @@ def limpiar_y_transformar_partes():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'partes', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'partes', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -448,7 +448,7 @@ def limpiar_y_transformar_garantias():
 
     df_rechazados = df_original[~df_original['_original_index'].isin(df['_original_index'])].copy()
     df_rechazados.drop(columns=['_original_index'], inplace=True, errors='ignore')
-    registrar_rechazados(df_rechazados, 'garantias', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'garantias', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
     
     if '_original_index' in df.columns:
         df = df.drop(columns=['_original_index'])
@@ -485,7 +485,7 @@ def limpiar_y_transformar_indicadores_fraude():
 
     # 5. Log solicitado
     df_rechazados = df_original[~df_original['id_parte'].isin(df_consolidado['id_parte'])].copy()
-    registrar_rechazados(df_rechazados, 'indicadores_fraude', 'Rechazados en limpieza o transformación')
+    registrar_auditoria_calidad(df_rechazados, 'indicadores_fraude', 'Rechazados en limpieza o transformación', tipo_evento='RECHAZADO')
 
     log.info(f"  ✔ Registros procesados correctamente: {len(df_consolidado)} de {total_inicial}")
 

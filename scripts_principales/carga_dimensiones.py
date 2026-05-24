@@ -343,6 +343,7 @@ def cargar_dim_personas():
     df_clientes = df_clientes.merge(
         dim_ub, left_on=["provincia", "localidad"], right_on=["provincia", "ciudad"], how="left"
     )[["id_cliente", "id_ubicacion_sk"]]
+    df_clientes["id_ubicacion_sk"] = df_clientes["id_ubicacion_sk"].fillna(-1).astype(int)
 
     df_dim = df_dim.merge(
         df_clientes.rename(columns={"id_cliente": "id_persona"}), on="id_persona", how="left"

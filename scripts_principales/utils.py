@@ -15,6 +15,37 @@ def normalizar_texto(texto):
     texto_limpio = "".join(c for c in texto_nfd if unicodedata.category(c) != 'Mn')
     return texto_limpio.upper().strip()
 
+# Diccionarios de mapeo para correcciones ortográficas y abreviaturas comunes de geografía argentina
+MAPEO_PROVINCIAS = {
+    'TUCUM': 'TUCUMAN',
+    'TUC': 'TUCUMAN',
+    'BS AS': 'BUENOS AIRES',
+    'BSAS': 'BUENOS AIRES',
+    'BUENOS A': 'BUENOS AIRES',
+    'BUENOS AIRE': 'BUENOS AIRES',
+    'CABA': 'CIUDAD AUTONOMA DE BUENOS AIRES',
+    'CAPITAL FEDERAL': 'CIUDAD AUTONOMA DE BUENOS AIRES',
+    'CORDOB': 'CORDOBA',
+    'STA FE': 'SANTA FE',
+    'SFE': 'SANTA FE',
+    'SNTG DEL ESTERO': 'SANTIAGO DEL ESTERO',
+    'SANT ESTERO': 'SANTIAGO DEL ESTERO',
+    'SANTIAGO DEL EST': 'SANTIAGO DEL ESTERO',
+    'ENTRE R': 'ENTRE RIOS',
+    'MEND': 'MENDOZA',
+    'MENDOZ': 'MENDOZA',
+}
+
+MAPEO_LOCALIDADES = {
+    'CAPITAL': 'CIUDAD AUTONOMA DE BUENOS AIRES',
+    'TUCUM': 'SAN MIGUEL DE TUCUMAN',
+    'S. M. DE TUCUMAN': 'SAN MIGUEL DE TUCUMAN',
+    'SAN MIGUEL TUCUMAN': 'SAN MIGUEL DE TUCUMAN',
+    'SM TUCUMAN': 'SAN MIGUEL DE TUCUMAN',
+    'CORDOB': 'CORDOBA',
+    'MENDOZ': 'MENDOZA',
+}
+
 def validar_geografia(df, ruta_maestro=None):
     """
     Realiza la validación geográfica cruzando el DataFrame contra el maestro de Provincias/Localidades.
@@ -43,6 +74,11 @@ def validar_geografia(df, ruta_maestro=None):
         # Solo normalizamos y cruzamos los que sí tienen datos geográficos
         if not df_no_nulos.empty:
             df_no_nulos_norm = normalizar_columnas_texto(df_no_nulos.copy(), ['provincia', 'localidad'])
+            
+            # Aplicar correcciones geográficas ortográficas y abreviaturas
+            df_no_nulos_norm['provincia'] = df_no_nulos_norm['provincia'].replace(MAPEO_PROVINCIAS)
+            df_no_nulos_norm['localidad'] = df_no_nulos_norm['localidad'].replace(MAPEO_LOCALIDADES)
+            
             df_matched = df_no_nulos_norm.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
             
             # Detectar rechazados: registros con datos geográficos que no hicieron match
@@ -53,9 +89,20 @@ def validar_geografia(df, ruta_maestro=None):
             else:
                 df_rechazados_geo = df_no_nulos[~df_no_nulos.index.isin(indices_matched)].copy()
             
-            df_no_nulos = df_matched
+            # Estrategia Híbrida: Reincorporamos los rechazados geográficos como DESCONOCIDO
+            if not df_rechazados_geo.empty:
+                df_recuperados = df_rechazados_geo.copy()
+                df_recuperados['provincia'] = 'DESCONOCIDO'
+                df_recuperados['localidad'] = 'DESCONOCIDO'
+                df_no_nulos = pd.concat([df_matched, df_recuperados], ignore_index=True)
+            else:
+                df_no_nulos = df_matched
             
-        # Unimos los que hicieron match con los que originalmente eran nulos
+        # Unimos los que hicieron match con los que originalmente eran nulos (también marcados como DESCONOCIDO)
+        if not df_nulos.empty:
+            df_nulos['provincia'] = 'DESCONOCIDO'
+            df_nulos['localidad'] = 'DESCONOCIDO'
+            
         df = pd.concat([df_no_nulos, df_nulos], ignore_index=True)
         
     except FileNotFoundError:
@@ -118,26 +165,29 @@ def limpiar_ids(df, columnas_id, columnas_dropna=None, id_principal=None):
         
     return df
 
-def registrar_rechazados(df_rechazados, tabla_origen, motivo):
+def registrar_auditoria_calidad(df_registros, tabla_origen, motivo, tipo_evento='RECHAZADO'):
     """
-    Guarda los registros rechazados (cuarentena) en la base de datos de Staging.
+    Guarda registros con observaciones de calidad (RECHAZADOS o SANEADOS) en dw_staging.bitacora_calidad.
     """
-    if df_rechazados is None or df_rechazados.empty:
+    if df_registros is None or df_registros.empty:
         return
         
     try:
         # Convertir a json cada fila para mayor flexibilidad
-        registros_json = df_rechazados.apply(lambda row: row.to_json(default_handler=str), axis=1)
+        registros_json = df_registros.apply(lambda row: row.to_json(default_handler=str), axis=1)
         
         df_insert = pd.DataFrame({
             'tabla_origen': tabla_origen,
-            'motivo_rechazo': motivo,
-            'datos_registro': registros_json
+            'tipo_evento': tipo_evento,
+            'motivo_observacion': motivo,
+            'datos_registro': registros_json,
+            'fecha_registro': pd.Timestamp.now()
         })
         
-        df_insert.to_sql('registros_rechazados', con=engine_staging, if_exists='append', index=False)
+        df_insert.to_sql('bitacora_calidad', con=engine_staging, if_exists='append', index=False)
     except Exception as e:
-        log.error(f"  ❌ Error al guardar registros rechazados: {e}")
+        log.error(f"  ❌ Error al guardar bitacora_calidad: {e}")
+
 
 def convertir_fechas(df, columnas, formato=None):
     """
