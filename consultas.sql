@@ -10,30 +10,46 @@ SELECT
 FROM Fact_Poliza p
 JOIN Dim_Tipo_Seguro t ON p.id_tipo_seguro_sk = t.id_tipo_seguro_sk
 JOIN Dim_Ubicacion u ON p.id_ubicacion_sk = u.id_ubicacion_sk
-JOIN Dim_Tiempo tiempo ON p.id_fecha_venta_sk = tiempo.id_tiempo_sk
+JOIN Dim_Tiempo tiempo ON p.id_vigencia_desde_sk = tiempo.id_tiempo_sk
 -- Opcional: WHERE tiempo.Anio = 2023 
 GROUP BY t.categoria_plan, u.provincia
 ORDER BY volumen_ventas DESC;
 
 
 -- Q2 y Q3: Tipos de seguros que aportan mayores beneficios netos y los que generan pérdidas netas.
+-- NOTA: monto_prima es mensual; se multiplica x12 para obtener el ingreso anual por póliza.
+-- Se filtra por año de venta de la póliza y año de apertura del siniestro para comparar el mismo período.
+-- Ajustar el valor de Anio según el período que se quiera analizar (ej: 2023).
 SELECT 
     t.categoria_plan,
-    COALESCE(p.total_primas, 0) AS ingresos_primas,
-    COALESCE(s.total_siniestros, 0) AS egresos_siniestros,
-    (COALESCE(p.total_primas, 0) - COALESCE(s.total_siniestros, 0)) AS beneficio_neto
+    COALESCE(p.total_primas_anuales, 0)  AS ingresos_primas_anuales,
+    COALESCE(s.total_siniestros, 0)       AS egresos_siniestros,
+    (COALESCE(p.total_primas_anuales, 0) - COALESCE(s.total_siniestros, 0)) AS beneficio_neto
 FROM Dim_Tipo_Seguro t
+
+-- Ingresos: suma de (prima mensual × 12) de todas las pólizas vendidas en el año analizado
 LEFT JOIN (
-    SELECT id_tipo_seguro_sk, SUM(monto_prima) AS total_primas
-    FROM Fact_Poliza
-    GROUP BY id_tipo_seguro_sk
+    SELECT 
+        fp.id_tipo_seguro_sk,
+        SUM(fp.monto_prima * 12) AS total_primas_anuales
+    FROM Fact_Poliza fp
+    JOIN Dim_Tiempo dt ON fp.id_vigencia_desde_sk = dt.id_tiempo_sk
+    -- WHERE dt.Anio = 2023   -- descomentar para filtrar un año específico
+    GROUP BY fp.id_tipo_seguro_sk
 ) p ON t.id_tipo_seguro_sk = p.id_tipo_seguro_sk
+
+-- Egresos: suma de montos pagados en siniestros abiertos en el mismo año
 LEFT JOIN (
-    SELECT p_inner.id_tipo_seguro_sk, SUM(s_inner.monto_pagado) AS total_siniestros
-    FROM Fact_Siniestro s_inner
-    JOIN Fact_Poliza p_inner ON s_inner.id_poliza_sk = p_inner.id_poliza_sk
-    GROUP BY p_inner.id_tipo_seguro_sk
+    SELECT 
+        fp.id_tipo_seguro_sk,
+        SUM(fs.monto_pagado) AS total_siniestros
+    FROM Fact_Siniestro fs
+    JOIN Fact_Poliza fp  ON fs.id_poliza_sk    = fp.id_poliza_sk
+    JOIN Dim_Tiempo  dt  ON fs.FechaAperturaKey = dt.id_tiempo_sk
+    -- WHERE dt.Anio = 2023   -- descomentar para filtrar el mismo año
+    GROUP BY fp.id_tipo_seguro_sk
 ) s ON t.id_tipo_seguro_sk = s.id_tipo_seguro_sk
+
 ORDER BY beneficio_neto DESC;
 
 

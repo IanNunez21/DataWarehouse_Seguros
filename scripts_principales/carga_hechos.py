@@ -73,22 +73,31 @@ def cargar_fact_poliza():
     map_obj_to_ub = dict(zip(obj_ub['id_objeto'], obj_ub['id_ubicacion_sk']))
     df['id_ubicacion_sk'] = df['id_objeto_asegurado'].map(map_obj_to_ub).fillna(-1)
 
-    # --- dim_tiempo (Corrección de Formato) ---
+    # --- dim_tiempo: vigencia_desde (obligatoria) y vigencia_hasta (opcional) ---
     dim_tiempo = pd.read_sql("SELECT id_tiempo_sk, id_tiempo FROM dim_tiempo", engine_dw)
     dim_tiempo = dim_tiempo.drop_duplicates(subset=['id_tiempo'])
     lookup_tiempo = dict(zip(dim_tiempo['id_tiempo'], dim_tiempo['id_tiempo_sk']))
     
-    # Convertimos a datetime por si acaso vienen como strings
-    df['fecha_alta'] = pd.to_datetime(df['fecha_alta'], errors='coerce')
-    
-    # Transformamos: 2011-01-31 -> 20110131 (Integer)
-    df["id_tiempo_join"] = (
-        df["fecha_alta"].dt.strftime('%Y%m%d')
+    # vigencia_desde (antes llamada fecha_alta en el staging)
+    df['vigencia_desde'] = pd.to_datetime(df['vigencia_desde'], errors='coerce')
+    df["id_tiempo_join_desde"] = (
+        df["vigencia_desde"].dt.strftime('%Y%m%d')
         .fillna(0)
         .astype(int)
     )
-    df["id_fecha_venta_sk"] = df["id_tiempo_join"].map(lookup_tiempo).fillna(-1)
-    df = df.drop(columns=["id_tiempo_join"])
+    df["id_vigencia_desde_sk"] = df["id_tiempo_join_desde"].map(lookup_tiempo).fillna(-1)
+    df = df.drop(columns=["id_tiempo_join_desde"])
+
+    # vigencia_hasta (puede ser nula si la póliza está activa / plazo indeterminado)
+    df['vigencia_hasta'] = pd.to_datetime(df['vigencia_hasta'], errors='coerce')
+    df["id_tiempo_join_hasta"] = (
+        df["vigencia_hasta"].dt.strftime('%Y%m%d')
+        .where(df["vigencia_hasta"].notna())  # mantener NaN si no hay fecha
+        .fillna(0)
+        .astype(int)
+    )
+    df["id_vigencia_hasta_sk"] = df["id_tiempo_join_hasta"].map(lookup_tiempo)  # puede quedar NaN
+    df = df.drop(columns=["id_tiempo_join_hasta"])
 
     # Crear un diccionario de búsqueda: {id_natural: id_surrogate}
     dim_personas = pd.read_sql("SELECT id_persona_sk, id_persona FROM dim_personas", engine_dw)
@@ -103,7 +112,8 @@ def cargar_fact_poliza():
         "id_poliza",
         "id_persona_tomador_sk",
         "id_persona_receptor_sk",
-        "id_fecha_venta_sk",
+        "id_vigencia_desde_sk",
+        "id_vigencia_hasta_sk",
         "id_objeto_sk",
         "id_agente_sk",
         "id_tipo_seguro_sk",

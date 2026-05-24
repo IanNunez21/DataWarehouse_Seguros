@@ -75,7 +75,8 @@ CREATE TABLE Fact_Poliza (
     id_poliza VARCHAR(20),
     id_persona_tomador_sk INT NOT NULL,
     id_persona_receptor_sk INT NOT NULL,
-    id_fecha_venta_sk INT NOT NULL,
+    id_vigencia_desde_sk INT NOT NULL,      -- fecha de inicio de vigencia de la póliza
+    id_vigencia_hasta_sk INT,               -- fecha de fin de vigencia (NULL si es indeterminada)
    
     id_objeto_sk INT NOT NULL,
     id_agente_sk INT NOT NULL,
@@ -88,7 +89,8 @@ CREATE TABLE Fact_Poliza (
 
     CONSTRAINT fk_persona_tomador FOREIGN KEY (id_persona_tomador_sk) REFERENCES Dim_Personas(id_persona_sk),
     CONSTRAINT fk_persona_receptor FOREIGN KEY (id_persona_receptor_sk) REFERENCES Dim_Personas(id_persona_sk),
-    CONSTRAINT fk_fecha_venta FOREIGN KEY (id_fecha_venta_sk) REFERENCES Dim_Tiempo(id_tiempo_sk),
+    CONSTRAINT fk_vigencia_desde FOREIGN KEY (id_vigencia_desde_sk) REFERENCES Dim_Tiempo(id_tiempo_sk),
+    CONSTRAINT fk_vigencia_hasta FOREIGN KEY (id_vigencia_hasta_sk) REFERENCES Dim_Tiempo(id_tiempo_sk),
     CONSTRAINT fk_objeto FOREIGN KEY (id_objeto_sk) REFERENCES Dim_Objeto(id_objeto_sk),
     CONSTRAINT fk_agente FOREIGN KEY (id_agente_sk) REFERENCES Dim_Agente(id_agente_sk),
     CONSTRAINT fk_tipo_seguro FOREIGN KEY (id_tipo_seguro_sk) REFERENCES Dim_Tipo_Seguro(id_tipo_seguro_sk),
@@ -143,8 +145,10 @@ CREATE TABLE Fact_Siniestro (
 );
 
 
-CREATE INDEX idx_siniestro_poliza ON Fact_Siniestro(id_poliza_sk);
-CREATE INDEX idx_siniestro_apertura ON Fact_Siniestro(FechaAperturaKey);
-CREATE INDEX idx_siniestro_perito ON Fact_Siniestro(PeritoKey);
-CREATE INDEX idx_poliza_ubicacion ON Fact_Poliza(id_ubicacion_sk);
-CREATE INDEX idx_poliza_agente ON Fact_Poliza(id_agente_sk);
+CREATE INDEX idx_siniestro_poliza    ON Fact_Siniestro(id_poliza_sk);
+CREATE INDEX idx_siniestro_apertura  ON Fact_Siniestro(FechaAperturaKey);
+CREATE INDEX idx_siniestro_perito    ON Fact_Siniestro(PeritoKey);
+CREATE INDEX idx_poliza_ubicacion    ON Fact_Poliza(id_ubicacion_sk);
+CREATE INDEX idx_poliza_agente       ON Fact_Poliza(id_agente_sk);
+CREATE INDEX idx_poliza_vig_desde    ON Fact_Poliza(id_vigencia_desde_sk);
+CREATE INDEX idx_poliza_vig_hasta    ON Fact_Poliza(id_vigencia_hasta_sk);
