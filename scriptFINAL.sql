@@ -1,5 +1,19 @@
+CREATE DATABASE IF NOT EXISTS dw_staging;
 CREATE DATABASE IF NOT EXISTS data_warehouse_seguros;
 USE data_warehouse_seguros;
+
+
+-- Eliminar tablas en orden inverso de dependencia (para poder recrear desde cero)
+DROP TABLE IF EXISTS Fact_Siniestro;
+DROP TABLE IF EXISTS Fact_Poliza;
+DROP TABLE IF EXISTS Dim_Personas;
+DROP TABLE IF EXISTS Dim_Ubicacion;
+DROP TABLE IF EXISTS Dim_Objeto;
+DROP TABLE IF EXISTS Dim_Agente;
+DROP TABLE IF EXISTS Dim_Tipo_Seguro;
+DROP TABLE IF EXISTS Dim_Tiempo;
+DROP TABLE IF EXISTS Dim_Perito;
+DROP TABLE IF EXISTS Dim_TipoSiniestro;
 
 
 CREATE TABLE Dim_Ubicacion (
