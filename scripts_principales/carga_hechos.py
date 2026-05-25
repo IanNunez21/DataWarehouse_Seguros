@@ -2,6 +2,7 @@ import pandas as pd
 import logging
 from config import engine_staging, engine_dw
 from sqlalchemy import text
+from carga_dimensiones import _limpiar
  
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -49,6 +50,8 @@ def cargar_fact_poliza():
     
     # 1. Traer dimensiones y limpiar de una vez
     dim_ub = pd.read_sql("SELECT id_ubicacion_sk, provincia, ciudad FROM dim_ubicacion", engine_dw)
+    dim_ub["provincia"] = _limpiar(dim_ub["provincia"])
+    dim_ub["ciudad"]    = _limpiar(dim_ub["ciudad"])
     
     # Crear una llave única: "PROVINCIA|CIUDAD" para búsqueda rápida
     dim_ub['lookup_key'] = (
@@ -61,6 +64,8 @@ def cargar_fact_poliza():
 
     # 2. Traer info de objetos desde staging
     obj_ub = pd.read_sql("SELECT id_objeto, provincia, localidad FROM val_objetos_validados", engine_staging)
+    obj_ub["provincia"] = _limpiar(obj_ub["provincia"])
+    obj_ub["localidad"] = _limpiar(obj_ub["localidad"])
     
     # Crear la misma llave única en los objetos
     obj_ub['lookup_key'] = (
@@ -246,10 +251,16 @@ def cargar_fact_siniestro():
         "SELECT id_objeto, provincia, localidad FROM val_objetos_validados",
         engine_staging,
     )
+    obj_ub["provincia"] = _limpiar(obj_ub["provincia"])
+    obj_ub["localidad"] = _limpiar(obj_ub["localidad"])
+
     dim_ub = pd.read_sql(
         "SELECT id_ubicacion_sk, provincia, ciudad FROM dim_ubicacion",
         engine_dw,
     )
+    dim_ub["provincia"] = _limpiar(dim_ub["provincia"])
+    dim_ub["ciudad"]    = _limpiar(dim_ub["ciudad"])
+
     # Clave compuesta para lookup rápido
     dim_ub["lookup_key"] = (
         dim_ub["provincia"].astype(str).str.strip().str.upper() + "|" +

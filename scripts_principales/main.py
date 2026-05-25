@@ -64,6 +64,7 @@ def ejecutar_etl_inicial():
     ]
     
     log.info('CARGA DE TABLAS DE DIMENSIONES\n')
+    carga_dimensiones.asegurar_registros_desconocidos()
     for nombre, funcion in tareas_dimensiones:
         t0 = datetime.now()
         try:
@@ -73,8 +74,6 @@ def ejecutar_etl_inicial():
         except Exception as e:
             etl_logger.registrar(nombre, t0, estado="ERROR", mensaje=str(e))
             log.error(f"Error en dimension {nombre}: {e}")
-
-    carga_dimensiones.asegurar_registros_desconocidos()
 
     log.info("\nPASO 4: CARGA DE TABLAS DE HECHOS\n")
     tareas_hechos = [

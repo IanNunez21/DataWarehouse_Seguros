@@ -121,7 +121,7 @@ LEFT JOIN (
 ORDER BY y.anio ASC, beneficio_neto DESC;
 
 
--- Q4: Categorias de plan con menor tasa de siniestralidad (Cantidad siniestros / Cantidad polizas).
+-- Q4: Categorias de plan con mayor tasa de siniestralidad (Cantidad siniestros / Cantidad polizas).
 SELECT 
     t.categoria_plan,
     COALESCE(s.cant_siniestros, 0) AS cantidad_siniestros,
@@ -139,7 +139,7 @@ LEFT JOIN (
     JOIN Fact_Poliza p_inner ON s_inner.id_poliza_sk = p_inner.id_poliza_sk
     GROUP BY p_inner.id_tipo_seguro_sk
 ) s ON t.id_tipo_seguro_sk = s.id_tipo_seguro_sk
-ORDER BY tasa_siniestralidad ASC;
+ORDER BY tasa_siniestralidad DESC;
 
 
 -- ==============================================================================

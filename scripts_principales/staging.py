@@ -23,18 +23,20 @@ def cargar_staging_area():
         "evaluaciones":   "evaluaciones_perito.csv",
         "pagos":          "pagos_siniestro.csv"
     }
-
+    log.info("--- Cargando fuentes en Staging ---")
     for nombre_tabla, nombre_archivo in fuentes.items():
         ruta = os.path.join(CSV_DIR, nombre_archivo)
-        
         if not os.path.exists(ruta):
             log.warning(f"  {nombre_tabla:<18}: archivo no encontrado, omitido")
             continue
-
-        df = pd.read_csv(ruta, low_memory=False, encoding='latin-1')
-        df.columns = [c.strip().lower().replace(" ", "_").replace(".", "") for c in df.columns]
-
+        
+        # Elegir la codificación correcta dinámicamente
+        encoding_to_use = 'latin-1' if nombre_archivo in ['polizas.csv', 'objetos_asegurados.csv'] else 'utf-8-sig'
+        
         try:
+            df = pd.read_csv(ruta, low_memory=False, encoding=encoding_to_use)
+            df.columns = [c.strip().lower().replace(" ", "_").replace(".", "") for c in df.columns]
+            
             # Cada tabla en su propia transacción: si falla, solo ella hace rollback
             # y la conexión queda limpia para la siguiente iteración.
             with engine_staging.begin() as conn:

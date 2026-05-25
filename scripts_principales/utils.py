@@ -11,6 +11,14 @@ def normalizar_texto(texto):
     """Limpia tildes, acentos y normaliza a mayúsculas para evitar errores de matching."""
     if not isinstance(texto, str):
         return str(texto)
+    
+    # Eliminar artefactos de codificación latín-1/UTF-8 y espacios invisibles
+    texto = texto.replace('\u200b', '').replace('\u00ad', '').replace('\xad', '')
+    texto = texto.replace('â\x80\x8b', '').replace('\x80\x8b', '')
+    
+    # Quitar puntos finales y espacios extra
+    texto = texto.strip().rstrip('.')
+    
     texto_nfd = unicodedata.normalize('NFD', texto)
     texto_limpio = "".join(c for c in texto_nfd if unicodedata.category(c) != 'Mn')
     return texto_limpio.upper().strip()
@@ -44,6 +52,11 @@ MAPEO_LOCALIDADES = {
     'SM TUCUMAN': 'SAN MIGUEL DE TUCUMAN',
     'CORDOB': 'CORDOBA',
     'MENDOZ': 'MENDOZA',
+    'BELGRANO': 'PALERMO',
+    'RECOLETA': 'PALERMO',
+    'CABALLITO': 'FLORES',
+    'YERBA BUENA': 'YERBA BUENA - MARCOS PAZ',
+    'ORAN': 'SAN RAMON DE LA NUEVA ORAN',
 }
 
 def validar_geografia(df, ruta_maestro=None):
@@ -62,7 +75,10 @@ def validar_geografia(df, ruta_maestro=None):
         
     try:
         df_maestro = pd.read_csv(ruta_maestro)
-        df_maestro = normalizar_columnas_texto(df_maestro, ['provincia', 'localidad'])
+        
+        # Crear columnas normalizadas en el maestro para el merge
+        df_maestro['prov_norm'] = df_maestro['provincia'].apply(normalizar_texto)
+        df_maestro['loc_norm'] = df_maestro['localidad'].apply(normalizar_texto)
         
         # Identificamos si hay nulos (o cadenas vacías) antes de normalizar
         es_nulo = df['provincia'].isna() | df['localidad'].isna() | (df['provincia'] == '') | (df['localidad'] == '')
@@ -73,13 +89,28 @@ def validar_geografia(df, ruta_maestro=None):
         
         # Solo normalizamos y cruzamos los que sí tienen datos geográficos
         if not df_no_nulos.empty:
-            df_no_nulos_norm = normalizar_columnas_texto(df_no_nulos.copy(), ['provincia', 'localidad'])
+            df_no_nulos_norm = df_no_nulos.copy()
+            df_no_nulos_norm['prov_norm'] = df_no_nulos_norm['provincia'].apply(normalizar_texto)
+            df_no_nulos_norm['loc_norm'] = df_no_nulos_norm['localidad'].apply(normalizar_texto)
             
             # Aplicar correcciones geográficas ortográficas y abreviaturas
-            df_no_nulos_norm['provincia'] = df_no_nulos_norm['provincia'].replace(MAPEO_PROVINCIAS)
-            df_no_nulos_norm['localidad'] = df_no_nulos_norm['localidad'].replace(MAPEO_LOCALIDADES)
+            df_no_nulos_norm['prov_norm'] = df_no_nulos_norm['prov_norm'].replace(MAPEO_PROVINCIAS)
+            df_no_nulos_norm['loc_norm'] = df_no_nulos_norm['loc_norm'].replace(MAPEO_LOCALIDADES)
             
-            df_matched = df_no_nulos_norm.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
+            # Cruzamos usando las claves normalizadas
+            df_matched = df_no_nulos_norm.merge(
+                df_maestro, 
+                left_on=['prov_norm', 'loc_norm'], 
+                right_on=['prov_norm', 'loc_norm'], 
+                how='inner'
+            )
+            
+            # Reemplazamos las columnas de provincia y localidad del cliente por las del maestro (con sus hermosos acentos y casing original)
+            df_matched['provincia'] = df_matched['provincia_y']
+            df_matched['localidad'] = df_matched['localidad_y']
+            
+            # Limpiar columnas temporales de merge
+            df_matched.drop(columns=['prov_norm', 'loc_norm', 'provincia_x', 'localidad_x', 'provincia_y', 'localidad_y'], inplace=True, errors='ignore')
             
             # Detectar rechazados: registros con datos geográficos que no hicieron match
             indices_matched = set(df_matched['_original_index']) if '_original_index' in df_matched.columns else set(df_matched.index)
@@ -89,19 +120,23 @@ def validar_geografia(df, ruta_maestro=None):
             else:
                 df_rechazados_geo = df_no_nulos[~df_no_nulos.index.isin(indices_matched)].copy()
             
-            # Estrategia Híbrida: Reincorporamos los rechazados geográficos como DESCONOCIDO
+            # Estrategia Híbrida: Reincorporamos los rechazados geográficos como Desconocido
             if not df_rechazados_geo.empty:
                 df_recuperados = df_rechazados_geo.copy()
-                df_recuperados['provincia'] = 'DESCONOCIDO'
-                df_recuperados['localidad'] = 'DESCONOCIDO'
+                df_recuperados['provincia'] = 'Desconocido'
+                df_recuperados['localidad'] = 'Desconocido'
+                # Asegurar que no tenga columnas de merge
+                for col in ['prov_norm', 'loc_norm']:
+                    if col in df_recuperados.columns:
+                        df_recuperados.drop(columns=[col], inplace=True)
                 df_no_nulos = pd.concat([df_matched, df_recuperados], ignore_index=True)
             else:
                 df_no_nulos = df_matched
             
-        # Unimos los que hicieron match con los que originalmente eran nulos (también marcados como DESCONOCIDO)
+        # Unimos los que hicieron match con los que originalmente eran nulos (también marcados como Desconocido)
         if not df_nulos.empty:
-            df_nulos['provincia'] = 'DESCONOCIDO'
-            df_nulos['localidad'] = 'DESCONOCIDO'
+            df_nulos['provincia'] = 'Desconocido'
+            df_nulos['localidad'] = 'Desconocido'
             
         df = pd.concat([df_no_nulos, df_nulos], ignore_index=True)
         

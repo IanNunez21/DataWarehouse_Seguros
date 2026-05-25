@@ -278,6 +278,12 @@ def limpiar_y_transformar_objetos():
     df = limpiar_numericos(df, ['valor_asegurado', 'valor_inmueble', 'superficie_m2'])
     df = limpiar_numericos(df, ['año_fabricacion', 'año_construccion'], valor_defecto=0)
 
+    # 5. VALIDACIÓN GEOGRÁFICA: Cruce contra el Maestro CSV
+    df, df_rechazados_geo = validar_geografia(df)
+    if not df_rechazados_geo.empty:
+        df_rechazados_geo.drop(columns=['_original_index'], inplace=True, errors='ignore')
+        registrar_auditoria_calidad(df_rechazados_geo, 'objetos', 'Combinación provincia-localidad no encontrada en maestro geográfico', tipo_evento='SANEADO')
+
     # 5. Integridad Referencial: Solo objetos asociados a pólizas validadas
     #try:
     #    val_polizas = pd.read_sql("SELECT id_objeto_asegurado FROM val_polizas_validadas", engine_staging)

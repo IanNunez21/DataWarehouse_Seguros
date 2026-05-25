@@ -224,6 +224,7 @@ def cargar_dim_tiposiniestro():
 def _limpiar(serie: pd.Series) -> pd.Series:
     """Quita espacios, tabs, caracteres invisibles, puntos finales y valores basura."""
     BASURA = {"-", ".", "..", "000", "999", "?", "n/d", "s/d", "test", "xxx", "pendiente"}
+    
     limpio = (
         serie
         .astype(str)
@@ -232,8 +233,8 @@ def _limpiar(serie: pd.Series) -> pd.Series:
         .str.strip()
         .str.rstrip(".")                          # "Buenos Aires." → "Buenos Aires"
         .str.strip()
-        .str.title()
     )
+    
     return limpio.where(
         ~limpio.str.lower().isin(BASURA | {"", "none", "nan"}),
         other=None,
@@ -269,8 +270,12 @@ def cargar_dim_ubicacion():
         df_dim
         .drop_duplicates(subset=["pais", "provincia", "ciudad"])
         .dropna(subset=["provincia", "ciudad"])
-        .reset_index(drop=True)
     )
+    # Filtramos 'Desconocido' para evitar insertar un duplicado de la SK = -1
+    df_dim = df_dim[~(
+        (df_dim["provincia"].str.lower() == 'desconocido') & 
+        (df_dim["ciudad"].str.lower() == 'desconocido')
+    )].reset_index(drop=True)
 
     # 5. SCD T1: leer registros existentes del DW
     try:
@@ -333,12 +338,12 @@ def cargar_dim_personas():
 
     # Resolver id_ubicacion_fk haciendo JOIN con dim_ubicacion
     dim_ub = pd.read_sql("SELECT id_ubicacion_sk, provincia, ciudad FROM dim_ubicacion", engine_dw)
-    dim_ub["provincia"] = dim_ub["provincia"].str.strip().str.title()
-    dim_ub["ciudad"]    = dim_ub["ciudad"].str.strip().str.title()
+    dim_ub["provincia"] = _limpiar(dim_ub["provincia"])
+    dim_ub["ciudad"]    = _limpiar(dim_ub["ciudad"])
 
     df_clientes = pd.read_sql("SELECT id_cliente, provincia, localidad FROM val_clientes_validados", engine_staging)
-    df_clientes["provincia"] = df_clientes["provincia"].str.strip().str.title()
-    df_clientes["localidad"] = df_clientes["localidad"].str.strip().str.title()
+    df_clientes["provincia"] = _limpiar(df_clientes["provincia"])
+    df_clientes["localidad"] = _limpiar(df_clientes["localidad"])
 
     df_clientes = df_clientes.merge(
         dim_ub, left_on=["provincia", "localidad"], right_on=["provincia", "ciudad"], how="left"

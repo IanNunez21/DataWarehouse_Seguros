@@ -52,18 +52,21 @@ df_combinado = pd.merge(
 # 4. Selección y Limpieza Progresiva[cite: 3, 4]
 df_maestro = df_combinado[['nombre_prov', 'nombre_loc']].copy()
 
-# 5. Aplicar Normalización (Quita tildes y caracteres raros)
-df_maestro['provincia'] = df_maestro['nombre_prov'].apply(normalizar_texto)
-df_maestro['localidad'] = df_maestro['nombre_loc'].apply(normalizar_texto)
+# 5. Mantener las columnas con sus acentos y casing originales
+df_maestro['provincia'] = df_maestro['nombre_prov']
+df_maestro['localidad'] = df_maestro['nombre_loc']
 
-# 6. Eliminar duplicados y seleccionar columnas finales[cite: 4]
+# 6. Eliminar duplicados y seleccionar columnas finales
 df_maestro = df_maestro[['provincia', 'localidad']].drop_duplicates()
 
 # 7. Guardar resultado
 # Usamos utf-8-sig para que Excel y Windows reconozcan bien el formato[cite: 3]
 df_maestro.to_csv(ruta_salida, index=False, encoding='utf-8-sig')
 
-print(f"✔ Maestro creado exitosamente en: {ruta_salida}")
-print(f"✔ Total de localidades únicas: {len(df_maestro)}")
+print(f"[*] Maestro creado exitosamente en: {ruta_salida}")
+print(f"[*] Total de localidades uniques: {len(df_maestro)}")
 print("\nPrimeras filas del resultado:")
-print(df_maestro.head())
+try:
+    print(df_maestro.head().to_string())
+except Exception:
+    pass
