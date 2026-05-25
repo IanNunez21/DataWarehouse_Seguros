@@ -272,7 +272,13 @@ def limpiar_y_transformar_objetos():
     df = limpiar_ids(df, columnas_id='id_objeto', id_principal='id_objeto')
 
     # 3. Normalización de Texto
-    df = normalizar_columnas_texto(df, ['tipo_objeto', 'descripcion', 'localidad', 'provincia', 'marca', 'modelo'])
+    df = normalizar_columnas_texto(df, ['tipo_objeto', 'descripcion', 'marca', 'modelo'])
+
+    # 4. VALIDACIÓN GEOGRÁFICA: Cruce contra el Maestro CSV
+    df, df_rechazados_geo = validar_geografia(df)
+    if not df_rechazados_geo.empty:
+        df_rechazados_geo.drop(columns=['_original_index'], inplace=True, errors='ignore')
+        registrar_auditoria_calidad(df_rechazados_geo, 'objetos', 'Combinación provincia-localidad no encontrada en maestro geográfico', tipo_evento='SANEADO')
 
     # 4. Limpieza de Numéricos
     df = limpiar_numericos(df, ['valor_asegurado', 'valor_inmueble', 'superficie_m2'])

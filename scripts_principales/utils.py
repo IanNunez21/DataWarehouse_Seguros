@@ -11,9 +11,42 @@ def normalizar_texto(texto):
     """Limpia tildes, acentos y normaliza a mayúsculas para evitar errores de matching."""
     if not isinstance(texto, str):
         return str(texto)
+    
+    # 1. Capa previa de reemplazos para reparar codificaciones UTF-8 rotas leídas en Latin-1
+    reparaciones_previas = {
+        "\u200b": "", "\u200c": "",
+        "Ã¡": "A", "Ã³": "O", "Ã­": "I", "Ã©": "E", "Ãº": "U", "Ã±": "N", "Ã‘": "N",
+        "Ã\x81": "A", "Ã\x93": "O", "Ã\x8d": "I", "Ã\x89": "E", "Ã\x9a": "U",
+        "A¡": "A", "A³": "O", "A­": "I", "A©": "E", "Aº": "U", "A±": "N",
+        "A°": "U", "Aº": "U", "A±": "N", "A­OS": "RIOS", "A­O": "RIO",
+        "Ã\x81NGELA": "ANGELA", "A NGELA": "ANGELA",
+    }
+    
+    texto = texto.upper()
+    for rota, corregida in reparaciones_previas.items():
+        texto = texto.replace(rota.upper(), corregida)
+        
+    # 2. Normalización NFD y eliminación de marcas de acento (Mn)
     texto_nfd = unicodedata.normalize('NFD', texto)
     texto_limpio = "".join(c for c in texto_nfd if unicodedata.category(c) != 'Mn')
-    return texto_limpio.upper().strip()
+    
+    # 3. Capa posterior a la normalización para reparar transcripciones literales de codificación rota
+    reparaciones_post = {
+        "TUCUMAIN": "TUCUMAN",
+        "LUJAIN DE CUYO": "LUJAN DE CUYO",
+        "OBERAI": "OBERA",
+        "ORAIN": "ORAN",
+        "PARANAI": "PARANA",
+        "ENTRE RA-OS": "ENTRE RIOS",
+        "RA-O CUARTO": "RIO CUARTO",
+        "VILLA A NGELA": "VILLA ANGELA"
+    }
+    
+    for rota, corregida in reparaciones_post.items():
+        texto_limpio = texto_limpio.replace(rota, corregida)
+        
+    # Normalizar a mayúsculas, quitar espacios y remover signos de puntuación iniciales/finales
+    return texto_limpio.strip().strip(". ,-*_")
 
 # Diccionarios de mapeo para correcciones ortográficas y abreviaturas comunes de geografía argentina
 MAPEO_PROVINCIAS = {
@@ -44,15 +77,24 @@ MAPEO_LOCALIDADES = {
     'SM TUCUMAN': 'SAN MIGUEL DE TUCUMAN',
     'CORDOB': 'CORDOBA',
     'MENDOZ': 'MENDOZA',
+    'YERBA BUENA': 'YERBA BUENA - MARCOS PAZ',
+    'ORAN': 'SAN RAMON DE LA NUEVA ORAN',
+    'SAN TELMO': 'CIUDAD AUTONOMA DE BUENOS AIRES',
+    'PALERMO': 'CIUDAD AUTONOMA DE BUENOS AIRES',
+    'RECOLETA': 'CIUDAD AUTONOMA DE BUENOS AIRES',
+    'BELGRANO': 'CIUDAD AUTONOMA DE BUENOS AIRES',
 }
 
 def validar_geografia(df, ruta_maestro=None):
     """
     Realiza la validación geográfica cruzando el DataFrame contra el maestro de Provincias/Localidades.
-    Si no se proporciona ruta_maestro, la calcula automáticamente.
-    Retorna una tupla (df_validos, df_rechazados_geo):
-      - df_validos: registros que hicieron match o tenían geografía nula.
-      - df_rechazados_geo: registros con datos geográficos que no matchearon contra el maestro.
+    Aplica una estrategia de auto-curación inteligente (Self-Healing) para:
+      - Corregir provincias erróneas/vacías si la localidad es válida y única.
+      - Preservar la provincia si es válida pero la localidad es nula/inválida (poniendo 'DESCONOCIDO' en la localidad).
+      - Normalizar formatos, quitar caracteres inválidos (como puntos finales) y mapear sinónimos comunes.
+    Retorna una tupla (df_resultado, df_rechazados_geo):
+      - df_resultado: DataFrame original con geografía normalizada y corregida.
+      - df_rechazados_geo: registros que no pudieron ser curados (se marcan como DESCONOCIDO pero se registran en bitácora).
     """
     df_rechazados_geo = pd.DataFrame()
 
@@ -61,49 +103,111 @@ def validar_geografia(df, ruta_maestro=None):
         ruta_maestro = os.path.join(BASE_DIR, "scripts_adicionales", "SourcesAdicionales", "provincias_localidades.csv")
         
     try:
+        # 1. Cargar y normalizar el maestro
         df_maestro = pd.read_csv(ruta_maestro)
         df_maestro = normalizar_columnas_texto(df_maestro, ['provincia', 'localidad'])
         
-        # Identificamos si hay nulos (o cadenas vacías) antes de normalizar
-        es_nulo = df['provincia'].isna() | df['localidad'].isna() | (df['provincia'] == '') | (df['localidad'] == '')
+        # Estructuras para búsquedas rápidas y mapeos
+        set_maestro = set(zip(df_maestro['provincia'], df_maestro['localidad']))
+        set_provincias_validas = set(df_maestro['provincia'].unique())
+        set_localidades_validas = set(df_maestro['localidad'].unique())
         
-        # Separamos los nulos para no perderlos en el inner join
-        df_nulos = df[es_nulo].copy()
-        df_no_nulos = df[~es_nulo].copy()
+        # Mapeo de localidad -> provincias en las que existe
+        loc_to_prov_map = df_maestro.groupby('localidad')['provincia'].apply(list).to_dict()
         
-        # Solo normalizamos y cruzamos los que sí tienen datos geográficos
-        if not df_no_nulos.empty:
-            df_no_nulos_norm = normalizar_columnas_texto(df_no_nulos.copy(), ['provincia', 'localidad'])
+        # 2. Hacer una copia de trabajo de df y normalizar provincia y localidad
+        df_work = df.copy()
+        
+        # Guardamos columnas originales para comparar/rechazar si es necesario
+        df_work['_orig_provincia'] = df_work['provincia']
+        df_work['_orig_localidad'] = df_work['localidad']
+        
+        # Normalizamos provisionalmente en la copia
+        df_work = normalizar_columnas_texto(df_work, ['provincia', 'localidad'])
+        
+        # Aplicamos mapeos
+        df_work['provincia'] = df_work['provincia'].replace(MAPEO_PROVINCIAS)
+        df_work['localidad'] = df_work['localidad'].replace(MAPEO_LOCALIDADES)
+        
+        # Valores considerados "basura" o vacíos
+        VALORES_VACIOS = {'', 'NAN', 'NONE', 'N/D', 'S/D', 'TEST', 'XXX', 'PENDIENTE', '000', '999', '.', '-'}
+        
+        # Listas para guardar las correcciones finales
+        provincias_finales = []
+        localidades_finales = []
+        indices_rechazados = []
+        
+        for idx, row in df_work.iterrows():
+            prov = str(row['provincia']).strip()
+            loc = str(row['localidad']).strip()
             
-            # Aplicar correcciones geográficas ortográficas y abreviaturas
-            df_no_nulos_norm['provincia'] = df_no_nulos_norm['provincia'].replace(MAPEO_PROVINCIAS)
-            df_no_nulos_norm['localidad'] = df_no_nulos_norm['localidad'].replace(MAPEO_LOCALIDADES)
+            is_prov_empty = prov in VALORES_VACIOS
+            is_loc_empty = loc in VALORES_VACIOS
             
-            df_matched = df_no_nulos_norm.merge(df_maestro, on=['provincia', 'localidad'], how='inner')
-            
-            # Detectar rechazados: registros con datos geográficos que no hicieron match
-            indices_matched = set(df_matched['_original_index']) if '_original_index' in df_matched.columns else set(df_matched.index)
-            col_idx = '_original_index' if '_original_index' in df_no_nulos.columns else None
-            if col_idx:
-                df_rechazados_geo = df_no_nulos[~df_no_nulos[col_idx].isin(indices_matched)].copy()
+            # Caso 1: Ambos vacíos
+            if is_prov_empty and is_loc_empty:
+                provincias_finales.append('DESCONOCIDO')
+                localidades_finales.append('DESCONOCIDO')
+                indices_rechazados.append(idx)
+                continue
+                
+            # Caso 2: Coincidencia Exacta Directa
+            if (prov, loc) in set_maestro:
+                provincias_finales.append(prov)
+                localidades_finales.append(loc)
+                continue
+                
+            # Caso 3: Inconsistencias o valores inválidos. Auto-curación inteligente!
+            # Intentamos curar basándonos en la localidad primero (es más específica)
+            if not is_loc_empty and loc in set_localidades_validas:
+                # La localidad existe en el maestro. Obtenemos las provincias en las que existe.
+                provincias_posibles = loc_to_prov_map.get(loc, [])
+                
+                if len(provincias_posibles) == 1:
+                    # Curación exitosa: la localidad es única y pertenece a una sola provincia
+                    provincias_finales.append(provincias_posibles[0])
+                    localidades_finales.append(loc)
+                elif not is_prov_empty and prov in provincias_posibles:
+                    # La provincia original (normalizada) es una de las posibles
+                    provincias_finales.append(prov)
+                    localidades_finales.append(loc)
+                elif len(provincias_posibles) > 0:
+                    # La localidad pertenece a múltiples provincias. Default al primero o mantenemos prov si es válida
+                    if not is_prov_empty and prov in set_provincias_validas:
+                        # Si la provincia original es válida por sí misma, la mantenemos pero ponemos localidad DESCONOCIDO
+                        provincias_finales.append(prov)
+                        localidades_finales.append('DESCONOCIDO')
+                    else:
+                        # Si la provincia no es válida, ponemos la primera provincia donde está esa localidad
+                        provincias_finales.append(provincias_posibles[0])
+                        localidades_finales.append(loc)
+                else:
+                    provincias_finales.append('DESCONOCIDO')
+                    localidades_finales.append('DESCONOCIDO')
+                    indices_rechazados.append(idx)
             else:
-                df_rechazados_geo = df_no_nulos[~df_no_nulos.index.isin(indices_matched)].copy()
-            
-            # Estrategia Híbrida: Reincorporamos los rechazados geográficos como DESCONOCIDO
-            if not df_rechazados_geo.empty:
-                df_recuperados = df_rechazados_geo.copy()
-                df_recuperados['provincia'] = 'DESCONOCIDO'
-                df_recuperados['localidad'] = 'DESCONOCIDO'
-                df_no_nulos = pd.concat([df_matched, df_recuperados], ignore_index=True)
-            else:
-                df_no_nulos = df_matched
-            
-        # Unimos los que hicieron match con los que originalmente eran nulos (también marcados como DESCONOCIDO)
-        if not df_nulos.empty:
-            df_nulos['provincia'] = 'DESCONOCIDO'
-            df_nulos['localidad'] = 'DESCONOCIDO'
-            
-        df = pd.concat([df_no_nulos, df_nulos], ignore_index=True)
+                # La localidad no es válida o está vacía. Evaluamos la provincia por separado
+                if not is_prov_empty and prov in set_provincias_validas:
+                    # Provincia válida, pero localidad inválida/vacía: conservamos provincia, localidad DESCONOCIDO
+                    provincias_finales.append(prov)
+                    localidades_finales.append('DESCONOCIDO')
+                else:
+                    # Ambos inválidos/no curables
+                    provincias_finales.append('DESCONOCIDO')
+                    localidades_finales.append('DESCONOCIDO')
+                    indices_rechazados.append(idx)
+                    
+        # Asignamos las columnas finales curadas
+        df_work['provincia'] = provincias_finales
+        df_work['localidad'] = localidades_finales
+        
+        # Filtramos rechazados (los que terminaron siendo completamente DESCONOCIDO en ambos campos)
+        mask_rechazados = df.index.isin(indices_rechazados)
+        df_rechazados_geo = df[mask_rechazados].copy()
+        
+        # Limpiamos las columnas auxiliares y devolvemos
+        df_work = df_work.drop(columns=['_orig_provincia', '_orig_localidad'])
+        df = df_work
         
     except FileNotFoundError:
         log.warning("  ⚠ Maestro no encontrado en la ruta. Se omite validación geo profunda.")
