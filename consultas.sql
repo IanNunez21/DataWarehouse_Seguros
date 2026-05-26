@@ -232,6 +232,80 @@ ORDER BY ts.Nombre_Siniestro, cantidad_siniestros_provincia DESC;
 
 
 -- ==============================================================================
+-- CONSULTAS OPTIMIZADAS PARA METABASE (DASHBOARD)
+-- ==============================================================================
+
+-- Q2 (METABASE): Top 5 provincias con más siniestros (Unificado por Provincia)
+-- Sirve para identificar el listado general del Top 5 sin repetir provincias por localidad.
+SELECT 
+    du.provincia,
+    COUNT(*) AS total_provincia
+FROM Fact_Siniestro fs
+JOIN Dim_Ubicacion du ON fs.UbicacionKey = du.id_ubicacion_sk
+JOIN Dim_Tiempo dt ON fs.FechaAperturaKey = dt.id_tiempo_sk
+WHERE 1=1
+  [[AND dt.Anio = {{anio}}]]
+  [[AND dt.Mes = {{mes}}]]
+GROUP BY du.provincia
+ORDER BY total_provincia DESC
+LIMIT 5;
+
+
+-- Q2 (METABASE - COMPLETA): Distribución de Siniestros (Top 5 Accidentes por Provincia, Sin "Otros")
+-- Dentro de las 5 provincias más grandes, calcula el Top 5 de accidentes individuales.
+WITH TopProvincias AS (
+    SELECT 
+        du.provincia,
+        COUNT(*) AS total_provincia
+    FROM Fact_Siniestro fs
+    JOIN Dim_Ubicacion du ON fs.UbicacionKey = du.id_ubicacion_sk
+    JOIN Dim_Tiempo dt ON fs.FechaAperturaKey = dt.id_tiempo_sk
+    WHERE 1=1
+      [[AND dt.Anio = {{anio}}]]
+      [[AND dt.Mes = {{mes}}]]
+    GROUP BY du.provincia
+    ORDER BY total_provincia DESC
+    LIMIT 5
+)
+, SiniestrosPorProvincia AS (
+    SELECT 
+        tp.provincia,
+        ts.Nombre_Siniestro AS tipo_siniestro,
+        COUNT(fs.SiniestroKey) AS frecuencia,
+        tp.total_provincia,
+        
+        -- Ranking interno de siniestros dentro de cada provincia
+        ROW_NUMBER() OVER (
+            PARTITION BY tp.provincia 
+            ORDER BY COUNT(fs.SiniestroKey) DESC
+        ) AS ranking
+        
+    FROM Fact_Siniestro fs
+    JOIN Dim_Ubicacion du ON fs.UbicacionKey = du.id_ubicacion_sk
+    JOIN TopProvincias tp ON du.provincia = tp.provincia
+    JOIN Dim_TipoSiniestro ts ON fs.TipoSiniestroKey = ts.id_tipo_siniestro_sk
+    JOIN Dim_Tiempo dt ON fs.FechaAperturaKey = dt.id_tiempo_sk
+    WHERE 1=1
+      [[AND dt.Anio = {{anio}}]]
+      [[AND dt.Mes = {{mes}}]]
+    GROUP BY tp.provincia, ts.Nombre_Siniestro, tp.total_provincia
+)
+SELECT 
+    provincia,
+    tipo_siniestro,
+    frecuencia,
+    ROUND((frecuencia * 100.0 / total_provincia), 2) AS proporcion_porcentaje
+FROM SiniestrosPorProvincia
+WHERE ranking <= 5
+ORDER BY 
+    total_provincia DESC,       -- Provincias con mayor cantidad de siniestros primero
+    provincia, 
+    frecuencia DESC;            -- Más frecuentes del Top 5 primero
+
+
+
+
+-- ==============================================================================
 -- Sub-objetivo 4 — Desempeno de agentes de venta y peritos
 -- ==============================================================================
 
@@ -249,6 +323,47 @@ ORDER BY volumen_polizas DESC
 LIMIT 10;
 
 
+-- Q1 Parte 2 (METABASE): Top 8 agentes por dinero recaudado real (Vigencia de pólizas en meses)
+SELECT 
+    a.nombre_agente,
+    SUM(
+        p.monto_prima * 
+        GREATEST(
+            TIMESTAMPDIFF(
+                MONTH, 
+                STR_TO_DATE(CAST(dt_desde.id_tiempo AS CHAR), '%Y%m%d'), 
+                IFNULL(
+                    STR_TO_DATE(CAST(dt_hasta.id_tiempo AS CHAR), '%Y%m%d'), 
+                    CURRENT_DATE() 
+                )
+            ), 
+            1 
+        )
+    ) AS suma_total_recaudada,
+    AVG(
+        p.monto_prima * 
+        GREATEST(
+            TIMESTAMPDIFF(
+                MONTH, 
+                STR_TO_DATE(CAST(dt_desde.id_tiempo AS CHAR), '%Y%m%d'), 
+                IFNULL(
+                    STR_TO_DATE(CAST(dt_hasta.id_tiempo AS CHAR), '%Y%m%d'), 
+                    CURRENT_DATE() 
+                )
+            ), 
+            1 
+        )
+    ) AS promedio_por_poliza
+FROM Fact_Poliza p
+JOIN Dim_Agente a ON p.id_agente_sk = a.id_agente_sk
+JOIN Dim_Tiempo dt_desde ON p.id_vigencia_desde_sk = dt_desde.id_tiempo_sk
+LEFT JOIN Dim_Tiempo dt_hasta ON p.id_vigencia_hasta_sk = dt_hasta.id_tiempo_sk
+GROUP BY a.nombre_agente
+ORDER BY suma_total_recaudada DESC
+LIMIT 8;
+
+
+
 -- Q2: Peritos con mayor cantidad de siniestros con fraude confirmado y su porcentaje sobre el total.
 SELECT 
     dp.Nombre_Perito,
@@ -259,6 +374,28 @@ FROM Fact_Siniestro s
 JOIN Dim_Perito dp ON s.PeritoKey = dp.id_perito_sk
 GROUP BY dp.Nombre_Perito
 ORDER BY fraudes_confirmados DESC, porcentaje_fraude DESC;
+
+
+-- Q2 (METABASE): Peritos con mayor cantidad de fraudes confirmados (Comparativa Confirmados vs Sin Fraude)
+-- Solo expone "fraudes_confirmados" y "evaluaciones_sin_fraude" para graficar un Stacked/Grouped Bar Chart limpio sin distorsiones de escala.
+WITH top5 AS (
+    SELECT 
+        dp.Nombre_Perito,
+        SUM(s.Fraude_flag) AS fraudes_confirmados,
+        COUNT(s.SiniestroKey) AS total_evaluaciones
+    FROM Fact_Siniestro s
+    JOIN Dim_Perito dp ON s.PeritoKey = dp.id_perito_sk
+    GROUP BY dp.Nombre_Perito
+    ORDER BY fraudes_confirmados DESC
+    LIMIT 5
+)
+SELECT
+    Nombre_Perito,
+    fraudes_confirmados,
+    (total_evaluaciones - fraudes_confirmados) AS evaluaciones_sin_fraude
+FROM top5
+ORDER BY fraudes_confirmados DESC;
+
 
 
 -- Q3: Provincias con mayor tasa de fraudes y monto reclamado promedio en esos fraudes.
@@ -272,6 +409,21 @@ FROM Fact_Siniestro s
 JOIN Dim_Ubicacion u ON s.UbicacionKey = u.id_ubicacion_sk
 GROUP BY u.provincia
 ORDER BY tasa_fraude DESC;
+
+
+-- Q3 (METABASE): Provincias con mayor tasa de fraudes (Comparativa Siniestros Sin Fraude vs Confirmados, Sin CAST inválido)
+SELECT 
+    u.provincia,
+    COUNT(s.SiniestroKey) AS total_siniestros,
+    SUM(s.Fraude_flag) AS fraudes_confirmados,
+    (COUNT(s.SiniestroKey) - SUM(s.Fraude_flag)) AS siniestros_sin_fraude,
+    ROUND(SUM(s.Fraude_flag) * 100.0 / NULLIF(COUNT(s.SiniestroKey), 0), 1) AS tasa_fraude
+FROM Fact_Siniestro s
+JOIN Dim_Ubicacion u ON s.UbicacionKey = u.id_ubicacion_sk
+GROUP BY u.provincia
+ORDER BY tasa_fraude DESC
+LIMIT 5;
+
 
 
 -- Q4: Porcentaje del monto reclamado ajustado a la baja por peritos segun el tipo de siniestro.
